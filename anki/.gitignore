@@ -1,0 +1,7 @@
+*.pyc
+CoobaMeFinnish.zip
+meta.json
+.idea/
+venv
+.iml
+.mypy_cache

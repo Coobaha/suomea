@@ -1,0 +1,12 @@
+{
+  "extends": "fastify-tsconfig",
+  "compilerOptions": {
+    "target": "ESNext",
+    "outDir": "./dist",
+    "esModuleInterop": true,
+  },
+  "include": [
+    "anki_actions.ts",
+    "anki.ts"
+  ]
+}

@@ -1,0 +1,38 @@
+{
+  "name": "alfred-anki-workflow",
+  "description": "cooba.me/suomea alfred workflow",
+  "version": "1.0.2",
+  "author": {
+    "name": "Alexander Ryzhikov",
+    "email": "coobaha@gmail.com"
+  },
+  "dependencies": {
+    "@jxa/global-type": "^1.3.4",
+    "@jxa/run": "^1.3.4",
+    "alfy": "^0.10.0",
+    "convert-layout": "^0.9.0",
+    "default-browser": "^2.0.1",
+    "minisearch": "^3.0.2",
+    "patch-package": "^6.4.5"
+  },
+  "devDependencies": {
+    "@types/chrome": "^0.0.133",
+    "@types/convert-layout": "^0.5.1",
+    "typescript": "^4.2.3"
+  },
+  "files": [
+    "dist/anki.js",
+    "dist/anki_actions..js",
+    "icon.png",
+    "info.plist"
+  ],
+  "license": "MIT",
+  "main": "dist/anki.js",
+  "private": true,
+  "scripts": {
+    "prepublishOnly": "alfy-init || echo 'Failed to init alfy'",
+    "preuninstall": "alfy-cleanup",
+    "build": "tsc",
+    "test": "tsc --noEmit"
+  }
+}

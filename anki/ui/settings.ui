@@ -1,0 +1,283 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>Settings</class>
+ <widget class="QDialog" name="Settings">
+  <property name="windowModality">
+   <enum>Qt::WindowModal</enum>
+  </property>
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>457</width>
+    <height>576</height>
+   </rect>
+  </property>
+  <property name="sizePolicy">
+   <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+    <horstretch>0</horstretch>
+    <verstretch>0</verstretch>
+   </sizepolicy>
+  </property>
+  <property name="windowTitle">
+   <string>Asset Manager Settings</string>
+  </property>
+  <property name="modal">
+   <bool>true</bool>
+  </property>
+  <layout class="QGridLayout" name="gridLayout">
+   <item row="0" column="0">
+    <widget class="QLabel" name="enabledLabel">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="text">
+      <string>Enabled</string>
+     </property>
+    </widget>
+   </item>
+   <item row="13" column="0">
+    <widget class="QLabel" name="noteTypeLabel">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="text">
+      <string>Note type</string>
+     </property>
+    </widget>
+   </item>
+   <item row="2" column="0" colspan="3">
+    <widget class="QLabel" name="appUriHelp">
+     <property name="enabled">
+      <bool>true</bool>
+     </property>
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>16777215</width>
+       <height>30</height>
+      </size>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>10</pointsize>
+      </font>
+     </property>
+     <property name="whatsThis">
+      <string/>
+     </property>
+     <property name="text">
+      <string>Change this if you are running your own local instance </string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+     </property>
+     <property name="wordWrap">
+      <bool>true</bool>
+     </property>
+    </widget>
+   </item>
+   <item row="19" column="1" colspan="2">
+    <widget class="QDialogButtonBox" name="buttonBox">
+     <property name="standardButtons">
+      <set>QDialogButtonBox::Cancel|QDialogButtonBox::Save</set>
+     </property>
+     <property name="centerButtons">
+      <bool>false</bool>
+     </property>
+    </widget>
+   </item>
+   <item row="16" column="2">
+    <widget class="QComboBox" name="answerField"/>
+   </item>
+   <item row="7" column="0" colspan="3">
+    <widget class="QLabel" name="ankiConnectHelp">
+     <property name="enabled">
+      <bool>true</bool>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>10</pointsize>
+      </font>
+     </property>
+     <property name="whatsThis">
+      <string/>
+     </property>
+     <property name="text">
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;This is required for plugin init,  if you trust &lt;a href=&quot;https://cooba.me/suomea&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0068da;&quot;&gt;https://cooba.me/suomea&lt;/span&gt;&lt;/a&gt; to access your AnkiConnect api from your web browser (Server won't be able to access your data, it will only be accesible from yours browser tab).&lt;/p&gt;&lt;p&gt;Set this to &lt;span style=&quot; font-weight:600;&quot;&gt;Yes&lt;/span&gt; - to add &lt;a href=&quot;https://cooba.me/suomea&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0068da;&quot;&gt;https://cooba.me/suomea&lt;/span&gt;&lt;/a&gt; to known hosts of AnkiConnect CORS, so that you can save notes to Anki directly from Web page&lt;/p&gt;&lt;p&gt;Set to &lt;span style=&quot; font-weight:600;&quot;&gt;No&lt;/span&gt; if you want to manually configure AnkiConnect CORS&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+     </property>
+     <property name="textFormat">
+      <enum>Qt::MarkdownText</enum>
+     </property>
+     <property name="wordWrap">
+      <bool>true</bool>
+     </property>
+    </widget>
+   </item>
+   <item row="3" column="0" rowspan="2" colspan="3">
+    <widget class="Line" name="line">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+    </widget>
+   </item>
+   <item row="18" column="0" colspan="3">
+    <widget class="QLabel" name="deckHelpText">
+     <property name="enabled">
+      <bool>true</bool>
+     </property>
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>10</pointsize>
+      </font>
+     </property>
+     <property name="whatsThis">
+      <string/>
+     </property>
+     <property name="text">
+      <string>This deck will be used when saving from web app</string>
+     </property>
+    </widget>
+   </item>
+   <item row="0" column="2">
+    <widget class="QComboBox" name="enabled">
+     <item>
+      <property name="text">
+       <string>No</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Yes</string>
+      </property>
+     </item>
+    </widget>
+   </item>
+   <item row="17" column="2">
+    <widget class="QComboBox" name="defaultDeck"/>
+   </item>
+   <item row="17" column="0" alignment="Qt::AlignLeft">
+    <widget class="QLabel" name="defaultDeckLabel">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="text">
+      <string>Default deck to save</string>
+     </property>
+    </widget>
+   </item>
+   <item row="16" column="0">
+    <widget class="QLabel" name="answerFieldLabel">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="text">
+      <string>Answer field</string>
+     </property>
+    </widget>
+   </item>
+   <item row="1" column="0">
+    <widget class="QLabel" name="appUriLabel">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="text">
+      <string>App URI</string>
+     </property>
+    </widget>
+   </item>
+   <item row="6" column="2">
+    <widget class="QComboBox" name="ankiConnect">
+     <item>
+      <property name="text">
+       <string>No</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Yes</string>
+      </property>
+     </item>
+    </widget>
+   </item>
+   <item row="15" column="2">
+    <widget class="QComboBox" name="notesField"/>
+   </item>
+   <item row="8" column="0" rowspan="5" colspan="3">
+    <widget class="Line" name="line_2">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+    </widget>
+   </item>
+   <item row="6" column="0">
+    <widget class="QLabel" name="enabledLabel_2">
+     <property name="text">
+      <string>Setup AnkiConnect </string>
+     </property>
+    </widget>
+   </item>
+   <item row="14" column="0">
+    <widget class="QLabel" name="questionFieldLabel">
+     <property name="text">
+      <string>Question field</string>
+     </property>
+    </widget>
+   </item>
+   <item row="15" column="0">
+    <widget class="QLabel" name="notesFilesLabel">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="text">
+      <string>Extra notes field</string>
+     </property>
+    </widget>
+   </item>
+   <item row="14" column="2">
+    <widget class="QComboBox" name="questionField"/>
+   </item>
+   <item row="1" column="2">
+    <widget class="QLineEdit" name="appUri"/>
+   </item>
+   <item row="13" column="2">
+    <widget class="QComboBox" name="noteType"/>
+   </item>
+  </layout>
+ </widget>
+ <tabstops>
+  <tabstop>enabled</tabstop>
+  <tabstop>questionField</tabstop>
+ </tabstops>
+ <resources/>
+ <connections/>
+</ui>

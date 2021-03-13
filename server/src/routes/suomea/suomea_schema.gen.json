@@ -1,0 +1,384 @@
+{
+  "schema": {
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "definitions": {
+      "BaseQuery": {
+        "type": "object",
+        "required": [
+          "q"
+        ],
+        "properties": {
+          "q": {
+            "type": "string"
+          }
+        }
+      },
+      "QueryWithLang": {
+        "type": "object",
+        "required": [
+          "lang",
+          "q"
+        ],
+        "properties": {
+          "q": {
+            "type": "string"
+          },
+          "lang": {
+            "enum": [
+              "en",
+              "fi",
+              "ru"
+            ],
+            "type": "string"
+          }
+        }
+      },
+      "SkSearchResult": {
+        "type": "object",
+        "required": [
+          "id",
+          "text",
+          "translation_count"
+        ],
+        "properties": {
+          "text": {
+            "type": "string"
+          },
+          "id": {
+            "type": "number"
+          },
+          "translation_count": {
+            "type": "number"
+          }
+        }
+      }
+    },
+    "$id": "suomea_schema"
+  },
+  "fastify": {
+    "GET /wk": {
+      "request": {
+        "type": "object",
+        "required": [
+          "querystring"
+        ],
+        "properties": {
+          "querystring": {
+            "$ref": "suomea_schema#/definitions/BaseQuery"
+          }
+        }
+      },
+      "response": {
+        "200": {
+          "type": "object",
+          "required": [
+            "Finnish",
+            "meta"
+          ],
+          "properties": {
+            "wk_decl": {
+              "type": [
+                "null",
+                "string"
+              ]
+            },
+            "wk_notes": {
+              "type": [
+                "null",
+                "string"
+              ]
+            },
+            "wk_translation": {
+              "type": [
+                "null",
+                "string"
+              ]
+            },
+            "wk_url": {
+              "type": [
+                "null",
+                "string"
+              ]
+            },
+            "wk_possessive": {
+              "type": [
+                "null",
+                "string"
+              ]
+            },
+            "wk_synonyms": {
+              "type": [
+                "null",
+                "string"
+              ]
+            },
+            "etymology": {
+              "type": [
+                "null",
+                "string"
+              ]
+            },
+            "suffix": {
+              "type": [
+                "null",
+                "string"
+              ]
+            },
+            "Finnish": {
+              "type": "string"
+            },
+            "compounds": {
+              "type": [
+                "null",
+                "string"
+              ]
+            },
+            "wordtype": {
+              "type": [
+                "null",
+                "string"
+              ]
+            },
+            "wk_antonyms": {
+              "type": [
+                "null",
+                "string"
+              ]
+            },
+            "wk_derived": {
+              "type": [
+                "null",
+                "string"
+              ]
+            },
+            "meta": {
+              "type": "object",
+              "properties": {
+                "gradation": {
+                  "type": "string"
+                },
+                "kotus": {
+                  "type": "number"
+                },
+                "kotus_word": {
+                  "type": "string"
+                },
+                "verb": {
+                  "type": "object",
+                  "required": [
+                    "type"
+                  ],
+                  "properties": {
+                    "type": {
+                      "type": "number"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "GET /sk": {
+      "request": {
+        "type": "object",
+        "required": [
+          "querystring"
+        ],
+        "properties": {
+          "querystring": {
+            "$ref": "suomea_schema#/definitions/QueryWithLang"
+          }
+        }
+      },
+      "response": {
+        "200": {
+          "type": "object",
+          "required": [
+            "Finnish"
+          ],
+          "properties": {
+            "sk_translation": {
+              "type": "string"
+            },
+            "sk_translation_strings": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "sk_url": {
+              "type": "string"
+            },
+            "Finnish": {
+              "type": "string"
+            },
+            "sk_synonyms": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "GET /sk_search": {
+      "request": {
+        "type": "object",
+        "required": [
+          "querystring"
+        ],
+        "properties": {
+          "querystring": {
+            "$ref": "suomea_schema#/definitions/QueryWithLang"
+          }
+        }
+      },
+      "response": {
+        "200": {
+          "type": "array",
+          "items": {
+            "$ref": "suomea_schema#/definitions/SkSearchResult"
+          }
+        }
+      }
+    },
+    "GET /sk_search_with_data": {
+      "request": {
+        "type": "object",
+        "required": [
+          "querystring"
+        ],
+        "properties": {
+          "querystring": {
+            "$ref": "suomea_schema#/definitions/QueryWithLang"
+          }
+        }
+      },
+      "response": {
+        "200": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "allOf": [
+              {
+                "$ref": "suomea_schema#/definitions/SkSearchResult"
+              },
+              {
+                "type": "object",
+                "required": [
+                  "data"
+                ],
+                "properties": {
+                  "data": {
+                    "type": "object",
+                    "required": [
+                      "Finnish"
+                    ],
+                    "properties": {
+                      "sk_translation": {
+                        "type": "string"
+                      },
+                      "sk_translation_strings": {
+                        "type": "array",
+                        "items": {
+                          "type": "string"
+                        }
+                      },
+                      "sk_url": {
+                        "type": "string"
+                      },
+                      "Finnish": {
+                        "type": "string"
+                      },
+                      "sk_synonyms": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        }
+      }
+    },
+    "GET /wk_search": {
+      "request": {
+        "type": "object",
+        "required": [
+          "querystring"
+        ],
+        "properties": {
+          "querystring": {
+            "$ref": "suomea_schema#/definitions/BaseQuery"
+          }
+        }
+      },
+      "response": {
+        "200": {
+          "type": "object",
+          "required": [
+            "results",
+            "urls"
+          ],
+          "properties": {
+            "results": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "urls": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      }
+    },
+    "GET /images": {
+      "request": {
+        "type": "object",
+        "required": [
+          "querystring"
+        ],
+        "properties": {
+          "querystring": {
+            "$ref": "suomea_schema#/definitions/BaseQuery"
+          }
+        }
+      },
+      "response": {
+        "200": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "height",
+              "name",
+              "thumb_large",
+              "width"
+            ],
+            "properties": {
+              "name": {
+                "type": "string"
+              },
+              "thumb_large": {
+                "type": "string"
+              },
+              "width": {
+                "type": "number"
+              },
+              "height": {
+                "type": "number"
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "$hash": "41ad553a726cfb888e68f1e3b677a0d25a60c978498808059ca6b49bf25d0fd4__v0.3.1"
+}

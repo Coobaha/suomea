@@ -1,0 +1,50 @@
+on:
+  pull_request:
+name: ci
+jobs:
+  node:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: technote-space/get-diff-action@v4
+        with:
+          PATTERNS: |
+            !anki/**/*
+            .github/**/*
+      - uses: actions/setup-node@v2
+        if: env.GIT_DIFF
+        with:
+          node-version: 15
+      - run: yarn install
+        if: env.GIT_DIFF
+      - run: yarn lage test
+        if: env.GIT_DIFF
+      - run: yarn lage build
+        if: env.GIT_DIFF
+
+  anki-plugin:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./anki
+    steps:
+      - uses: actions/checkout@v2
+      - uses: technote-space/get-diff-action@v4
+        with:
+          PATTERNS: |
+            anki/**/*
+            .github/**/*
+      - uses: actions/setup-python@v2
+        if: env.GIT_DIFF
+        with:
+          python-version: 3.9
+      - name: Install Dependencies
+        if: env.GIT_DIFF
+        run: |
+          python -m pip install --upgrade mypy aqt pipenv pyqt5 pyqt5-stubs wheel
+      - name: mypy
+        if: env.GIT_DIFF
+        run: mypy .
+      - name: package
+        if: env.GIT_DIFF
+        run: ./package.sh
