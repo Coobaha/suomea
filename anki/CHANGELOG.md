@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.1.0 (2021-03-13)
+
+
+### Bug Fixes
+
+* testing release ([2870623](https://www.github.com/Coobaha/suomea/commit/28706239cd5f479fdbfc042ee24b509c2b50bc15))
+
 ## [1.0.0](https://www.github.com/Coobaha/learning-finnish/compare/v0.1.3...v1.0.0) (2021-03-13)
 
 
