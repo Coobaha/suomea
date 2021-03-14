@@ -57,7 +57,7 @@ def anki_connect_setup(parent=None):
     try:
         importlib.import_module(anki_connect_id)
     except:
-        tooltip("CoobaMeFinnish: Downloading AnkiConnect plugin [{}]".format(anki_connect_id),
+        tooltip("AnkiFinnish: Downloading AnkiConnect plugin [{}]".format(anki_connect_id),
                 parent=parent)
 
         (_, result) = addons.download_and_install_addon(mw.addonManager, HttpClient(),
@@ -72,7 +72,7 @@ def anki_connect_setup(parent=None):
     if anki_connect_cfg:
         cors_list = anki_connect_cfg.get("webCorsOriginList", [])
         if app_address not in cors_list:
-            tooltip("CoobaMeFinnish: Adding {} to AnkiConnect CORS list".format(app_address),
+            tooltip("AnkiFinnish: Adding {} to AnkiConnect CORS list".format(app_address),
                     parent=parent)
             cors_list.append(app_address)
             cors_list.append("https://cooba.me")
@@ -81,7 +81,7 @@ def anki_connect_setup(parent=None):
             mw.addonManager.writeConfig(anki_connect_id, anki_connect_cfg)
     else:
         showInfo(
-            "CoobaMeFinnish: Failed to add {} to AnkiConnect CORS list. "
+            "AnkiFinnish: Failed to add {} to AnkiConnect CORS list. "
             " AnkiConnect config is missing".format(settings.uri))
 
     add_new_handlers()
@@ -100,9 +100,9 @@ def add_new_handlers():
         setattr(anki_connect.AnkiConnect, 'coobame_settings', handler)
     except:
         showInfo(
-            "CoobaMeFinnish: Failed to add api method to AnkiConnect.\n"
+            "AnkiFinnish: Failed to add api method to AnkiConnect.\n"
             "AnkiConnect probably is not installed. Enable auto configuration of AnkiConnect in "
-            "CoobaMeFinnish settings or install AnkiConnect manually and configure CORS settings"
+            "AnkiFinnish settings or install AnkiConnect manually and configure CORS settings"
         )
         pass
 

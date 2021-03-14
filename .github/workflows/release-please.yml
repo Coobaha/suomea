@@ -16,7 +16,7 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           release-type: python
-          package-name: CoobaMeFinnish
+          package-name: AnkiFinnish
           command: release-pr
           path: anki/
           default-branch: main
@@ -38,11 +38,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: GoogleCloudPlatform/release-please-action@v2
+
         id: release
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           release-type: python
-          package-name: CoobaMeFinnish
+          package-name: AnkiFinnish
           command: github-release
           path: anki/
           default-branch: main
@@ -64,9 +65,9 @@ jobs:
         uses: softprops/action-gh-release@v1
         if: ${{ steps.release.outputs.release_created }}
         with:
-          files: anki/CoobaMeFinnish.zip
+          files: anki/AnkiFinnish.zip
           tag_name: ${{ steps.release.outputs.tag_name }}
-          name: CoobaMeFinnish ${{ steps.release.outputs.tag_name }}
+          name: AnkiFinnish ${{ steps.release.outputs.tag_name }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - uses: actions/github-script@v3

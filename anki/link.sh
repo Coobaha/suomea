@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-plugin_name=CoobaMeFinnishDev
+plugin_name=AnkiFinnishDev
 plugin_path_linux=~/.local/share/Anki2/addons21
 plugin_path_mac=~/Library/Application\ Support/Anki2/addons21
 
