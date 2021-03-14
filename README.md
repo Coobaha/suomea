@@ -64,7 +64,7 @@ accomplished in three steps:
 1. Restart Anki (without restart Configuration window wont show).
 1. Navigate to plugin settings `Tools` | `Add-ons` | Select `AnkiSuomea` in the
    list | `Config (or double click)`
-1. Important configuration notes: ![config example](./docs/anki2.png)
+1. Important configuration notes:<br/> ![config example](./docs/anki2.png)
    - Plugin is disabled by default, so you need to enable it
    - You can enable auto setup of
      [AnkiConnect](https://ankiweb.net/shared/info/2055492159)
