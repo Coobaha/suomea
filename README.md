@@ -1,4 +1,4 @@
-<h1 align="center">Welcome to Learning Finnish 👋</h1>
+<h1 align="center">Welcome to AnkiFinnish 👋</h1>
 
 > Set of tools to learn Finnish. Includes web app, Anki plugin that integrates
 > with web app and Alfred workflow
