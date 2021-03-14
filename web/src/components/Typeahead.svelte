@@ -191,7 +191,10 @@
 
   const installAutocomplete = (container: HTMLDivElement) => {
     document.addEventListener('keydown', (event) => {
-      if ((event.key === 'k' && event.metaKey) || event.key === '/') {
+      if (
+        (event.key === 'k' && (event.metaKey || event.ctrlKey)) ||
+        event.key === '/'
+      ) {
         const htmlInputElement = container.querySelector<HTMLInputElement>(
           `#mainInput-input`,
         );
