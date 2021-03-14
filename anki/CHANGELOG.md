@@ -1,5 +1,13 @@
 # Changelog
 
+### [0.1.2](https://www.github.com/Coobaha/suomea/compare/v0.1.1...v0.1.2) (2021-03-14)
+
+
+### Bug Fixes
+
+* rename plugin to AnkiFinnish ([ea7cd8b](https://www.github.com/Coobaha/suomea/commit/ea7cd8be331f4c29a84c2d3aeafca8491f2c2759))
+* testing release ([2870623](https://www.github.com/Coobaha/suomea/commit/28706239cd5f479fdbfc042ee24b509c2b50bc15))
+
 ### [0.1.1](https://www.github.com/Coobaha/suomea/compare/v0.1.0...v0.1.1) (2021-03-14)
 
 
