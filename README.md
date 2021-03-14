@@ -61,6 +61,7 @@ accomplished in three steps:
    `Get Add-ons...` in Anki.
 1. Input [2045459309](https://ankiweb.net/shared/info/2045459309) into the text
    box labeled `Code` and press the `OK` button to proceed.
+1. Restart Anki (without restart Configuration window wont show).
 1. Navigate to plugin settings `Tools` | `Add-ons` | Select `AnkiSuomea` in the
    list | `Config (or double click)`
 1. Important configuration notes: ![config example](./docs/anki2.png)
