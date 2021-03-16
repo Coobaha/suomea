@@ -232,15 +232,22 @@ async function wiktionary(opts: { term: string }) {
     .nextUntil('h1, h2, h3, h4, h5, h6')
     .html();
 
-  const fiDecl = $html
+  let fiDecl = $html
     .find(
       '.mw-headline:contains("Declension"),.mw-headline:contains("Conjugation")',
     )
     .parent()
-    .parent()
     .next('table');
-  // .parent()
-  // .find('table')
+
+  if (!fiDecl.length) {
+    fiDecl = $html
+      .find(
+        '.mw-headline:contains("Declension"),.mw-headline:contains("Conjugation")',
+      )
+      .parent()
+      .nextUntil('table')
+      .next('table');
+  }
 
   const isRealVerb =
     fiDecl.find('th').filter((i, el) => {
