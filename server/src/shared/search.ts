@@ -215,7 +215,7 @@ async function wiktionary(opts: { term: string }) {
   }</ol>`;
 
   const notes = $html
-    .find('#Usage_notes')
+    .find('#Usage_notes,#Usage_notes_2,#Usage_notes_1')
     .parent()
     .nextUntil('h1, h2, h3, h4, h5, h6')
     .html();
@@ -237,7 +237,8 @@ async function wiktionary(opts: { term: string }) {
       '.mw-headline:contains("Declension"),.mw-headline:contains("Conjugation")',
     )
     .parent()
-    .next('table');
+    .parent()
+    .find('table')
 
   const isRealVerb =
     fiDecl.find('th').filter((i, el) => {
