@@ -238,7 +238,9 @@ async function wiktionary(opts: { term: string }) {
     )
     .parent()
     .parent()
-    .find('table')
+    .next('table');
+  // .parent()
+  // .find('table')
 
   const isRealVerb =
     fiDecl.find('th').filter((i, el) => {
