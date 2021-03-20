@@ -12,6 +12,14 @@ const JSON5 = require('json5');
 const { window } = new JSDom.JSDOM(``);
 const DOMPurify = createDOMPurify(window);
 
+const htmlAll = function (el?: cheerio.Cheerio) {
+  return el
+    ?.toArray()
+    .map((el) => {
+      return $$(el).html();
+    })
+    .join('\n');
+};
 async function sk(opts: { term: string; lang: 'en' | 'ru' | 'fi' }) {
   const search = qs.encode({
     q: opts.term,
@@ -60,7 +68,7 @@ async function sk(opts: { term: string; lang: 'en' | 'ru' | 'fi' }) {
   };
 }
 
-export interface Response {
+interface Response {
   parse: Parse;
   error?: {
     code: 'missingtitle';
@@ -68,7 +76,7 @@ export interface Response {
   };
 }
 
-export interface Parse {
+interface Parse {
   title: string;
   pageid: number;
   revid: number;
@@ -86,19 +94,19 @@ export interface Parse {
   properties: any[];
 }
 
-export interface Category {
+interface Category {
   sortkey: string;
   '*': string;
   hidden?: string;
 }
 
-export interface Iwlink {
+interface Iwlink {
   prefix: string;
   url: string;
   '*': string;
 }
 
-export interface Langlink {
+interface Langlink {
   lang: string;
   url: string;
   langname: string;
@@ -106,13 +114,13 @@ export interface Langlink {
   '*': string;
 }
 
-export interface Link {
+interface Link {
   ns: number;
   exists?: string;
   '*': string;
 }
 
-export interface Section {
+interface Section {
   toclevel: number;
   level: string;
   line: string;
@@ -123,7 +131,7 @@ export interface Section {
   anchor: string;
 }
 
-export interface Text {
+interface Text {
   '*': string;
 }
 
@@ -208,29 +216,45 @@ async function wiktionary(opts: { term: string }) {
   );
 
   const maybeTranslation = $html.find('.Latn.headword').parent().next('ol');
+
   const translations = `<ol>${
     maybeTranslation.length
-      ? maybeTranslation.html()
+      ? maybeTranslation
+          .toArray()
+          .map((el, i) => {
+            const type = wordtype[i];
+            let $ = $$(el);
+
+            if (type && maybeTranslation.length > 1) {
+              return `<li>${type}<ol>${$.html()}</ol></li>`;
+            }
+
+            return $.html();
+          })
+          .join('\n')
       : $html.find('.Latn.headword').parent().nextUntil('ol').next('ol').html()
   }</ol>`;
 
-  const notes = $html
-    .find('#Usage_notes,#Usage_notes_2,#Usage_notes_1')
-    .parent()
-    .nextUntil('h1, h2, h3, h4, h5, h6')
-    .html();
+  const notes = htmlAll(
+    $html
+      .find('#Usage_notes,#Usage_notes_2,#Usage_notes_1')
+      .parent()
+      .nextUntil('h1, h2, h3, h4, h5, h6'),
+  );
 
-  const etymology = $html
-    .find('.mw-headline:contains("Etymology")')
-    .parent()
-    .nextUntil('h1, h2, h3, h4, h5, h6')
-    .html();
+  const etymology = htmlAll(
+    $html
+      .find('.mw-headline:contains("Etymology")')
+      .parent()
+      .nextUntil('h1, h2, h3, h4, h5, h6'),
+  );
 
-  const suffix = $html
-    .find('.mw-headline:contains("Suffix")')
-    .parent()
-    .nextUntil('h1, h2, h3, h4, h5, h6')
-    .html();
+  const suffix = htmlAll(
+    $html
+      .find('.mw-headline:contains("Suffix")')
+      .parent()
+      .nextUntil('h1, h2, h3, h4, h5, h6'),
+  );
 
   let fiDecl = $html
     .find(
@@ -256,11 +280,12 @@ async function wiktionary(opts: { term: string }) {
       return text.includes('present tense') || text.includes('perfect');
     }).length > 0;
 
-  const possessive = $html
-    .find('a[title="Appendix:Finnish possessive suffixes"]')
-    .closest('table')
-    .first()
-    .html()
+  const possessive = htmlAll(
+    $html
+      .find('a[title="Appendix:Finnish possessive suffixes"]')
+      .closest('table')
+      .first(),
+  )
     ?.replace(/\n+/gm, '\n')
     ?.replace(/\n+</gm, '<');
 
@@ -306,18 +331,13 @@ async function wiktionary(opts: { term: string }) {
     }
   }
 
-  const decl = fiDecl?.html()?.replace(/\n+/gm, '\n')?.replace(/\n+</gm, '<');
-  const synonyms = $html
-    .find('.mw-headline:contains("Synonyms")')
-    .parent()
-    .next('ul')
-    .html();
-
-  const antonyms = $html
-    .find('.mw-headline:contains("Antonyms")')
-    .parent()
-    .next('ul')
-    .html();
+  const decl = htmlAll(fiDecl)?.replace(/\n+/gm, '\n')?.replace(/\n+</gm, '<');
+  const synonyms = htmlAll(
+    $html.find('.mw-headline:contains("Synonyms")').parent().next('ul'),
+  );
+  const antonyms = htmlAll(
+    $html.find('.mw-headline:contains("Antonyms")').parent().next('ul'),
+  );
   const $derived = $html.find('span:contains("Derived terms")');
 
   let derived = $derived
