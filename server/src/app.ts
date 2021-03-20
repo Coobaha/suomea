@@ -1,3 +1,4 @@
+import 'dd-trace/init';
 import * as path from 'path';
 import AutoLoad, { AutoloadPluginOptions } from 'fastify-autoload';
 import { FastifyPluginAsync, FastifyServerOptions } from 'fastify';
