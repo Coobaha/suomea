@@ -5,7 +5,6 @@
   "author": "",
   "dependencies": {
     "@coobaha/typed-fastify": "^0.3.1",
-    "@pm2/io": "^4.3.5",
     "cheerio": "^1.0.0-rc.5",
     "dompurify": "^2.2.6",
     "fastify": "^3.13.0",
@@ -14,6 +13,7 @@
     "fastify-caching": "^6.1.0",
     "fastify-cli": "^2.8.0",
     "fastify-cors": "^5.2.0",
+    "fastify-datadog": "^2.0.0",
     "fastify-etag": "^2.1.0",
     "fastify-fast-helmet": "^0.3.0",
     "fastify-formbody": "^5.0.0",
@@ -24,6 +24,7 @@
     "fastify-sensible": "^3.1.0",
     "fastify-tsconfig": "^1.0.1",
     "got": "^11.8.2",
+    "hot-shots": "^8.3.0",
     "jsdom": "^16.4.0",
     "json5": "^2.2.0",
     "mkdirp": "^1.0.4",

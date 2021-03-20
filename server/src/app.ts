@@ -7,12 +7,7 @@ import FastifyBlipp from 'fastify-blipp';
 import oas from 'fastify-oas';
 import FastifyRateLimit from 'fastify-rate-limit';
 import * as process from 'process';
-import io from '@pm2/io';
 
-io.init({
-  tracing: true,
-  profiling: true,
-});
 export type AppOptions = {
   // Place your custom options for app below here.
 } & Partial<AutoloadPluginOptions>;
@@ -29,7 +24,16 @@ const app: FastifyPluginAsync<AppOptions> = async (
       max: 150,
       timeWindow: '1 minute',
     });
+    const StatsD = await import('hot-shots');
+
+    fastify.register(import('fastify-datadog'), {
+      dogstatsd: new StatsD.default(),
+      path: true,
+      method: true,
+      responseCode: true,
+    });
   }
+
   await fastify.register(FastifyBlipp);
   await fastify.register(oas, {
     swagger: {
