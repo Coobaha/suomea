@@ -114,7 +114,7 @@
     <div class="tile is-parent">
       <article class="tile is-child message is-primary">
         <div class="message-header">Wiktionary</div>
-        <div class="message-body max-h-96 overflow-auto wk">
+        <div class="message-body max-h-96 overflow-auto wk content">
           {@html $isAnki && isQuestion
             ? sanitizeWk($translation, $term)
             : $translation}
@@ -260,10 +260,18 @@
 
   .wk :global(dl) {
     font-size: 12px;
-    margin-left: 2em;
+    margin-left: 0.5em;
   }
 
   .wk :global(ul) {
     margin-top: 0;
+  }
+
+  .content :global(ol) {
+    list-style-position: initial;
+    margin: 0 0 0 1.25em;
+  }
+  .content :global(dd) {
+    margin-left: 1em;
   }
 </style>
