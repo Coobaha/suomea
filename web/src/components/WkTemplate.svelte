@@ -17,7 +17,7 @@
 
   import Images from './Images.svelte';
   import Nav from './Nav.svelte';
-  import { isAnki } from '../ctx';
+  import { isAnki, extraLanguage } from '../ctx';
   import { get } from 'svelte/store';
   let regExpEscape = (s: string) => {
     return s.replace(/[-\\^$*+?.()|[\]{}]/g, '\\$&');
@@ -129,14 +129,18 @@
         </div>
       </article>
     </div>
-    <div class="tile is-parent">
-      <article class="tile is-child message is-primary">
-        <div class="message-header">Sanakirja RU</div>
-        <div class="message-body max-h-96 overflow-auto">
-          {@html $sk_ru_translation}
-        </div>
-      </article>
-    </div>
+    {#if $extraLanguage && $extraLanguage.length}
+      <div class="tile is-parent">
+        <article class="tile is-child message is-primary">
+          <div class="message-header">
+            Sanakirja {$extraLanguage.toUpperCase()}
+          </div>
+          <div class="message-body max-h-96 overflow-auto">
+            {@html $sk_ru_translation}
+          </div>
+        </article>
+      </div>
+    {/if}
   </div>
   <div class="tile is-ancestor forwards-hidden">
     <div class="tile is-parent">

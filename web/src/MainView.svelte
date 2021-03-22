@@ -22,6 +22,7 @@
     viewContext,
     cardType,
     nextNoteId,
+    extraLanguage,
   } from './ctx';
   import { ankiData, fetchImages, fetchSk, fetchWk } from './api';
   import Settings from './components/Settings.svelte';
@@ -151,8 +152,11 @@
             .forEach(preloadImage);
         });
         fetchWk(nextTerm, ctrl);
-        fetchSk(nextTerm, 'ru', ctrl);
         fetchSk(nextTerm, 'en', ctrl);
+
+        const lang = get(extraLanguage);
+        lang && fetchSk(nextTerm, lang, ctrl);
+
         let nextNodeId = get(nextNoteId) ?? 0;
         ankiData(
           nextNodeId > 0
@@ -188,7 +192,6 @@
       const imagesController = acquireController();
       const wkController = acquireController();
       const enSkController = acquireController();
-      const ruSkController = acquireController();
       const ankiDataCtrl = acquireController();
 
       fetchImages(currentTerm, imagesController).then((obj) => {
@@ -231,15 +234,19 @@
         Ctx.sk_en_synonyms.set(x?.sk_synonyms ?? '');
         Ctx.sk_en_url.set(x?.sk_url ?? '');
       });
-      fetchSk(currentTerm, 'ru', ruSkController).then((obj) => {
-        removeController(ruSkController);
-        if (!obj) return;
+      const lang = get(extraLanguage);
+      if (lang) {
+        const ruSkController = acquireController();
+        fetchSk(currentTerm, lang, ruSkController).then((obj) => {
+          removeController(ruSkController);
+          if (!obj) return;
 
-        let x = (obj as unknown) as SanakirjaData;
-        Ctx.sk_ru_translation.set(x?.sk_translation ?? '');
-        Ctx.sk_ru_synonyms.set(x?.sk_synonyms ?? '');
-        Ctx.sk_ru_url.set(x?.sk_url ?? '');
-      });
+          let x = (obj as unknown) as SanakirjaData;
+          Ctx.sk_ru_translation.set(x?.sk_translation ?? '');
+          Ctx.sk_ru_synonyms.set(x?.sk_synonyms ?? '');
+          Ctx.sk_ru_url.set(x?.sk_url ?? '');
+        });
+      }
 
       ankiData(
         ankiNoteId > 0

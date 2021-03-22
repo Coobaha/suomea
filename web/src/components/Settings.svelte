@@ -13,7 +13,7 @@
   } from '../ctx';
   import { onMount, tick } from 'svelte';
   import { get } from 'svelte/store';
-  import type {MyAnkiSetup, ViewContext} from '../types';
+  import type { ExtraLanguages, MyAnkiSetup, ViewContext } from '../types';
   import debounce from 'lodash/debounce';
 
   let currentTerm = $term;
@@ -63,6 +63,7 @@
         'previewAnswer',
       ] as ViewContext[],
       cardType: ['Forwards', 'Reversed'],
+      extraLanguage: ['', 'ru'] as ExtraLanguages[],
     };
     const setCollapsed = (nextValue = true) => {
       updateSettings((prev) => ({ ...prev, isCollapsed: nextValue }));
@@ -74,6 +75,7 @@
       .addBoolean('isAnki', isDisabled)
       .addDropDown('context', arrays.context)
       .addDropDown('cardType', arrays.cardType)
+      .addDropDown('extraLanguage', arrays.extraLanguage)
       .addButton('Hide', setCollapsed)
       .addButton('Update', handler)
       .addButton('Clear history', termsHistory.clear);

@@ -18,6 +18,7 @@
     sk_en_translation,
     translation,
     ankiConnected,
+    extraLanguage,
   } from '../ctx';
   import { getUrl } from '../router';
   import { saveTerm } from '../api';
@@ -181,12 +182,14 @@
         data-global-url-handler-ignore
         href="{$sk_en_url}">Sanakirja EN</a
       >
-      <a
-        class="navbar-item is-info"
-        target="_blank"
-        data-global-url-handler-ignore
-        href="{$sk_ru_url}">Sanakirja RU</a
-      >
+      {#if $extraLanguage && $extraLanguage.length}
+        <a
+          class="navbar-item is-info"
+          target="_blank"
+          data-global-url-handler-ignore
+          href="{$sk_ru_url}">Sanakirja RU</a
+        >
+      {/if}
 
       <div class="navbar-item">
         <slot />

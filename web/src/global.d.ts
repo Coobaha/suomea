@@ -7,6 +7,7 @@ declare type ExternalMyAnkiSetup = {
   isAnki: boolean;
   id: number;
   nextId?: number;
+  extraLang?: string;
 };
 
 interface Window {

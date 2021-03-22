@@ -31,6 +31,7 @@ const defaultSettings: Settings = {
   isAnki: false,
   ankiConnected: false,
   ankiConnectURI: 'http://localhost:8765/',
+  extraLanguage: 'ru'
 };
 
 let storedSettings: Settings = Object.assign(
@@ -142,6 +143,10 @@ export const nextTerm = derived$(settings, (values) => values.nextTerm);
 export const viewContext = derived$(settings, (values) => values.context);
 
 export const isAnki = derived$(settings, (values) => values.isAnki);
+export const extraLanguage = derived$(
+  settings,
+  (values) => values.extraLanguage,
+);
 
 // data
 export const ownAnswer = writable<string>('');
