@@ -3085,7 +3085,7 @@ bind-obj-methods@^2.0.0:
   resolved "https://registry.yarnpkg.com/bind-obj-methods/-/bind-obj-methods-2.0.1.tgz#1c1295d6741c07b78d15f42080fe4a60a27f91f5"
   integrity sha512-kKzUyCuc+jsWH4C2nW5KB2nh+rQRbQcdphfo9UN3j1uwIFGZ3JB8njtRZOiUAQCkxazH0nDQPN6x/zhvFcbZIw==
 
-bindings@^1.3.0, bindings@^1.5.0:
+bindings@^1.5.0:
   version "1.5.0"
   resolved "https://registry.yarnpkg.com/bindings/-/bindings-1.5.0.tgz#10353c9e945334bc0511a6d90b38fbc7c9c504df"
   integrity sha512-p2q/t/mhvuOj/UeLlV6566GD/guowlr0hHxClI0W9m7MWYkL1F0hLo+0Aexs9HSPCtR1SXQ0TD3MMKrXZajbiQ==
@@ -5637,13 +5637,6 @@ fastify-csp@^0.1.1:
     lru-cache "^4.1.3"
     platform "^1.3.5"
 
-fastify-datadog@^2.0.0:
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/fastify-datadog/-/fastify-datadog-2.0.0.tgz#30a267469274c5e9e256e9ab9706b094636efeb8"
-  integrity sha512-fzbL9COUsboMpaTVTV/d/vl4IUwBuCn/pATg++hrRrG8NsImoy3Uc8ohCgzxN9k9MBneTfUfYWhHVjSxSE+WUA==
-  dependencies:
-    fastify-plugin "^1.6.1"
-
 fastify-dns-prefetch-control@^0.2.1:
   version "0.2.1"
   resolved "https://registry.yarnpkg.com/fastify-dns-prefetch-control/-/fastify-dns-prefetch-control-0.2.1.tgz#503c66fed9e472f8c92a559ea7c55405c1aa1d42"
@@ -5765,7 +5758,7 @@ fastify-oas@^3.0.8:
     js-yaml "^3.14.0"
     openapi3-ts "^1.4.0"
 
-fastify-plugin@^1.0.1, fastify-plugin@^1.1.3, fastify-plugin@^1.2.0, fastify-plugin@^1.6.1:
+fastify-plugin@^1.0.1, fastify-plugin@^1.1.3, fastify-plugin@^1.2.0:
   version "1.6.1"
   resolved "https://registry.yarnpkg.com/fastify-plugin/-/fastify-plugin-1.6.1.tgz#122f5a5eeb630d55c301713145a9d188e6d5dd5b"
   integrity sha512-APBcb27s+MjaBIerFirYmBLatoPCgmHZM6XP0K+nDL9k0yX8NJPWDY1RAC3bh6z+AB5ULS2j31BUfLMT3uaZ4A==
@@ -6660,13 +6653,6 @@ hosted-git-info@^2.1.4:
   version "2.8.8"
   resolved "https://registry.yarnpkg.com/hosted-git-info/-/hosted-git-info-2.8.8.tgz#7539bd4bc1e0e0a895815a2e0262420b12858488"
   integrity sha512-f/wzC2QaWBs7t9IYqB4T3sR1xviIViXJRJTWBlx2Gf3g0Xi5vI7Yy4koXQ1c9OYDGHN9sBy1DQ2AB8fqZBWhUg==
-
-hot-shots@^8.3.0:
-  version "8.3.0"
-  resolved "https://registry.yarnpkg.com/hot-shots/-/hot-shots-8.3.0.tgz#360422464e8d7c5389753723bebaa969bb6f20d2"
-  integrity sha512-bdhBiiIMFhn9cXYJMtDKWM7O15iSLS14O5KetoHnyYOZdFr0A3cCtHA4byzkS3E72xFbqWFg4lqJ2EN/33J7UQ==
-  optionalDependencies:
-    unix-dgram "2.0.x"
 
 hsl-regex@^1.0.0:
   version "1.0.0"
@@ -8675,7 +8661,7 @@ mz@^2.7.0:
     object-assign "^4.0.1"
     thenify-all "^1.0.0"
 
-nan@^2.12.1, nan@^2.13.2:
+nan@^2.12.1:
   version "2.14.2"
   resolved "https://registry.yarnpkg.com/nan/-/nan-2.14.2.tgz#f5376400695168f4cc694ac9393d0c9585eeea19"
   integrity sha512-M2ufzIiINKCuDfBSAUr1vWQ+vuVcA9kqx8JJUsbQi6yf1uGRyb7HfpdfUr5qLXf3B/t8dPvcjhKMmlfnP47EzQ==
@@ -12586,14 +12572,6 @@ universalify@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/universalify/-/universalify-2.0.0.tgz#75a4984efedc4b08975c5aeb73f530d02df25717"
   integrity sha512-hAZsKq7Yy11Zu1DE0OzWjw7nnLZmJZYTDZZyEFHZdUhV8FkH5MCfoU1XMaxXovpyW5nq5scPqq0ZDP9Zyl04oQ==
-
-unix-dgram@2.0.x:
-  version "2.0.4"
-  resolved "https://registry.yarnpkg.com/unix-dgram/-/unix-dgram-2.0.4.tgz#14d4fc21e539742b8fb027de16eccd4e5503a344"
-  integrity sha512-7tpK6x7ls7J7pDrrAU63h93R0dVhRbPwiRRCawR10cl+2e1VOvF3bHlVJc6WI1dl/8qk5He673QU+Ogv7bPNaw==
-  dependencies:
-    bindings "^1.3.0"
-    nan "^2.13.2"
 
 unpipe@1.0.0:
   version "1.0.0"

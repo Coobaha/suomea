@@ -1,4 +1,5 @@
-import 'dd-trace/init';
+import './tracer';
+
 import * as path from 'path';
 import AutoLoad, { AutoloadPluginOptions } from 'fastify-autoload';
 import { FastifyPluginAsync, FastifyServerOptions } from 'fastify';
@@ -24,14 +25,6 @@ const app: FastifyPluginAsync<AppOptions> = async (
     fastify.register(FastifyRateLimit, {
       max: 150,
       timeWindow: '1 minute',
-    });
-    const StatsD = await import('hot-shots');
-
-    fastify.register(import('fastify-datadog'), {
-      dogstatsd: new StatsD.default(),
-      path: true,
-      method: true,
-      responseCode: true,
     });
   }
 
