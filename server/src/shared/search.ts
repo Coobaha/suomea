@@ -204,16 +204,14 @@ async function wiktionary(opts: { term: string }) {
     $el.attr('href', absoluteHref);
   });
 
-  let wordtype = Array.from(
-    new Set(
-      $html
-        .find('.headword')
-        .parent()
-        .prev('h1, h2, h3, h4, h5, h6')
-        .toArray()
-        .map((el) => $$(el).text()?.toLowerCase()),
-    ),
-  );
+  const allWordtypes = $html
+    .find('.headword')
+    .parent()
+    .prev('h1, h2, h3, h4, h5, h6')
+    .toArray()
+    .map((el) => $$(el).text()?.toLowerCase());
+
+  let wordtype = Array.from(new Set(allWordtypes));
 
   const maybeTranslation = $html.find('.Latn.headword').parent().next('ol');
 
@@ -222,10 +220,10 @@ async function wiktionary(opts: { term: string }) {
       ? maybeTranslation
           .toArray()
           .map((el, i) => {
-            const type = wordtype[i];
+            const type = allWordtypes[i];
             let $ = $$(el);
 
-            if (type && maybeTranslation.length > 1) {
+            if (type && wordtype.length > 1 && maybeTranslation.length > 1) {
               return `<li>${type}<ol>${$.html()}</ol></li>`;
             }
 
