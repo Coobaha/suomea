@@ -256,7 +256,7 @@ async function wiktionary(opts: { term: string }) {
 
   let fiDecl = $html
     .find(
-      '.mw-headline:contains("Declension"),.mw-headline:contains("Conjugation")',
+      '.mw-headline:contains("Declension"),.mw-headline:contains("Conjugation"),.mw-headline:contains("Inflection")',
     )
     .parent()
     .next('table');
@@ -264,7 +264,7 @@ async function wiktionary(opts: { term: string }) {
   if (!fiDecl.length) {
     fiDecl = $html
       .find(
-        '.mw-headline:contains("Declension"),.mw-headline:contains("Conjugation")',
+        '.mw-headline:contains("Declension"),.mw-headline:contains("Conjugation"),.mw-headline:contains("Inflection")',
       )
       .parent()
       .nextUntil('table')
