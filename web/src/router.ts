@@ -33,7 +33,7 @@ export const Link = link;
 export const getHistory = () => router._history;
 export const getUrl = (name: pages[0], params: pages[1]) => {
   const route = router.findRouteByName(name, router.routes);
-  return route.generator(params);
+  return `${router.basename}${route.generator(params)}`;
 };
 export const push = (name: pages[0], params: pages[1]) => {
   const url = getUrl(name, params);
