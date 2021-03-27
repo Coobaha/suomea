@@ -48,32 +48,35 @@
       .map(regExpEscape)
       .join('|');
     if (allDecls) {
-      return html.replace(
+      html = html.replace(
         new RegExp(`(${allDecls})`, 'gmi'),
         `<span class=blur>$1</span>`,
       );
+    } else {
+      html = html
+        .replace(
+          new RegExp(`(${term}[\\w|äöÿ]*)`, 'gmi'),
+          `<span class=blur>$1</span>`,
+        )
+        .replace(
+          new RegExp(`(${term.replace(/a/, 'ä')})`, 'gmi'),
+          `<span class=blur>$1</span>`,
+        )
+        .replace(
+          new RegExp(`(${term.replace(/o/, 'ö')})`, 'gmi'),
+          `<span class=blur>$1</span>`,
+        )
+        .replace(
+          new RegExp(`(${term.replace(/y/, 'ÿ')})`, 'gmi'),
+          `<span class=blur>$1</span>`,
+        )
+        .replace(
+          new RegExp(`(${term.substring(0, term.length - 1)}[a-z]+)`, 'gmi'),
+          `<span class=blur>$1</span>`,
+        );
     }
-    html = html
-      .replace(
-        new RegExp(`(${term}[\\w|äöÿ]*)`, 'gmi'),
-        `<span class=blur>$1</span>`,
-      )
-      .replace(
-        new RegExp(`(${term.replace(/a/, 'ä')})`, 'gmi'),
-        `<span class=blur>$1</span>`,
-      )
-      .replace(
-        new RegExp(`(${term.replace(/o/, 'ö')})`, 'gmi'),
-        `<span class=blur>$1</span>`,
-      )
-      .replace(
-        new RegExp(`(${term.replace(/y/, 'ÿ')})`, 'gmi'),
-        `<span class=blur>$1</span>`,
-      )
-      .replace(
-        new RegExp(`(${term.substring(0, term.length - 1)}[a-z]+)`, 'gmi'),
-        `<span class=blur>$1</span>`,
-      )
+    const div = document.createElement('div');
+    div.innerHTML = html
       .replace(
         new RegExp(`form of ([\\w|äöÿ]+)`, 'gmi'),
         `form of <span class=blur>$1</span>`,
@@ -82,11 +85,12 @@
         new RegExp(`participle of ([\\w|äöÿ]+)`, 'gmi'),
         `participle of <span class=blur>$1</span>`,
       );
-    const div = document.createElement('div');
-    div.innerHTML = html;
-    div.querySelectorAll('.mention a').forEach((el) => {
-      el.classList.add('blur');
-    });
+
+    if (!allDecls) {
+      div.querySelectorAll('.mention a').forEach((el) => {
+        el.classList.add('blur');
+      });
+    }
 
     return div.innerHTML;
   }
