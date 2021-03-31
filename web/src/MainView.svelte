@@ -90,7 +90,8 @@
       const externalHref = target.getAttribute('href') ?? '';
       const query = qs.parse(target.search.slice(1, -1));
       const wk =
-        target.hash.startsWith('#Finnish') && target.pathname.split('/').pop();
+        target.hash.startsWith('#Finnish') &&
+        (target.title || target.pathname.split('/').pop());
       const sk = externalHref.includes('/search.php?id') && target.innerText;
       const handled = target.dataset.ankiId;
       let id = handled || sk || wk || query.title;
@@ -100,7 +101,7 @@
           target.closest('[data-internal-links]') &&
           target.hostname === 'en.wiktionary.org'
         ) {
-          id = target.pathname.split('/').pop();
+          id = target.title || target.pathname.split('/').pop();
         }
       }
       if (id) {
