@@ -86,11 +86,9 @@
         `participle of <span class=blur>$1</span>`,
       );
 
-    if (!allDecls) {
-      div.querySelectorAll('.mention a').forEach((el) => {
-        el.classList.add('blur');
-      });
-    }
+    div.querySelectorAll('.use-with-mention .mention a').forEach((el) => {
+      el.classList.add('blur');
+    });
 
     return div.innerHTML;
   }
