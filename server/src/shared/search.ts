@@ -287,7 +287,8 @@ async function wiktionary(opts: { term: string }) {
     ?.replace(/\n+/gm, '\n')
     ?.replace(/\n+</gm, '<');
 
-  const kotus$ = $html.find('a[title="Kotus"]').first();
+  const kotus$ = fiDecl.find('a[title="Kotus"]').first();
+
   const kotus = kotus$[0];
 
   if (!isRealVerb && wordtype.includes('verb')) {
