@@ -41,7 +41,14 @@
     const allDecls = Array.from(
       new Set(
         Array.from(decls.querySelectorAll('td span'))
-          .map((x) => (x instanceof HTMLElement ? x.innerText : ''))
+          .map((x) => {
+            if (!x instanceof HTMLElement) return '';
+            const anchor = x.querySelector('a');
+            if (anchor && anchor.title) {
+              return anchor.title;
+            }
+            return x.innerText;
+          })
           .filter(Boolean),
       ),
     )
