@@ -241,10 +241,10 @@
     </div>
   {/if}
 </div>
-<div class="forwards-hidden my-5 justify-center align-items-center">
+<div class="mb-3 forwards-hidden justify-center align-items-center">
   {#if $isAnki}
     <div
-      class="textarea is-primary is-small has-fixed-size"
+      class="my-3 textarea is-primary is-small has-fixed-size"
       class:is-hidden="{$ownAnswer.length === 0}"
       rows="{$ownAnswer.split('\n').length}"
     >
@@ -253,7 +253,7 @@
   {:else if $ankiConnected && !$isAnki}
     <div
       contenteditable="true"
-      class="textarea is-primary is-small has-fixed-size"
+      class="my-3 textarea is-primary is-small has-fixed-size"
       bind:innerHTML="{$ownAnswer}"
       data-placeholder="Write your notes.."
       rows="{$ownAnswer.split('\n').length}"

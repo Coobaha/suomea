@@ -261,6 +261,11 @@
     backface-visibility: visible;
   }
 
+  .isForwards.isQuestion .forwards-hidden *,
+  .isReversed.isQuestion .reverse-hidden * {
+    overflow: hidden;
+  }
+
   .isForwards.isAnswer :global(.forwards-hidden),
   .isReversed.isAnswer :global(.reverse-hidden),
   .isForwards.isAnswer .forwards-hidden,
