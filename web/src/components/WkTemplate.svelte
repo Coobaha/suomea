@@ -52,6 +52,7 @@
           .filter(Boolean),
       ),
     )
+      .reverse()
       .map(regExpEscape)
       .join('|');
     if (allDecls) {
