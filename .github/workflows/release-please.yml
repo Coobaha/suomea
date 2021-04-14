@@ -61,11 +61,12 @@ jobs:
           python -m pip install --upgrade mypy aqt pipenv pyqt5 pyqt5-stubs wheel
           mypy .
           ./package.sh
+          mv AnkiFinnish.zip AnkiFinnish-${{ steps.release.outputs.tag_name }}.zip
       - name: Upload
         uses: softprops/action-gh-release@v1
         if: ${{ steps.release.outputs.release_created }}
         with:
-          files: anki/AnkiFinnish.zip
+          files: anki/AnkiFinnish-${{ steps.release.outputs.tag_name }}.zip
           tag_name: ${{ steps.release.outputs.tag_name }}
           name: AnkiFinnish ${{ steps.release.outputs.tag_name }}
         env:
