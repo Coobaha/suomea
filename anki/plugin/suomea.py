@@ -16,11 +16,12 @@ from .settings import settings, SettingsModal, anki_connect_setup
 
 def prepare(html, card, context: str):
     if settings.enabled is False:
-        return
+        return html
     if card.note_type()['name'] != settings.note_type:
-        return
+        return html
     if mw is None:
-        return
+        return html
+
     sched = copy.copy(mw.col.sched)
 
     for attr, value in vars(sched).items():
