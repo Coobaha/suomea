@@ -1,5 +1,12 @@
 # Changelog
 
+### [0.1.3](https://www.github.com/Coobaha/suomea/compare/v0.1.2...v0.1.3) (2021-04-14)
+
+
+### Bug Fixes
+
+* **anki:** fix html render for other decks ([12b9ef4](https://www.github.com/Coobaha/suomea/commit/12b9ef4948f47590c8534339e1778778982bbbff))
+
 ### [0.1.2](https://www.github.com/Coobaha/suomea/compare/v0.1.1...v0.1.2) (2021-04-07)
 
 
