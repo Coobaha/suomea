@@ -184,7 +184,7 @@
     {/if}
     <div class="tile is-parent is-vertical">
       {#if $antonyms}
-        <article class="tile is-child message is-danger">
+        <article class="message is-danger">
           <div class="message-header">Antonyms</div>
           <div class="message-body">
             {@html $antonyms}
@@ -192,7 +192,7 @@
         </article>
       {/if}
       {#if $synonyms}
-        <article class="tile is-child message is-warning">
+        <article class="message is-warning">
           <div class="message-header">Synonyms</div>
           <div class="message-body">
             {@html $synonyms}
@@ -200,7 +200,7 @@
         </article>
       {/if}
       {#if $derived}
-        <article class="tile is-child message is-info">
+        <article class="message is-info">
           <div class="message-header">Derived</div>
           <div class="message-body">
             {@html $derived}
@@ -208,7 +208,7 @@
         </article>
       {/if}
       {#if $etymology}
-        <article class="tile is-child message is-info">
+        <article class="message is-info">
           <div class="message-header">Etymology</div>
           <div class="message-body">
             {@html $etymology}
@@ -216,7 +216,7 @@
         </article>
       {/if}
       {#if $notes}
-        <article class="tile is-child message is-info">
+        <article class="message is-info">
           <div class="message-header">Notes</div>
           <div class="message-body">
             {@html $notes}
