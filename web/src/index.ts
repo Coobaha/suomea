@@ -1,5 +1,6 @@
+import { get } from 'svelte/store';
 import type { ViewContext } from './types';
-import { termsHistory, updateSettings } from './ctx';
+import { termsHistory, updateSettings, term as term$ } from './ctx';
 import App from './App.svelte';
 
 const app = new App({
@@ -17,12 +18,14 @@ window.addEventListener(
     if (event.data.type === 'update') {
       const setup = event.data.data;
       function stripHTML(html: string = ''): string {
-        let doc = new DOMParser().parseFromString(html, 'text/html');
-        return doc.body.textContent ? doc.body.textContent.trim() : '';
+        const doc = new DOMParser().parseFromString(html, 'text/html');
+        return doc.body.textContent?.trim() ?? '';
       }
 
       const term = stripHTML(setup.currentTerm);
       const context = stripHTML(setup.context) as ViewContext;
+
+      const prevTerm = get(term$);
 
       updateSettings((v) => ({
         ...v,
@@ -33,8 +36,11 @@ window.addEventListener(
         tags: (setup.tags || []).map(stripHTML),
         isAnki: !!setup.isAnki,
       }));
-      if (context === "reviewAnswer") {
+      if (context === 'reviewAnswer') {
         termsHistory.add(term);
+      }
+      if (prevTerm !== term) {
+        window.scrollTo(0, 0);
       }
     }
   },
