@@ -159,30 +159,26 @@
       </div>
     </div>
   </div>
-  <div class="forwards-hidden reverse-hidden tile is-ancestor">
+  <div class="forwards-hidden reverse-hidden columns">
     {#if $decl || $possessive}
-      <div class="tile is-parent is-8 is-vertical">
+      <div class="column is-two-thirds">
         {#if $decl}
-          <div class="tile is-child">
-            <table
-              class="table is-narrow is-bordered is-striped is-fullwidth is-size-7"
-            >
-              {@html $decl}
-            </table>
-          </div>
+          <table
+            class="table is-narrow is-bordered is-striped is-fullwidth is-size-7"
+          >
+            {@html $decl}
+          </table>
         {/if}
         {#if $possessive}
-          <div class="tile is-child">
-            <table
-              class="table is-narrow is-bordered is-striped is-fullwidth is-size-7"
-            >
-              {@html $possessive}
-            </table>
-          </div>
+          <table
+            class="table is-narrow is-bordered is-striped is-fullwidth is-size-7"
+          >
+            {@html $possessive}
+          </table>
         {/if}
       </div>
     {/if}
-    <div class="tile is-parent is-vertical">
+    <div class="column">
       {#if $antonyms}
         <article class="message is-danger">
           <div class="message-header">Antonyms</div>
