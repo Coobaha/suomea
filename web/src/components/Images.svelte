@@ -2,6 +2,7 @@
 
 <script lang="typescript">
   import { cardType, images, viewContext } from '../ctx';
+  import { getUrl, Link } from '../router';
 
   let isQuestion: boolean;
   let isReversed: boolean;
@@ -29,11 +30,14 @@
             width="80"
             alt=""
           />
-          <div class="tag is-flex mt-2 is-info is-light">
+          <Link
+            to="{getUrl('main', { id: image.name })}"
+            cls="tag is-flex mt-2 is-info is-light text"
+          >
             <span class:invisible="{isReversedQuestion}">
               {image.name}
             </span>
-          </div>
+          </Link>
         </div>
       {/each}
     </div>
