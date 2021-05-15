@@ -110,7 +110,7 @@
               const blurred = [];
               let next: ChildNode | null = child;
               let search = '';
-              while (next && next instanceof HTMLElement) {
+              while (next instanceof HTMLElement) {
                 const nextSearch = search + next.innerText;
                 if (allDecls.find((decl) => decl.startsWith(nextSearch))) {
                   if (!blurred.length) {
