@@ -108,7 +108,7 @@
               allDecls.indexOf(child.innerText)
             ) {
               const blurred = [];
-              let next: ChildNode = child;
+              let next: ChildNode | null = child;
               let search = '';
               while (next && next instanceof HTMLElement) {
                 const nextSearch = search + next.innerText;
