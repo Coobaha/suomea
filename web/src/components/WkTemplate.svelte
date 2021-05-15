@@ -40,7 +40,7 @@
     decls.innerHTML = get(decl);
     const allDecls = Array.from(
       new Set(
-        Array.from(decls.querySelectorAll('td span'))
+        Array.from(decls.querySelectorAll('td span,td b'))
           .map((x) => {
             if (!(x instanceof HTMLElement)) return '';
             const anchor = x.querySelector('a');
@@ -51,13 +51,12 @@
           })
           .filter(Boolean),
       ),
-    )
-      .reverse()
-      .map(regExpEscape)
-      .join('|');
-    if (allDecls) {
+    ).reverse();
+    const allDeclsEscaped = allDecls.map(regExpEscape).join('|');
+
+    if (allDeclsEscaped) {
       html = html.replace(
-        new RegExp(`(${allDecls})`, 'gmi'),
+        new RegExp(`(${allDeclsEscaped})`, 'gmi'),
         `<span class=blur>$1</span>`,
       );
     } else {
@@ -83,6 +82,7 @@
           `<span class=blur>$1</span>`,
         );
     }
+
     const div = document.createElement('div');
     div.innerHTML = html
       .replace(
@@ -97,6 +97,40 @@
     div.querySelectorAll('.use-with-mention .mention a').forEach((el) => {
       el.classList.add('blur');
     });
+
+    if (allDeclsEscaped) {
+      div.querySelectorAll<HTMLElement>('dd i').forEach((el) => {
+        const text = el.innerText;
+        if (text.match(allDeclsEscaped)) {
+          Array.from(el.children).forEach((child) => {
+            if (
+              child instanceof HTMLElement &&
+              allDecls.indexOf(child.innerText)
+            ) {
+              const blurred = [];
+              let next: ChildNode = child;
+              let search = '';
+              while (next && next instanceof HTMLElement) {
+                const nextSearch = search + next.innerText;
+                if (allDecls.find((decl) => decl.startsWith(nextSearch))) {
+                  if (!blurred.length) {
+                    blurred.push(child);
+                  }
+                  blurred.push(next);
+                  next = next.nextSibling;
+                  search = nextSearch;
+                } else if (blurred.length) {
+                  break;
+                } else {
+                  next = next.nextSibling;
+                }
+              }
+              blurred.forEach((el) => el.classList.add('blur'));
+            }
+          });
+        }
+      });
+    }
 
     return div.innerHTML;
   }
