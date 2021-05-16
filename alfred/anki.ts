@@ -20,14 +20,19 @@ const goTo = async (href: string) => {
     'Chromium',
     'Vivaldi',
     'Yandex',
-    process.env.ANKI_BROWSER,
   ];
 
+  if (process.env.ANKI_BROWSER) {
+    knownBrowsers.push(process.env.ANKI_BROWSER);
+  }
+
   let browserName = 'Safari';
+  let browserId = 'com.apple.Safari';
 
   await defaultBrowser()
     .then((browser: { name: string; id: string }) => {
       browserName = browser.name;
+      browserId = browser.id;
     })
     .catch(() => {});
 
@@ -40,11 +45,17 @@ const goTo = async (href: string) => {
 
   if (process.env.ANKI_BROWSER && browserName !== process.env.ANKI_BROWSER) {
     browserName = process.env.ANKI_BROWSER;
+    browserId = process.env.ANKI_BROWSER;
   }
 
   return run<true>(
-    (browserName, href, APP_BASE_URL) => {
-      const browser = Application<GoogleChrome>(browserName);
+    (browserName, browserId, href, APP_BASE_URL) => {
+      let browser: ReturnType<typeof Application> & GoogleChrome;
+      try {
+        browser = Application<GoogleChrome>(browserName);
+      } catch (e) {
+        browser = Application<GoogleChrome>(browserId);
+      }
 
       browser.includeStandardAdditions = true;
       const success = browser.windows().some((window: any, winIdx: number) => {
@@ -67,6 +78,7 @@ const goTo = async (href: string) => {
       browser.activate();
     },
     browserName,
+    browserId,
     href,
     process.env.FINNISH_URL?.replace(/\/+$/, '') || 'https://cooba.me/suomea',
   );
