@@ -8,6 +8,19 @@
 	<string>Productivity</string>
 	<key>connections</key>
 	<dict>
+=		<key>092AF545-B7FA-4D2A-B622-F4FDA11A02C2</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>EFE99584-139D-4336-B894-A2D6AD2F602E</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
 		<key>70427086-DA4F-44B3-B1E8-39359C76EE59</key>
 		<array>
 			<dict>
@@ -25,16 +38,6 @@
 		<array>
 			<dict>
 				<key>destinationuid</key>
-				<string>EFE99584-139D-4336-B894-A2D6AD2F602E</string>
-				<key>modifiers</key>
-				<integer>0</integer>
-				<key>modifiersubtext</key>
-				<string></string>
-				<key>vitoclose</key>
-				<false/>
-			</dict>
-			<dict>
-				<key>destinationuid</key>
 				<string>C15FE40B-930C-4548-B24F-D35300D6109A</string>
 				<key>modifiers</key>
 				<integer>1048576</integer>
@@ -42,6 +45,16 @@
 				<string>Save to Anki</string>
 				<key>vitoclose</key>
 				<true/>
+			</dict>
+			<dict>
+				<key>destinationuid</key>
+				<string>EFE99584-139D-4336-B894-A2D6AD2F602E</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
 			</dict>
 		</array>
 		<key>BB04F206-8781-47FE-AEC8-C968BE8AAB4C</key>
@@ -80,7 +93,7 @@
 				<key>escaping</key>
 				<integer>102</integer>
 				<key>script</key>
-				<string>./node_modules/.bin/run-node ./dist/anki.js open $@</string>
+				<string>./node_modules/.bin/run-node ./dist/anki.js save $@</string>
 				<key>scriptargtype</key>
 				<integer>1</integer>
 				<key>scriptfile</key>
@@ -91,7 +104,7 @@
 			<key>type</key>
 			<string>alfred.workflow.action.script</string>
 			<key>uid</key>
-			<string>EFE99584-139D-4336-B894-A2D6AD2F602E</string>
+			<string>C15FE40B-930C-4548-B24F-D35300D6109A</string>
 			<key>version</key>
 			<integer>2</integer>
 		</dict>
@@ -183,7 +196,7 @@
 				<key>escaping</key>
 				<integer>102</integer>
 				<key>script</key>
-				<string>./node_modules/.bin/run-node ./dist/anki.js save $@</string>
+				<string>./node_modules/.bin/run-node ./dist/anki.js open $@</string>
 				<key>scriptargtype</key>
 				<integer>1</integer>
 				<key>scriptfile</key>
@@ -194,7 +207,38 @@
 			<key>type</key>
 			<string>alfred.workflow.action.script</string>
 			<key>uid</key>
-			<string>C15FE40B-930C-4548-B24F-D35300D6109A</string>
+			<string>EFE99584-139D-4336-B894-A2D6AD2F602E</string>
+			<key>version</key>
+			<integer>2</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>action</key>
+				<integer>0</integer>
+				<key>argument</key>
+				<integer>1</integer>
+				<key>focusedappvariable</key>
+				<false/>
+				<key>focusedappvariablename</key>
+				<string></string>
+				<key>hotkey</key>
+				<integer>17</integer>
+				<key>hotmod</key>
+				<integer>1179648</integer>
+				<key>hotstring</key>
+				<string>T</string>
+				<key>leftcursor</key>
+				<false/>
+				<key>modsmode</key>
+				<integer>0</integer>
+				<key>relatedAppsMode</key>
+				<integer>0</integer>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.trigger.hotkey</string>
+			<key>uid</key>
+			<string>BB04F206-8781-47FE-AEC8-C968BE8AAB4C</string>
 			<key>version</key>
 			<integer>2</integer>
 		</dict>
@@ -225,7 +269,7 @@
 			<key>type</key>
 			<string>alfred.workflow.trigger.hotkey</string>
 			<key>uid</key>
-			<string>BB04F206-8781-47FE-AEC8-C968BE8AAB4C</string>
+			<string>092AF545-B7FA-4D2A-B622-F4FDA11A02C2</string>
 			<key>version</key>
 			<integer>2</integer>
 		</dict>
@@ -234,6 +278,13 @@
 	<string></string>
 	<key>uidata</key>
 	<dict>
+		<key>092AF545-B7FA-4D2A-B622-F4FDA11A02C2</key>
+		<dict>
+			<key>xpos</key>
+			<integer>375</integer>
+			<key>ypos</key>
+			<integer>605</integer>
+		</dict>
 		<key>70427086-DA4F-44B3-B1E8-39359C76EE59</key>
 		<dict>
 			<key>xpos</key>
@@ -244,16 +295,16 @@
 		<key>98DE24C8-F6EB-4B70-A19A-F1F58A91E3AD</key>
 		<dict>
 			<key>xpos</key>
-			<integer>280</integer>
+			<integer>305</integer>
 			<key>ypos</key>
-			<integer>270</integer>
+			<integer>265</integer>
 		</dict>
 		<key>BB04F206-8781-47FE-AEC8-C968BE8AAB4C</key>
 		<dict>
 			<key>xpos</key>
-			<integer>95</integer>
+			<integer>70</integer>
 			<key>ypos</key>
-			<integer>440</integer>
+			<integer>515</integer>
 		</dict>
 		<key>C15FE40B-930C-4548-B24F-D35300D6109A</key>
 		<dict>
@@ -262,18 +313,18 @@
 			<key>note</key>
 			<string>save to anki</string>
 			<key>xpos</key>
-			<integer>625</integer>
+			<integer>610</integer>
 			<key>ypos</key>
-			<integer>375</integer>
+			<integer>100</integer>
 		</dict>
 		<key>EFE99584-139D-4336-B894-A2D6AD2F602E</key>
 		<dict>
 			<key>note</key>
 			<string>open anki tab</string>
 			<key>xpos</key>
-			<integer>625</integer>
+			<integer>595</integer>
 			<key>ypos</key>
-			<integer>135</integer>
+			<integer>350</integer>
 		</dict>
 	</dict>
 	<key>variables</key>
