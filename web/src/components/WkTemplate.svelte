@@ -34,6 +34,7 @@
   $: isReversed = $cardType === 'Reversed';
 
   function sanitizeWk(html: string, term: string) {
+    const isSuffix = term.startsWith('-');
     term = regExpEscape(term.replace(/^-/, ''));
 
     const decls = document.createElement('table');
@@ -52,6 +53,23 @@
           .filter(Boolean),
       ),
     ).reverse();
+
+    if (isSuffix) {
+      const suffixes = new Set([
+        term,
+        '-' + term,
+
+        term.replace(/ä/gim, 'a'),
+        term.replace(/ö/gim, 'o'),
+        term.replace(/ÿ/gim, 'y'),
+
+        term.replace(/a/gim, 'ä'),
+        term.replace(/o/gim, 'ö'),
+        term.replace(/y/gim, 'ÿ'),
+      ]);
+      allDecls.push(...suffixes);
+    }
+
     const allDeclsEscaped = allDecls.map(regExpEscape).join('|');
 
     if (allDeclsEscaped) {
