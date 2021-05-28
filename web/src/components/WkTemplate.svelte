@@ -35,7 +35,8 @@
 
   function sanitizeWk(html: string, term: string) {
     const isSuffix = term.startsWith('-');
-    term = regExpEscape(term.replace(/^-/, ''));
+    const isPrefix = term.endsWith('-');
+    term = regExpEscape(term.replace(/^-/, '').replace(/-$/, ''));
 
     const decls = document.createElement('table');
     decls.innerHTML = get(decl);
@@ -54,10 +55,9 @@
       ),
     ).reverse();
 
-    if (isSuffix) {
+    if (isSuffix || isPrefix) {
       const suffixes = new Set([
         term,
-        '-' + term,
 
         term.replace(/ä/gim, 'a'),
         term.replace(/ö/gim, 'o'),
@@ -67,6 +67,9 @@
         term.replace(/o/gim, 'ö'),
         term.replace(/y/gim, 'ÿ'),
       ]);
+      isSuffix && suffixes.add('-' + term);
+      isPrefix && suffixes.add(term + '-');
+
       allDecls.push(...suffixes);
     }
 
