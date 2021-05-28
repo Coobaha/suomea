@@ -334,9 +334,26 @@ async function wiktionary(opts: { term: string }) {
   const synonyms = htmlAll(
     $html.find('.mw-headline:contains("Synonyms")').parent().next('ul'),
   );
-  const antonyms = htmlAll(
+  let antonyms = htmlAll(
     $html.find('.mw-headline:contains("Antonyms")').parent().next('ul'),
   );
+  if (antonyms?.length === 0) {
+    antonyms = $$(translations)
+      .find('span.antonym')
+      .toArray()
+      .map((el) => {
+        let $ = $$(el);
+        const parent = $.closest('li');
+
+        $.remove().find('span.defdate,span:contains("Antonym:")').remove();
+
+        const meaning = parent.text();
+
+        return `(${meaning.trim().replace(/\n/gm, '')}): ${$.html()}`;
+      })
+      .join('<br/>');
+  }
+
   const $derived = $html.find('span:contains("Derived terms")');
 
   let derived = $derived
