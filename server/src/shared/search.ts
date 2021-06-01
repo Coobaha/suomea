@@ -233,13 +233,6 @@ async function wiktionary(opts: { term: string }) {
       : $html.find('.Latn.headword').parent().nextUntil('ol').next('ol').html()
   }</ol>`;
 
-  const notes = htmlAll(
-    $html
-      .find('#Usage_notes,#Usage_notes_2,#Usage_notes_1')
-      .parent()
-      .nextUntil('h1, h2, h3, h4, h5, h6'),
-  );
-
   const etymology = htmlAll(
     $html
       .find('.mw-headline:contains("Etymology")')
@@ -270,6 +263,15 @@ async function wiktionary(opts: { term: string }) {
       .nextUntil('table')
       .next('table');
   }
+
+  if (!fiDecl.length) {
+    const head = $html.clone().find('.NavHead:contains("Conjugation")');
+    fiDecl = head.parent();
+    head.wrap(
+      `<thead><tr><th colspan="6" style="padding:0;"></th></tr></thead>`,
+    );
+  }
+
 
   const isRealVerb =
     fiDecl.find('th').filter((i, el) => {
@@ -331,28 +333,6 @@ async function wiktionary(opts: { term: string }) {
   }
 
   const decl = htmlAll(fiDecl)?.replace(/\n+/gm, '\n')?.replace(/\n+</gm, '<');
-  const synonyms = htmlAll(
-    $html.find('.mw-headline:contains("Synonyms")').parent().next('ul'),
-  );
-  let antonyms = htmlAll(
-    $html.find('.mw-headline:contains("Antonyms")').parent().next('ul'),
-  );
-  if (antonyms?.length === 0) {
-    antonyms = $$(translations)
-      .find('span.antonym')
-      .toArray()
-      .map((el) => {
-        let $ = $$(el);
-        const parent = $.closest('li');
-
-        $.remove().find('span.defdate,span:contains("Antonym:")').remove();
-
-        const meaning = parent.text();
-
-        return `(${meaning.trim().replace(/\n/gm, '')}): ${$.html()}`;
-      })
-      .join('<br/>');
-  }
 
   const $derived = $html.find('span:contains("Derived terms")');
 
@@ -381,7 +361,45 @@ async function wiktionary(opts: { term: string }) {
     'grid-template-columns': 'repeat(4, 1fr)',
   });
   const compounds = $compounds.html();
+
+  const synonyms = htmlAll(
+    $html.find('.mw-headline:contains("Synonyms")').parent().next('ul'),
+  );
+  let antonyms = htmlAll(
+    $html.find('.mw-headline:contains("Antonyms")').parent().next('ul'),
+  );
+  if (antonyms?.length === 0) {
+    antonyms = $$(translations)
+      .find('span.antonym')
+      .toArray()
+      .map((el) => {
+        let $ = $$(el);
+        const parent = $.closest('li');
+
+        $.remove().find('span.defdate,span:contains("Antonym:")').remove();
+
+        const meaning = parent.text();
+
+        return `(${meaning.trim().replace(/\n/gm, '')}): ${$.html()}`;
+      })
+      .join('<br/>');
+  }
+
+  const notes = htmlAll(
+    $html
+      .find('#Usage_notes,#Usage_notes_2,#Usage_notes_1')
+      .parent()
+      .nextUntil('h1, h2, h3, h4, h5, h6')
+      .each((i, el) => {
+        $$(el)
+          .find('.NavFrame .NavHead:contains("Conjugation")')
+          .parent()
+          .empty();
+      }),
+  );
+
   // console.timeEnd(url);
+
   return {
     translations: suffix
       ? `${translations}\n<div class="subtitle is-6 my-2">Suffix</div>${suffix}`
