@@ -369,7 +369,8 @@ async function wiktionary(opts: { term: string }) {
   );
 
   if (antonyms?.length === 0) {
-    antonyms = $$(translations)
+    antonyms = $html
+      .clone()
       .find('span.antonym')
       .toArray()
       .map((el) => {
@@ -386,8 +387,10 @@ async function wiktionary(opts: { term: string }) {
       .join('<br/>');
   }
 
+
   if (synonyms?.length === 0) {
-    synonyms = $$(translations)
+    synonyms = $html
+      .clone()
       .find('span.synonym')
       .toArray()
       .map((el) => {
