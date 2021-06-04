@@ -272,7 +272,6 @@ async function wiktionary(opts: { term: string }) {
     );
   }
 
-
   const isRealVerb =
     fiDecl.find('th').filter((i, el) => {
       const $el = $$(el);
@@ -362,12 +361,13 @@ async function wiktionary(opts: { term: string }) {
   });
   const compounds = $compounds.html();
 
-  const synonyms = htmlAll(
+  let synonyms = htmlAll(
     $html.find('.mw-headline:contains("Synonyms")').parent().next('ul'),
   );
   let antonyms = htmlAll(
     $html.find('.mw-headline:contains("Antonyms")').parent().next('ul'),
   );
+
   if (antonyms?.length === 0) {
     antonyms = $$(translations)
       .find('span.antonym')
@@ -377,6 +377,25 @@ async function wiktionary(opts: { term: string }) {
         const parent = $.closest('li');
 
         $.remove().find('span.defdate,span:contains("Antonym:")').remove();
+        parent.find('span.synonym').remove();
+
+        const meaning = parent.text();
+
+        return `(${meaning.trim().replace(/\n/gm, '')}): ${$.html()}`;
+      })
+      .join('<br/>');
+  }
+
+  if (synonyms?.length === 0) {
+    synonyms = $$(translations)
+      .find('span.synonym')
+      .toArray()
+      .map((el) => {
+        let $ = $$(el);
+        const parent = $.closest('li');
+
+        $.remove().find('span.defdate,span:contains("Synonym:")').remove();
+        parent.find('span.antonym').remove();
 
         const meaning = parent.text();
 
