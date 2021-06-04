@@ -47,7 +47,7 @@
             if (!(x instanceof HTMLElement)) return '';
             const anchor = x.querySelector('a');
             if (anchor && anchor.title) {
-              return anchor.title;
+              return anchor.title.replace('(page does not exist)', '').trim();
             }
             return x.innerText;
           })
