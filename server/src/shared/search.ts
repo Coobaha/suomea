@@ -176,7 +176,7 @@ async function wiktionary(opts: { term: string }) {
   if (!finnish) return null;
 
   const $html = $$.load(DOMPurify.sanitize(finnish)).root();
-
+  $html.find('#toc').remove();
   $html.find('.mw-editsection').remove();
   $html.find('*').each((x, el) => {
     const $el = $$(el);
@@ -233,12 +233,16 @@ async function wiktionary(opts: { term: string }) {
       : $html.find('.Latn.headword').parent().nextUntil('ol').next('ol').html()
   }</ol>`;
 
-  const etymology = htmlAll(
-    $html
-      .find('.mw-headline:contains("Etymology")')
-      .parent()
-      .nextUntil('h1, h2, h3, h4, h5, h6'),
-  );
+  const etymology = $html
+    .find('.mw-headline:contains("Etymology")')
+    .parent()
+    .map((i, el) => {
+      const $el = $$(el).nextUntil('h1, h2, h3, h4, h5, h6');
+      return $el.html();
+    })
+    .toArray()
+    .join(' ')
+    .trim();
 
   const suffix = htmlAll(
     $html
@@ -333,27 +337,44 @@ async function wiktionary(opts: { term: string }) {
 
   const decl = htmlAll(fiDecl)?.replace(/\n+/gm, '\n')?.replace(/\n+</gm, '<');
 
-  const $derived = $html.find('span:contains("Derived terms")');
+  const $derived = $html.find(
+    'span:contains("Derived terms"), span:contains("Related terms")',
+  );
 
-  let derived = $derived
-    .parent()
-    .nextUntil('h1, h2, h3, h4, h5, h6')
-    .map((i, el) => {
-      const $el = $$(el);
-      $el.find('*').removeAttr('style').removeAttr('class');
-      const text = $el.html();
-      return text?.startsWith('<')
-        ? text
-        : `<div class="subtitle">${text}</div>`;
-    })
-    .toArray()
+  let derived = Array.from(
+    new Set(
+      $derived
+        .parent()
+        .map((i, el) => {
+          const $el = $$(el).nextUntil('h1, h2, h3, h4, h5, h6');
+          $el.find('*').removeAttr('style').removeAttr('class');
+          $el.find('[data-hidetext]').remove();
+
+          let html = $el.html();
+
+          if (html?.startsWith('<li')) {
+            html = `<ul>${html}</ul>`;
+          }
+          return html;
+        })
+        .toArray(),
+    ),
+  )
     .join(' ')
+    .replace('Derived terms', '')
     .trim();
 
   if (derived.startsWith('<li')) {
     derived = `<ul>${derived}</ul>`;
   }
-  const $compounds = $html.find('.derivedterms');
+  let $compounds = $html.find('.derivedterms');
+
+  if ($compounds.length === 0) {
+    $compounds = $html
+      .find('span:contains("Compounds")')
+      .parent()
+      .nextUntil('h1, h2, h3, h4, h5, h6');
+  }
 
   $compounds.find('ul').css({
     display: 'grid',
@@ -386,7 +407,6 @@ async function wiktionary(opts: { term: string }) {
       })
       .join('<br/>');
   }
-
 
   if (synonyms?.length === 0) {
     synonyms = $html
