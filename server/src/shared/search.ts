@@ -419,12 +419,13 @@ async function wiktionary(opts: { term: string }) {
 
         $.remove().find('span.defdate,span:contains("Synonym:")').remove();
         parent.find('span.antonym').remove();
+        parent.find('.h-usage-example').remove();
 
         const meaning = parent.text();
 
-        return `(${meaning.trim().replace(/\n/gm, '')}): ${$.html()}`;
+        return `<li>(${meaning.trim().replace(/\n/gm, '')}): ${$.html()}</li>`;
       })
-      .join('<br/>');
+      .join('');
   }
 
   const notes = htmlAll(
