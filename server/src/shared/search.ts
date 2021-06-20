@@ -1,12 +1,12 @@
 import $$ from 'cheerio';
+import createDOMPurify from 'dompurify';
+import get from 'got';
+import JSDom from 'jsdom';
+import qs from 'querystring';
 
 import NodeURL from 'url';
-import get from 'got';
-import qs from 'querystring';
-import createDOMPurify from 'dompurify';
-import JSDom from 'jsdom';
-import { Data, ImageT, SanakirjaData, WiktionaryData } from './types';
 import logger from './logger';
+import { Data, ImageT, SanakirjaData, WiktionaryData } from './types';
 
 const JSON5 = require('json5');
 const { window } = new JSDom.JSDOM(``);
@@ -390,7 +390,7 @@ async function wiktionary(opts: { term: string }) {
   );
 
   if (antonyms?.length === 0) {
-    antonyms = $html
+    antonyms = `${$html
       .clone()
       .find('span.antonym')
       .toArray()
@@ -400,12 +400,13 @@ async function wiktionary(opts: { term: string }) {
 
         $.remove().find('span.defdate,span:contains("Antonym:")').remove();
         parent.find('span.synonym').remove();
+        parent.find('.h-usage-example').remove();
 
         const meaning = parent.text();
 
-        return `(${meaning.trim().replace(/\n/gm, '')}): ${$.html()}`;
+        return `<li>(${meaning.trim().replace(/\n/gm, '')}): ${$.html()}</li>`;
       })
-      .join('<br/>');
+      .join('<br/>')}`;
   }
 
   if (synonyms?.length === 0) {
@@ -425,19 +426,18 @@ async function wiktionary(opts: { term: string }) {
 
         return `<li>(${meaning.trim().replace(/\n/gm, '')}): ${$.html()}</li>`;
       })
-      .join('');
+      .join('<br/>');
   }
 
   const notes = htmlAll(
     $html
       .find('#Usage_notes,#Usage_notes_2,#Usage_notes_1')
       .parent()
-      .nextUntil('h1, h2, h3, h4, h5, h6')
-      .each((i, el) => {
-        $$(el)
-          .find('.NavFrame .NavHead:contains("Conjugation")')
-          .parent()
-          .empty();
+      .map((i, el) => {
+        const $el = $$(el).nextUntil('h1, h2, h3, h4, h5, h6');
+        $el.children().addClass('my-1');
+        $el.find('.NavFrame .NavHead:contains("Conjugation")').parent().empty();
+        return $el;
       }),
   );
 
