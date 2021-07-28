@@ -26,7 +26,12 @@ export type WiktionaryData = {
     verb?: {
       type: number;
     };
+    adjective?: {
+      comparative?: string,
+      superlative?: string
+    }
   };
+
 };
 
 export type SanakirjaData = {

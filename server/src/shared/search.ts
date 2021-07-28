@@ -335,6 +335,16 @@ async function wiktionary(opts: { term: string }) {
     }
   }
 
+  const comparative = $html.find('.comparative-form-of').text();
+  const superlative = $html.find('.superlative-form-of').text();
+
+  if (comparative || superlative) {
+    meta.adjective = {
+      comparative,
+      superlative,
+    };
+  }
+
   const decl = htmlAll(fiDecl)?.replace(/\n+/gm, '\n')?.replace(/\n+</gm, '<');
 
   const $derived = $html.find(

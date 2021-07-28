@@ -173,6 +173,17 @@
                       "type": "number"
                     }
                   }
+                },
+                "adjective": {
+                  "type": "object",
+                  "properties": {
+                    "comparative": {
+                      "type": "string"
+                    },
+                    "superlative": {
+                      "type": "string"
+                    }
+                  }
                 }
               }
             }
