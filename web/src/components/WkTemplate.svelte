@@ -13,11 +13,14 @@
     sk_en_translation,
     sk_ru_translation,
     term,
+    wordMeta,
   } from '../ctx';
 
   import Images from './Images.svelte';
   import Nav from './Nav.svelte';
   import { isAnki, extraLanguage } from '../ctx';
+  import { getUrl, Link } from '../router';
+
   import { get } from 'svelte/store';
   let regExpEscape = (s: string) => {
     return s.replace(/[-\\^$*+?.()|[\]{}]/g, '\\$&');
@@ -26,12 +29,16 @@
   let isQuestion: boolean;
   let isForwards: boolean;
   let isReversed: boolean;
+  let adjective:
+    | { superlative?: string; comparative?: string }
+    | undefined = undefined;
   // let isReversedQuestion: boolean;
 
   $: isQuestion = $viewContext.includes('Question');
   $: isAnswer = $viewContext.includes('Answer');
   $: isForwards = $cardType === 'Forwards';
   $: isReversed = $cardType === 'Reversed';
+  $: adjective = $wordMeta.adjective;
 
   function sanitizeWk(html: string, term: string) {
     const isSuffix = term.startsWith('-');
@@ -234,6 +241,28 @@
       </div>
     {/if}
     <div class="column">
+      {#if adjective}
+        <article class="message is-info">
+          <div class="message-header">Comparative</div>
+          <div class="message-body">
+            {#if adjective.comparative}
+              <div>
+                <Link to="{getUrl('main', { id: adjective.comparative })}">
+                  {adjective.comparative}
+                </Link>
+              </div>
+            {/if}
+            {#if adjective.superlative}
+              <div>
+                <Link to="{getUrl('main', { id: adjective.superlative })}">
+                  {adjective.superlative}
+                </Link>
+              </div>
+            {/if}
+          </div>
+        </article>
+      {/if}
+
       {#if $antonyms}
         <article class="message is-danger">
           <div class="message-header">Antonyms</div>
