@@ -335,9 +335,16 @@ async function wiktionary(opts: { term: string }) {
     }
   }
 
-  meta.syllabification = htmlAll(
-    $html.find('li:contains("Syllabification: ")').children(),
-  );
+  meta.syllabification = Array.from(
+    new Set(
+      $html
+        .find('li:contains("Syllabification: ")')
+        .children()
+        .toArray()
+        .map((el) => $$(el).text()),
+    ),
+  ).join(', ');
+
 
   const toComp = (el: Element) => {
     const $el = $$(el);
