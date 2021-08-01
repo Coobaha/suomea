@@ -230,9 +230,6 @@
     <div class="mt-1">
       <div class="col">
         <TagsInput
-          placeholder="Persisted tags"
-          name="themedTags"
-          id="themedTags"
           tagClassname="is-light is-info"
           tags="{extraTags}"
           disable="{true}"
