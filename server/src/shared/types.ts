@@ -23,6 +23,7 @@ export type WiktionaryData = {
     gradation?: string;
     kotus?: number;
     kotus_word?: string;
+    syllabification?: string;
     verb?: {
       type: number;
     };

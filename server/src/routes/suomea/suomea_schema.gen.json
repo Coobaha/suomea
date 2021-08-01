@@ -163,6 +163,9 @@
                 "kotus_word": {
                   "type": "string"
                 },
+                "syllabification": {
+                  "type": "string"
+                },
                 "verb": {
                   "type": "object",
                   "required": [
