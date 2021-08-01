@@ -22,6 +22,7 @@
   import { getUrl, Link } from '../router';
 
   import { get } from 'svelte/store';
+
   let regExpEscape = (s: string) => {
     return s.replace(/[-\\^$*+?.()|[\]{}]/g, '\\$&');
   };
@@ -30,9 +31,11 @@
   let isForwards: boolean;
   let isReversed: boolean;
   let adjective:
-    | { superlative?: string; comparative?: string }
-    | undefined = undefined;
-  // let isReversedQuestion: boolean;
+    | {
+        comparative: { term: string; missing: boolean }[];
+        superlative: { term: string; missing: boolean }[];
+      }
+    | undefined;
 
   $: isQuestion = $viewContext.includes('Question');
   $: isAnswer = $viewContext.includes('Answer');
@@ -85,13 +88,13 @@
     if (allDeclsEscaped) {
       html = html.replace(
         new RegExp(`(${allDeclsEscaped})`, 'gmi'),
-        `<span class=blur>$1</span>`,
+        `<span class="blur">$1</span>`,
       );
     } else {
       html = html
         .replace(
           new RegExp(`(${term}[\\w|äöÿ]*)`, 'gmi'),
-          `<span class=blur>$1</span>`,
+          `<span class="blur">$1</span>`,
         )
         .replace(
           new RegExp(`(${term.replace(/a/, 'ä')})`, 'gmi'),
@@ -247,16 +250,32 @@
           <div class="message-body">
             {#if adjective.comparative}
               <div>
-                <Link to="{getUrl('main', { id: adjective.comparative })}">
-                  {adjective.comparative}
-                </Link>
+                {#each adjective.comparative as comp}
+                  <span>
+                    {#if comp.missing}
+                      {comp.term}
+                    {:else}
+                      <Link to="{getUrl('main', { id: comp.term })}">
+                        {comp.term}
+                      </Link>
+                    {/if}
+                  </span>
+                {/each}
               </div>
             {/if}
             {#if adjective.superlative}
               <div>
-                <Link to="{getUrl('main', { id: adjective.superlative })}">
-                  {adjective.superlative}
-                </Link>
+                {#each adjective.superlative as comp}
+                  <span>
+                    {#if comp.missing}
+                      {comp.term}
+                    {:else}
+                      <Link to="{getUrl('main', { id: comp.term })}">
+                        {comp.term}
+                      </Link>
+                    {/if}
+                  </span>
+                {/each}
               </div>
             {/if}
           </div>
@@ -370,6 +389,7 @@
     list-style-position: initial;
     margin: 0 0 0 1.25em;
   }
+
   .content :global(dd) {
     margin-left: 1em;
   }
