@@ -101,12 +101,13 @@
 
   import { wordMeta } from '../ctx';
 
-  let extraTags: string[] = [];
+  let extraTags: string[];
   $: {
     let meta = $wordMeta;
     if (Object.keys(meta).length) {
       extraTags = [
-        meta.gradation ? `gradation: ${meta.gradation}` : 'gradation:none',
+        meta.syllabification ? `syllabification: ${meta.syllabification}` : '',
+        meta.gradation ? `gradation: ${meta.gradation}` : 'gradation: none',
         meta.kotus &&
           `kotus: ${meta.kotus} ${meta.kotus_word ? meta.kotus_word : ''}`,
       ].filter((val): val is string => !!val);
