@@ -335,16 +335,46 @@ async function wiktionary(opts: { term: string }) {
     }
   }
 
-  const comparative = $html.find('.comparative-form-of').text();
-  const superlative = $html.find('.superlative-form-of').text();
+  const toComp = (el: Element) => {
+    const $el = $$(el);
+    return {
+      term: $el.text(),
+      missing:
+        ($el.attr('href')?.includes('redlink=1') ||
+          $el.attr('title')?.includes('(page does not exist)')) ??
+        false,
+    };
+  };
 
-  if (comparative || superlative) {
+  let comparative = $html.find('.comparative-form-of').toArray().map(toComp);
+  let superlative = $html.find('.superlative-form-of').toArray().map(toComp);
+
+  if (!comparative.length) {
+    comparative = $html
+      .find('.Latn.headword')
+      .next('*:contains("comparative")')
+      .nextUntil('*:contains("superlative")')
+      .find('a')
+      .toArray()
+      .map(toComp);
+  }
+
+  if (!superlative.length) {
+    superlative = $html
+      .find('.Latn.headword')
+      .nextAll('*:contains("superlative")')
+      .nextAll()
+      .find('a')
+      .toArray()
+      .map(toComp);
+  }
+
+  if (comparative.length || superlative.length) {
     meta.adjective = {
       comparative,
       superlative,
     };
   }
-
   const decl = htmlAll(fiDecl)?.replace(/\n+/gm, '\n')?.replace(/\n+</gm, '<');
 
   const $derived = $html.find(

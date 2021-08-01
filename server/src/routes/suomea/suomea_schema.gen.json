@@ -176,12 +176,46 @@
                 },
                 "adjective": {
                   "type": "object",
+                  "required": [
+                    "comparative",
+                    "superlative"
+                  ],
                   "properties": {
                     "comparative": {
-                      "type": "string"
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "required": [
+                          "missing",
+                          "term"
+                        ],
+                        "properties": {
+                          "term": {
+                            "type": "string"
+                          },
+                          "missing": {
+                            "type": "boolean"
+                          }
+                        }
+                      }
                     },
                     "superlative": {
-                      "type": "string"
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "required": [
+                          "missing",
+                          "term"
+                        ],
+                        "properties": {
+                          "term": {
+                            "type": "string"
+                          },
+                          "missing": {
+                            "type": "boolean"
+                          }
+                        }
+                      }
                     }
                   }
                 }

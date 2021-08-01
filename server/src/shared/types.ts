@@ -27,11 +27,10 @@ export type WiktionaryData = {
       type: number;
     };
     adjective?: {
-      comparative?: string,
-      superlative?: string
-    }
+      comparative: { term: string; missing: boolean }[];
+      superlative: { term: string; missing: boolean }[];
+    };
   };
-
 };
 
 export type SanakirjaData = {
