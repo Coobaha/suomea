@@ -44,6 +44,10 @@
   $: adjective = $wordMeta.adjective;
 
   function sanitizeWk(html: string, term: string) {
+    const div = document.createElement('div');
+
+    div.innerHTML = html;
+
     const isSuffix = term.startsWith('-');
     const isPrefix = term.endsWith('-');
     term = regExpEscape(term.replace(/^-/, '').replace(/-$/, ''));
@@ -67,8 +71,6 @@
 
     if (isSuffix || isPrefix) {
       const suffixes = new Set([
-        term,
-
         term.replace(/ä/gim, 'a'),
         term.replace(/ö/gim, 'o'),
         term.replace(/ÿ/gim, 'y'),
@@ -85,49 +87,52 @@
 
     const allDeclsEscaped = allDecls.map(regExpEscape).join('|');
 
-    if (allDeclsEscaped) {
-      html = html.replace(
-        new RegExp(`(${allDeclsEscaped})`, 'gmi'),
-        `<span class="blur">$1</span>`,
-      );
-    } else {
-      html = html
-        .replace(
+    const walkTextNodes = (node: Node, forEach: (textNode: Text) => void) => {
+      const execute = (node: Node) => {
+        let child = node.firstChild;
+        while (child) {
+          if (child instanceof Text) {
+            forEach(child);
+          } else {
+            execute(child);
+          }
+          child = child.nextSibling;
+        }
+      };
+      execute(node);
+    };
+
+    const regExps: RegExp[] = [];
+
+    allDeclsEscaped
+      ? regExps.push(new RegExp(`(${allDeclsEscaped})`, 'gmi'))
+      : regExps.push(
           new RegExp(`(${term}[\\w|äöÿ]*)`, 'gmi'),
-          `<span class="blur">$1</span>`,
-        )
-        .replace(
           new RegExp(`(${term.replace(/a/, 'ä')})`, 'gmi'),
-          `<span class=blur>$1</span>`,
-        )
-        .replace(
           new RegExp(`(${term.replace(/o/, 'ö')})`, 'gmi'),
-          `<span class=blur>$1</span>`,
-        )
-        .replace(
           new RegExp(`(${term.replace(/y/, 'ÿ')})`, 'gmi'),
-          `<span class=blur>$1</span>`,
-        )
-        .replace(
           new RegExp(`(${term.substring(0, term.length - 1)}[a-z]+)`, 'gmi'),
-          `<span class=blur>$1</span>`,
         );
-    }
 
-    const div = document.createElement('div');
-    div.innerHTML = html
-      .replace(
-        new RegExp(`form of ([\\w|äöÿ]+)`, 'gmi'),
-        `form of <span class=blur>$1</span>`,
-      )
-      .replace(
-        new RegExp(`participle of ([\\w|äöÿ]+)`, 'gmi'),
-        `participle of <span class=blur>$1</span>`,
+    regExps.push(new RegExp(`(${term})`, 'gmi'));
+
+    const forEach = (node: Text) => {
+      const text = node.textContent ?? '';
+
+      const replaced = regExps.reduce(
+        (text, re) => text.replace(re, `<span class="blur">$1</span>`),
+        text,
       );
 
-    div.querySelectorAll('.use-with-mention .mention a').forEach((el) => {
-      el.classList.add('blur');
-    });
+      if (replaced !== text) {
+        const span = document.createElement('span');
+        node.after(span);
+        node.remove();
+        span.innerHTML = replaced;
+      }
+    };
+
+    walkTextNodes(div, forEach);
 
     if (allDeclsEscaped) {
       div.querySelectorAll<HTMLElement>('dd i').forEach((el) => {
@@ -162,6 +167,17 @@
         }
       });
     }
+
+    // flatten :D
+    div.querySelectorAll<HTMLElement>('span.blur').forEach((span) => {
+      span.innerHTML = span.innerText;
+    });
+
+    div.querySelectorAll('.use-with-mention .mention a').forEach((el) => {
+      if (el.querySelectorAll('span.blur').length === 0) {
+        el.classList.add('blur');
+      }
+    });
 
     return div.innerHTML;
   }
