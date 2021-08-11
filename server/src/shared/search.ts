@@ -194,6 +194,18 @@ async function wiktionary(opts: { term: string }) {
   $html.find('a[href]').each((i, el) => {
     const $el = $$(el);
     const href = $el.attr('href');
+
+    const empty =
+      $el.attr('href')?.includes('redlink=1') ||
+      // $el.hasClass('new') ||
+      $el.attr('title')?.includes('(page does not exist)');
+
+    if (empty) {
+      $el.removeAttr('href');
+      $el.replaceWith(`<span>${$el.html()}</span>`);
+      return;
+    }
+
     if (!href) return;
     if (href?.startsWith('http://')) return;
     if (href?.startsWith('https://')) return;
@@ -402,6 +414,7 @@ async function wiktionary(opts: { term: string }) {
       superlative,
     };
   }
+
   const decl = htmlAll(fiDecl)?.replace(/\n+/gm, '\n')?.replace(/\n+</gm, '<');
 
   const $derived = $html.find(
