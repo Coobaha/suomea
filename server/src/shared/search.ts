@@ -204,10 +204,12 @@ async function wiktionary(opts: { term: string }) {
     $el.attr('href', absoluteHref);
   });
 
+  const titles = $html.find('h1,h2,h3,h4,h5,h6');
+
   const allWordtypes = $html
     .find('.headword')
     .parent()
-    .prev('h1, h2, h3, h4, h5, h6')
+    .prev('h1,h2,h3,h4,h5,h6')
     .toArray()
     .map((el) => $$(el).text()?.toLowerCase());
 
@@ -215,41 +217,56 @@ async function wiktionary(opts: { term: string }) {
 
   const maybeTranslation = $html.find('.Latn.headword').parent().next('ol');
 
-  const translations = `<ol>${
-    maybeTranslation.length
-      ? maybeTranslation
-          .toArray()
-          .map((el, i) => {
-            const type = allWordtypes[i];
-            let $ = $$(el);
+  maybeTranslation.find(':empty').remove();
 
-            if (type && wordtype.length > 1 && maybeTranslation.length > 1) {
-              return `<li>${type}<ol>${$.html()}</ol></li>`;
-            }
+  let translations: string;
+  if (maybeTranslation.length) {
+    translations = `<ol>${maybeTranslation
+      .toArray()
+      .map((el, i) => {
+        const type = allWordtypes[i];
+        let $ = $$(el);
 
-            return $.html();
-          })
-          .join('\n')
-      : $html.find('.Latn.headword').parent().nextUntil('ol').next('ol').html()
-  }</ol>`;
+        if (type && wordtype.length > 1 && maybeTranslation.length > 1) {
+          return `<li>${type}<ol>${$.html()}</ol></li>`;
+        }
+
+        return $.html();
+      })
+      .join('\n')}</ol>`;
+  } else {
+    const plainTranslation = $html
+      .find('.Latn.headword')
+      .parent()
+      .nextUntil('ol')
+      .next('ol');
+    plainTranslation.find(':empty').remove();
+    translations = `<ol>${plainTranslation.html()}</ol>`;
+  }
 
   const etymology = $html
     .find('.mw-headline:contains("Etymology")')
     .parent()
     .map((i, el) => {
-      const $el = $$(el).nextUntil('h1, h2, h3, h4, h5, h6');
+      const $el = $$(el).nextUntil(titles);
       return $el.html();
     })
     .toArray()
     .join(' ')
     .trim();
 
-  const suffix = htmlAll(
-    $html
-      .find('.mw-headline:contains("Suffix")')
-      .parent()
-      .nextUntil('h1, h2, h3, h4, h5, h6'),
-  );
+  const suffix = $html
+    .find('.mw-headline:contains("Suffix")')
+    .parent()
+    .nextUntil(titles)
+    .wrap('<div/>')
+    .parent()
+    .toArray()
+    .map((el) => {
+      const $el = $$(el);
+      return $el.html();
+    })
+    .join('\n');
 
   let fiDecl = $html
     .find(
@@ -345,7 +362,6 @@ async function wiktionary(opts: { term: string }) {
     ),
   ).join(', ');
 
-
   const toComp = (el: Element) => {
     const $el = $$(el);
     return {
@@ -397,7 +413,7 @@ async function wiktionary(opts: { term: string }) {
       $derived
         .parent()
         .map((i, el) => {
-          const $el = $$(el).nextUntil('h1, h2, h3, h4, h5, h6');
+          const $el = $$(el).nextUntil(titles);
           $el.find('*').removeAttr('style').removeAttr('class');
           $el.find('[data-hidetext]').remove();
 
@@ -424,7 +440,7 @@ async function wiktionary(opts: { term: string }) {
     $compounds = $html
       .find('span:contains("Compounds")')
       .parent()
-      .nextUntil('h1, h2, h3, h4, h5, h6');
+      .nextUntil(titles);
   }
 
   $compounds.find('ul').css({
@@ -485,7 +501,7 @@ async function wiktionary(opts: { term: string }) {
       .find('#Usage_notes,#Usage_notes_2,#Usage_notes_1')
       .parent()
       .map((i, el) => {
-        const $el = $$(el).nextUntil('h1, h2, h3, h4, h5, h6');
+        const $el = $$(el).nextUntil(titles);
         $el.children().addClass('my-1');
         $el.find('.NavFrame .NavHead:contains("Conjugation")').parent().empty();
         return $el;
@@ -495,9 +511,10 @@ async function wiktionary(opts: { term: string }) {
   // console.timeEnd(url);
 
   return {
-    translations: suffix
-      ? `${translations}\n<div class="subtitle is-6 my-2">Suffix</div>${suffix}`
-      : translations,
+    translations:
+      suffix && !opts.term.startsWith('-')
+        ? `${translations}\n<div class="subtitle is-6 my-2">Suffix</div>${suffix}`
+        : translations,
     notes,
     decl,
     synonyms,
@@ -606,7 +623,7 @@ export const googleImages = async (search: string): Promise<ImageT[]> => {
   const end = data.indexOf(`});`, start);
   const json = data.slice(start + 'AF_initDataCallback('.length, end + 1);
   const obj = JSON5.parse(json);
-  const results = obj.data[31][0][12][2];
+  const results = obj.data[31]?.[0]?.[12]?.[2] ?? [];
 
   const images: ImageT[] = [];
   for (const data of results) {
