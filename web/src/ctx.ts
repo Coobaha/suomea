@@ -1,4 +1,4 @@
-import { writable, derived as derived$, get } from 'svelte/store';
+import { writable, derived as derived$ } from 'svelte/store';
 import type {
   ImageT,
   MyAnkiSetup,
@@ -9,6 +9,7 @@ import type {
 import store from 'store';
 import engine from 'store/src/store-engine';
 import sessionStorage from 'store/storages/sessionStorage';
+import memoryStorage from 'store/storages/memoryStorage';
 
 import type { AutocompleteState as AutocompleteCoreState } from '@algolia/autocomplete-core';
 import uniqBy from 'lodash/uniqBy';
@@ -21,7 +22,7 @@ type Settings = MyAnkiSetup & {
   ankiConnected: boolean;
 };
 
-const sessionStore = engine.createStore([sessionStorage], []);
+const sessionStore = engine.createStore([sessionStorage, memoryStorage], []);
 
 const defaultSettings: Settings = {
   currentTerm: '',
@@ -39,10 +40,12 @@ const defaultSettings: Settings = {
   extraLanguage: 'ru',
 };
 
-let storedSettings: Settings = Object.assign({}, defaultSettings, {
+let storedSettings: Settings = {
+  ...defaultSettings,
   ...store.get('settings'),
   ...sessionStore.get('settings'),
-});
+};
+
 if (storedSettings.nextTerm === 'null') {
   storedSettings.nextTerm = '';
 }
@@ -87,7 +90,7 @@ export const termsHistory = (() => {
   let ignoreNext = false;
   window.addEventListener(
     'popstate',
-    function (event) {
+    function () {
       // The popstate event is fired each time when the current history entry changes.
       ignoreNext = true;
     },
