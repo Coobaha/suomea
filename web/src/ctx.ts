@@ -7,6 +7,9 @@ import type {
   AnkiPluginConfig,
 } from './types';
 import store from 'store';
+import engine from 'store/src/store-engine';
+import sessionStorage from 'store/storages/sessionStorage';
+
 import type { AutocompleteState as AutocompleteCoreState } from '@algolia/autocomplete-core';
 import uniqBy from 'lodash/uniqBy';
 import { isConnected } from './anki_actions';
@@ -17,6 +20,8 @@ type Settings = MyAnkiSetup & {
   ankiConnectURI: string;
   ankiConnected: boolean;
 };
+
+const sessionStore = engine.createStore([sessionStorage], []);
 
 const defaultSettings: Settings = {
   currentTerm: '',
@@ -31,14 +36,13 @@ const defaultSettings: Settings = {
   isAnki: false,
   ankiConnected: false,
   ankiConnectURI: 'http://localhost:8765/',
-  extraLanguage: 'ru'
+  extraLanguage: 'ru',
 };
 
-let storedSettings: Settings = Object.assign(
-  {},
-  defaultSettings,
-  store.get('settings'),
-);
+let storedSettings: Settings = Object.assign({}, defaultSettings, {
+  ...store.get('settings'),
+  ...sessionStore.get('settings'),
+});
 if (storedSettings.nextTerm === 'null') {
   storedSettings.nextTerm = '';
 }
@@ -122,15 +126,16 @@ export const settingsSubscribe = settings.subscribe;
 export const updateSettings = (updater: (value: Settings) => Settings) =>
   settings.update(updater);
 
-settings.subscribe((value) => {
-  const vals = { ...value, tags: [] as string[] };
-  Object.keys(vals).forEach((key) => {
-    const k = (key as unknown) as keyof typeof vals;
-    if (vals[k] === null) {
-      delete vals[k];
+settings.subscribe(({ themedTags, tags, ...settings }) => {
+  Object.keys(settings).forEach((key) => {
+    const k = (key as unknown) as keyof typeof settings;
+    if (settings[k] === null) {
+      delete settings[k];
     }
-  }, vals);
-  store.set('settings', vals);
+  }, settings);
+
+  store.set('settings', settings);
+  sessionStore.set('settings', { themedTags } as Partial<Settings>);
 });
 
 export const cardType = derived$(settings, (values) => values.cardType);

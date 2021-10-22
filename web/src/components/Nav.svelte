@@ -214,7 +214,7 @@
     {#if !$isAnki && $ankiConnected}
       <div class="ml-auto">
         <TagsInput
-          placeholder="Persisted tags"
+          placeholder="Session tags"
           name="themedTags"
           id="themedTags"
           tagClassname="is-light is-info"
