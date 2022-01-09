@@ -8,11 +8,37 @@
 	<string>Productivity</string>
 	<key>connections</key>
 	<dict>
-=		<key>092AF545-B7FA-4D2A-B622-F4FDA11A02C2</key>
+		<key>092AF545-B7FA-4D2A-B622-F4FDA11A02C2</key>
 		<array>
 			<dict>
 				<key>destinationuid</key>
 				<string>EFE99584-139D-4336-B894-A2D6AD2F602E</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
+		<key>6555A513-1720-4AB3-ABD5-ED49955A0ADB</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>98DE24C8-F6EB-4B70-A19A-F1F58A91E3AD</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
+		<key>6E5C172B-9501-4335-887D-88A1765E201B</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>98DE24C8-F6EB-4B70-A19A-F1F58A91E3AD</string>
 				<key>modifiers</key>
 				<integer>0</integer>
 				<key>modifiersubtext</key>
@@ -57,19 +83,6 @@
 				<false/>
 			</dict>
 		</array>
-		<key>BB04F206-8781-47FE-AEC8-C968BE8AAB4C</key>
-		<array>
-			<dict>
-				<key>destinationuid</key>
-				<string>98DE24C8-F6EB-4B70-A19A-F1F58A91E3AD</string>
-				<key>modifiers</key>
-				<integer>0</integer>
-				<key>modifiersubtext</key>
-				<string></string>
-				<key>vitoclose</key>
-				<false/>
-			</dict>
-		</array>
 		<key>C15FE40B-930C-4548-B24F-D35300D6109A</key>
 		<array/>
 		<key>EFE99584-139D-4336-B894-A2D6AD2F602E</key>
@@ -85,6 +98,72 @@
 	<string>anki</string>
 	<key>objects</key>
 	<array>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>action</key>
+				<integer>0</integer>
+				<key>argument</key>
+				<integer>1</integer>
+				<key>focusedappvariable</key>
+				<false/>
+				<key>focusedappvariablename</key>
+				<string></string>
+				<key>hotkey</key>
+				<integer>17</integer>
+				<key>hotmod</key>
+				<integer>1572864</integer>
+				<key>hotstring</key>
+				<string>T</string>
+				<key>leftcursor</key>
+				<false/>
+				<key>modsmode</key>
+				<integer>0</integer>
+				<key>relatedApps</key>
+				<array>
+					<string>com.microsoft.VSCode</string>
+				</array>
+				<key>relatedAppsMode</key>
+				<integer>1</integer>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.trigger.hotkey</string>
+			<key>uid</key>
+			<string>6555A513-1720-4AB3-ABD5-ED49955A0ADB</string>
+			<key>version</key>
+			<integer>2</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>action</key>
+				<integer>0</integer>
+				<key>argument</key>
+				<integer>1</integer>
+				<key>focusedappvariable</key>
+				<false/>
+				<key>focusedappvariablename</key>
+				<string></string>
+				<key>hotkey</key>
+				<integer>14</integer>
+				<key>hotmod</key>
+				<integer>1310720</integer>
+				<key>hotstring</key>
+				<string>E</string>
+				<key>leftcursor</key>
+				<false/>
+				<key>modsmode</key>
+				<integer>0</integer>
+				<key>relatedAppsMode</key>
+				<integer>0</integer>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.trigger.hotkey</string>
+			<key>uid</key>
+			<string>6E5C172B-9501-4335-887D-88A1765E201B</string>
+			<key>version</key>
+			<integer>2</integer>
+		</dict>
 		<dict>
 			<key>config</key>
 			<dict>
@@ -173,7 +252,7 @@
 				<key>hotmod</key>
 				<integer>1310720</integer>
 				<key>hotstring</key>
-				<string>T</string>
+				<string>Е</string>
 				<key>leftcursor</key>
 				<false/>
 				<key>modsmode</key>
@@ -225,44 +304,13 @@
 				<key>hotkey</key>
 				<integer>17</integer>
 				<key>hotmod</key>
-				<integer>1179648</integer>
+				<integer>1703936</integer>
 				<key>hotstring</key>
 				<string>T</string>
 				<key>leftcursor</key>
 				<false/>
 				<key>modsmode</key>
-				<integer>0</integer>
-				<key>relatedAppsMode</key>
-				<integer>0</integer>
-			</dict>
-			<key>type</key>
-			<string>alfred.workflow.trigger.hotkey</string>
-			<key>uid</key>
-			<string>BB04F206-8781-47FE-AEC8-C968BE8AAB4C</string>
-			<key>version</key>
-			<integer>2</integer>
-		</dict>
-		<dict>
-			<key>config</key>
-			<dict>
-				<key>action</key>
-				<integer>0</integer>
-				<key>argument</key>
-				<integer>1</integer>
-				<key>focusedappvariable</key>
-				<false/>
-				<key>focusedappvariablename</key>
-				<string></string>
-				<key>hotkey</key>
-				<integer>17</integer>
-				<key>hotmod</key>
-				<integer>1441792</integer>
-				<key>hotstring</key>
-				<string>T</string>
-				<key>leftcursor</key>
-				<false/>
-				<key>modsmode</key>
-				<integer>0</integer>
+				<integer>2</integer>
 				<key>relatedAppsMode</key>
 				<integer>0</integer>
 			</dict>
@@ -285,6 +333,20 @@
 			<key>ypos</key>
 			<integer>605</integer>
 		</dict>
+		<key>6555A513-1720-4AB3-ABD5-ED49955A0ADB</key>
+		<dict>
+			<key>xpos</key>
+			<integer>205</integer>
+			<key>ypos</key>
+			<integer>10</integer>
+		</dict>
+		<key>6E5C172B-9501-4335-887D-88A1765E201B</key>
+		<dict>
+			<key>xpos</key>
+			<integer>75</integer>
+			<key>ypos</key>
+			<integer>70</integer>
+		</dict>
 		<key>70427086-DA4F-44B3-B1E8-39359C76EE59</key>
 		<dict>
 			<key>xpos</key>
@@ -298,13 +360,6 @@
 			<integer>305</integer>
 			<key>ypos</key>
 			<integer>265</integer>
-		</dict>
-		<key>BB04F206-8781-47FE-AEC8-C968BE8AAB4C</key>
-		<dict>
-			<key>xpos</key>
-			<integer>70</integer>
-			<key>ypos</key>
-			<integer>515</integer>
 		</dict>
 		<key>C15FE40B-930C-4548-B24F-D35300D6109A</key>
 		<dict>
@@ -337,7 +392,7 @@
 		<string>https://cooba.me/suomea</string>
 	</dict>
 	<key>version</key>
-	<string>1.0.2</string>
+	<string>1.0.3</string>
 	<key>webaddress</key>
 	<string></string>
 </dict>

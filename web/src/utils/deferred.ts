@@ -16,6 +16,7 @@ export class Deferred<T> extends Promise<T> {
       res(val);
       return val;
     };
+
     this.reject = (reason) => {
       this.state = 'rejected';
       rej(reason);

@@ -54,20 +54,18 @@
 
     const decls = document.createElement('table');
     decls.innerHTML = get(decl);
-    const allDecls = Array.from(
-      new Set(
-        Array.from(decls.querySelectorAll('td span,td b'))
-          .map((x) => {
-            if (!(x instanceof HTMLElement)) return '';
-            const anchor = x.querySelector('a');
-            if (anchor && anchor.title) {
-              return anchor.title.replace('(page does not exist)', '').trim();
-            }
-            return x.innerText;
-          })
-          .filter(Boolean),
-      ),
-    ).reverse();
+    let allDecls = new Set(
+      Array.from(decls.querySelectorAll('td span,td b'))
+        .map((x) => {
+          if (!(x instanceof HTMLElement)) return '';
+          const anchor = x.querySelector('a');
+          if (anchor && anchor.title) {
+            return anchor.title.replace('(page does not exist)', '').trim();
+          }
+          return x.innerText;
+        })
+        .filter(Boolean),
+    );
 
     if (isSuffix || isPrefix) {
       const suffixes = new Set([
@@ -82,10 +80,15 @@
       isSuffix && suffixes.add('-' + term);
       isPrefix && suffixes.add(term + '-');
 
-      allDecls.push(...suffixes);
+      for (const suffix of suffixes) {
+        allDecls.add(suffix);
+      }
     }
 
-    const allDeclsEscaped = allDecls.map(regExpEscape).join('|');
+    const allDeclsEscaped = Array.from(allDecls)
+      .reverse()
+      .map(regExpEscape)
+      .join('|');
 
     const walkTextNodes = (node: Node, forEach: (textNode: Text) => void) => {
       const execute = (node: Node) => {
@@ -114,7 +117,10 @@
           new RegExp(`(${term.substring(0, term.length - 1)}[a-z]+)`, 'gmi'),
         );
 
-    regExps.push(new RegExp(`(${term})`, 'gmi'));
+    const plainTermRegexp = new RegExp(`(${term})`, 'gmi');
+    if (!regExps.find((re) => re.toString() !== plainTermRegexp.toString())) {
+      regExps.push(plainTermRegexp);
+    }
 
     const forEach = (node: Text) => {
       const text = node.textContent ?? '';
@@ -135,20 +141,18 @@
     walkTextNodes(div, forEach);
 
     if (allDeclsEscaped) {
+      const allDeclsArray = Array.from(allDecls);
       div.querySelectorAll<HTMLElement>('dd i').forEach((el) => {
         const text = el.innerText;
         if (text.match(allDeclsEscaped)) {
           Array.from(el.children).forEach((child) => {
-            if (
-              child instanceof HTMLElement &&
-              allDecls.indexOf(child.innerText)
-            ) {
+            if (child instanceof HTMLElement && allDecls.has(child.innerText)) {
               const blurred = [];
               let next: ChildNode | null = child;
               let search = '';
               while (next instanceof HTMLElement) {
                 const nextSearch = search + next.innerText;
-                if (allDecls.find((decl) => decl.startsWith(nextSearch))) {
+                if (allDeclsArray.find((decl) => decl.startsWith(nextSearch))) {
                   if (!blurred.length) {
                     blurred.push(child);
                   }
