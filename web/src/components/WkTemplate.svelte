@@ -83,7 +83,10 @@
       for (const suffix of suffixes) {
         allDecls.add(suffix);
       }
+    } else {
+      allDecls.add(term);
     }
+
 
     const allDeclsEscaped = Array.from(allDecls)
       .reverse()
