@@ -7,6 +7,10 @@ import defaultBrowser from 'default-browser';
 import * as convert from 'convert-layout/ru';
 import type { default as MiniSearchT, SearchOptions } from 'minisearch';
 import MiniSearch from 'minisearch';
+import {
+  WkSearchResult,
+  SkSearchResultWithData,
+} from 'server/src/shared/types';
 import { upsertNoteLight } from './anki_actions';
 import { GoogleChrome } from './chrome';
 
@@ -48,6 +52,19 @@ const goTo = async (href: string) => {
     browserId = process.env.ANKI_BROWSER;
   }
 
+  const isTranslate = href.startsWith('translate:');
+  // replace translate in href
+  if (isTranslate) {
+    href = href.slice('translate:'.length);
+  }
+
+  const APP_BASE_URL = isTranslate
+    ? 'https://translate.google.com/?text='
+    : `${process.env.FINNISH_URL || 'https://cooba.me/suomea'}/`.replace(
+        /\/+$/,
+        '/',
+      );
+
   return run<true>(
     (browserName, browserId, href, APP_BASE_URL) => {
       let browser: ReturnType<typeof Application> & GoogleChrome;
@@ -58,29 +75,34 @@ const goTo = async (href: string) => {
       }
 
       browser.includeStandardAdditions = true;
-      const success = browser.windows().some((window: any, winIdx: number) => {
-        const tabs = window.tabs();
-        const tabIndex = tabs.findIndex((tab: GoogleChrome.Tab) =>
-          tab.url().includes(APP_BASE_URL),
-        );
+      const success = browser
+        .windows()
+        .reverse()
+        .some((window: any, winIdx: number) => {
+          const tabs = window.tabs();
+          const tabIndex = tabs.findIndex((tab: GoogleChrome.Tab) =>
+            tab.url().includes(APP_BASE_URL),
+          );
 
-        if (tabIndex > -1) {
-          const ankiTab = tabs[tabIndex];
-          ankiTab.url.set(`${APP_BASE_URL}/${encodeURIComponent(href)}`);
-          window.activeTabIndex.set(tabIndex + 1);
-          return true;
-        }
-        return false;
-      });
+          if (tabIndex > -1) {
+            const ankiTab = tabs[tabIndex];
+            ankiTab.url.set(`${APP_BASE_URL}${encodeURIComponent(href)}`);
+            ankiTab.url.set(`${APP_BASE_URL}${encodeURIComponent(href)}`);
+            window.activeTabIndex.set(tabIndex + 1);
+            window.activeTabIndex.set(tabIndex + 1);
+            return true;
+          }
+          return false;
+        });
       if (!success) {
-        browser.openLocation(`${APP_BASE_URL}/${encodeURIComponent(href)}`);
+        browser.openLocation(`${APP_BASE_URL}${encodeURIComponent(href)}`);
       }
       browser.activate();
     },
     browserName,
     browserId,
     href,
-    process.env.FINNISH_URL?.replace(/\/+$/, '') || 'https://cooba.me/suomea',
+    APP_BASE_URL,
   );
 };
 
@@ -114,43 +136,33 @@ const save = async (term: string) => {
     alfy.error(err);
   });
 };
-interface SkSearchResult {
-  text: string;
-  id: number;
-  translation_count: number;
-  data: {
-    sk_translation_strings: string[];
-  };
-}
-// type WkSearchResult = {
-//   results: string[];
-//   urls: string[];
-// };
+
 type Data = {
   autocomplete: string;
   subtitle: string;
   arg: string;
   title: string;
 };
+
 const search = async (term: string) => {
   const all: Data[] = [];
 
-  const skToData = (data: SkSearchResult[]) => {
+  const skToData = (data: SkSearchResultWithData[]) => {
     return data.map((element) => ({
       title: element.text,
-      subtitle: element.data.sk_translation_strings.join(', '),
+      subtitle: element.data.sk_translation_strings?.join(', '),
       arg: element.text,
       order: 10 + element.translation_count,
     }));
   };
 
-  // const wkToData = (data: WkSearchResult) =>
-  //   data.results.map((element) => ({
-  //     title: element,
-  //     subtitle: element,
-  //     arg: element,
-  //     order: 11,
-  //   }));
+  const wkToData = (data: WkSearchResult) =>
+    data.results.map((element) => ({
+      title: element,
+      subtitle: element,
+      arg: element,
+      order: 11,
+    }));
 
   const handleNewData = (data: Data[]) => {
     all.push(...data);
@@ -166,21 +178,22 @@ const search = async (term: string) => {
       .then(skToData)
       .then(handleNewData);
   }
-  // function wk() {
-  //   return alfy
-  //     .fetch('${API_URL}/wk_search', {
-  //       query: {
-  //         q: term,
-  //       },
-  //     })
-  //     .then(wkToData)
-  //     .then(handleNewData);
-  // }
+  function wk() {
+    return alfy
+      .fetch(`${API_URL}/wk_search`, {
+        query: {
+          q: term,
+        },
+      })
+      .then(wkToData)
+      .then(handleNewData);
+  }
 
   await Promise.all([
+    wk(),
     sk('ru'),
     sk('fi'),
-    sk('en') /*term.match(/^[а-я]/gim) ? sk("ru") : sk("en")*/,
+    sk('en')
   ]);
 
   const titles = new Set<string>();
@@ -196,14 +209,18 @@ const search = async (term: string) => {
       prefix: true,
     },
     tokenize: (text) => {
-      return text.split(' ');
+      return text
+        .replace(/ä/gim, 'a')
+        .replace(/ÿ/gim, 'y')
+        .replace(/ö/gim, 'o')
+        .split(' ');
     },
   } as SearchOptions);
   miniSearch.addAll(data);
 
   let results = miniSearch
     .search(term)
-    .sort((a, b) => b.score - a.score || a.title.localeCompare(b.title));
+    .sort((a, b) => b.score - a.score || b.title.localeCompare(a.title));
 
   if (results.length === 0) {
     alfy.output([

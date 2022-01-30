@@ -59,6 +59,8 @@ export interface SkSearchResult {
   translation_count: number;
 }
 
+export type SkSearchResultWithData = SkSearchResult & { data: SanakirjaData };
+
 export type WkSearchResult = {
   results: string[];
   urls: string[];

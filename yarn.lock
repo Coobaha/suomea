@@ -8526,10 +8526,10 @@ minipass@^3.0.0, minipass@^3.1.1:
   dependencies:
     yallist "^4.0.0"
 
-minisearch@^3.0.2:
-  version "3.0.2"
-  resolved "https://registry.yarnpkg.com/minisearch/-/minisearch-3.0.2.tgz#fa470114ffc7c4bcc0786b2adb7010d4b773bc32"
-  integrity sha512-7rTrJEzovKNi5LSwiIr5aCfJNNo6Lk4O9HTVzjFTMdp+dSr6UisUnEqdwj4rBgNcAcaWW5ClpXnpgTurv8PGqA==
+minisearch@^3.2.0:
+  version "3.2.0"
+  resolved "https://registry.yarnpkg.com/minisearch/-/minisearch-3.2.0.tgz#02ec9dd6ee6988384e2e3bb825ddc22bcf4201a1"
+  integrity sha512-Nq3o/a9mhvokHXKCS9zxAd0t1z/eSjdtmvfBfvGI2D0/Fx8xUjrOdpjqbU7DXRyH8obowhELR1+L+i3TV7Y21g==
 
 minizlib@^2.1.1:
   version "2.1.2"

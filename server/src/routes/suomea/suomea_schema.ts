@@ -2,6 +2,7 @@ import { Schema } from '@coobaha/typed-fastify';
 import {
   SanakirjaData,
   SkSearchResult,
+  SkSearchResultWithData,
   WiktionaryData,
 } from '../../shared/types';
 import { MyImage } from './suomea_types';
@@ -46,7 +47,7 @@ export interface SuomeaSchema extends Schema {
         querystring: QueryWithLang;
       };
       response: {
-        200: { content: (SkSearchResult & { data: SanakirjaData })[] };
+        200: { content: SkSearchResultWithData[] };
       };
     };
     'GET /wk_search': {
