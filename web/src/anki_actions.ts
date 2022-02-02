@@ -230,7 +230,7 @@ export async function findExistingNotesId(
     .signal(controller)
     .options({ forceCache: true, cacheKey: `findNotes_${search}` })
     .post({
-      action: 'findNotes',
+      action: 'find_notes',
       version: 6,
       params: {
         query: search,

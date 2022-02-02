@@ -5,14 +5,14 @@ from urllib.parse import urlparse
 
 from aqt import mw, gui_hooks
 from aqt.addons import AddonsDialog
+from aqt.browser.previewer import Previewer
 from aqt.clayout import CardLayout
 from aqt.hooks_gen import addons_dialog_will_show
-from aqt.previewer import Previewer
+from anki.cards import Card
 from aqt.reviewer import Reviewer
 from aqt.webview import WebContent
 
 from .settings import settings, SettingsModal, anki_connect_setup
-
 
 def prepare(html, card, context: str):
     if settings.enabled is False:
@@ -30,7 +30,18 @@ def prepare(html, card, context: str):
         except Exception:
             pass
 
-    next_card = sched.getCard()
+    next_card = None
+
+    if sched.version == 3:
+        cards = sched.get_queued_cards(fetch_limit=2)
+        queued_card = cards.cards[1]
+
+        if queued_card is not None:
+            next_card = Card(sched.col)
+            next_card._load_from_backend_card(queued_card.card)
+            next_card.load()
+    else:
+        next_card = sched.getCard()
 
     if next_card is not None and settings.question_field is not None:
         try:

@@ -59,14 +59,14 @@ const goTo = async (href: string) => {
   }
 
   const APP_BASE_URL = isTranslate
-    ? 'https://translate.google.com/?text='
+    ? 'https://translate.google.com/?sl=fi&tl=en&text='
     : `${process.env.FINNISH_URL || 'https://cooba.me/suomea'}/`.replace(
         /\/+$/,
         '/',
       );
-
+  const tabUrl = isTranslate ? `https://translate.google.com` : APP_BASE_URL;
   return run<true>(
-    (browserName, browserId, href, APP_BASE_URL) => {
+    (browserName, browserId, href, APP_BASE_URL, tabUrl) => {
       let browser: ReturnType<typeof Application> & GoogleChrome;
       try {
         browser = Application<GoogleChrome>(browserName);
@@ -81,7 +81,7 @@ const goTo = async (href: string) => {
         .some((window: any, winIdx: number) => {
           const tabs = window.tabs();
           const tabIndex = tabs.findIndex((tab: GoogleChrome.Tab) =>
-            tab.url().includes(APP_BASE_URL),
+            tab.url().includes(tabUrl),
           );
 
           if (tabIndex > -1) {
@@ -103,6 +103,7 @@ const goTo = async (href: string) => {
     browserId,
     href,
     APP_BASE_URL,
+    tabUrl,
   );
 };
 
@@ -189,12 +190,7 @@ const search = async (term: string) => {
       .then(handleNewData);
   }
 
-  await Promise.all([
-    wk(),
-    sk('ru'),
-    sk('fi'),
-    sk('en')
-  ]);
+  await Promise.all([wk(), sk('ru'), sk('fi'), sk('en')]);
 
   const titles = new Set<string>();
   all.map((x) => titles.add(x.title));
@@ -225,9 +221,15 @@ const search = async (term: string) => {
   if (results.length === 0) {
     alfy.output([
       {
-        title: term,
-        subtitle: `No results found - click to open in browser`,
-        arg: term,
+        title: `open in Google Translate`,
+        subtitle: term,
+        arg: `translate:${term}`,
+        autocomplete: term,
+      },
+      {
+        title: `open in Browser`,
+        subtitle: term,
+        arg: `${term}`,
         autocomplete: term,
       },
     ]);
