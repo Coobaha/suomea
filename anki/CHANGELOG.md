@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.2.0](https://www.github.com/Coobaha/suomea/compare/v0.1.3...v0.2.0) (2022-02-02)
+
+
+### Features
+
+* **anki:** add support for v3 scheduler ([a3bb593](https://www.github.com/Coobaha/suomea/commit/a3bb5930e0c7fe0980be4c5ad193eed108b2855e))
+
 ### [0.1.3](https://www.github.com/Coobaha/suomea/compare/v0.1.2...v0.1.3) (2021-04-14)
 
 
