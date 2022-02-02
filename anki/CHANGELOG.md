@@ -1,5 +1,12 @@
 # Changelog
 
+### [0.2.1](https://www.github.com/Coobaha/suomea/compare/v0.2.0...v0.2.1) (2022-02-02)
+
+
+### Bug Fixes
+
+* **anki:** fix out of range error for sched v3 ([513aeaa](https://www.github.com/Coobaha/suomea/commit/513aeaa20e4b39e268955de8ce5cc60ad5a0706a))
+
 ## [0.2.0](https://www.github.com/Coobaha/suomea/compare/v0.1.3...v0.2.0) (2022-02-02)
 
 
