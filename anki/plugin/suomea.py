@@ -34,12 +34,13 @@ def prepare(html, card, context: str):
 
     if sched.version == 3:
         cards = sched.get_queued_cards(fetch_limit=2)
-        queued_card = cards.cards[1]
+        if len(cards.cards) > 1:
+            queued_card = cards.cards[1]
 
-        if queued_card is not None:
-            next_card = Card(sched.col)
-            next_card._load_from_backend_card(queued_card.card)
-            next_card.load()
+            if queued_card is not None:
+                next_card = Card(sched.col)
+                next_card._load_from_backend_card(queued_card.card)
+                next_card.load()
     else:
         next_card = sched.getCard()
 
