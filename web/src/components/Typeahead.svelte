@@ -220,15 +220,8 @@
       },
       detachedMediaQuery: 'none',
 
-      async getSources({ query, state }) {
+      async getSources({ query }) {
         query = query.trim();
-        if (lastQuery === query && query === state.query && state.isOpen) {
-          return [];
-        }
-        if (queryState.ignoreNext) {
-          queryState.ignoreNext = false;
-          return [];
-        }
         lastQuery = query;
         queryState.query = query;
 
