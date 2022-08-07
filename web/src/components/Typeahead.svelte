@@ -205,13 +205,16 @@
       }
     });
     const ac = autocomplete<Record<string, unknown>>({
-      container: container,
+      container,
+      // container: container.querySelector('div[data-input]'),
+      // panelContainer: container.querySelector('div[data-panel]'),
       // enableCompletion: true,
       id: 'mainInput',
       initialState: {
         ...get(searchState),
       },
       detachedMediaQuery: 'none',
+      // panelPlacement: 'full-width',
       // shouldPanelOpen(props) {
       //   const { state } = props;
       //   if (state.collections.length === 0) {
@@ -257,7 +260,7 @@
       },
       render({ sections, html, render }, root) {
         const vnode = html`<div
-          class="aa-PanelLayout aa-Panel--scollable tile is-parent"
+          class="aa-PanelLayout aa-Panel--scrollable tile is-parent"
         >
           ${sections}
         </div>` as VNode;
@@ -268,14 +271,23 @@
     // input?.setAttribute('id', 'mainInput-input');
     input?.setAttribute('tabindex', '-1');
     input?.addEventListener('focus', () => {
-      searchState.update((v) => ({
-        ...v,
-        isOpen: true,
-      }));
+      if (!get(searchState).isOpen) {
+        searchState.update((v) => ({
+          ...v,
+          isOpen: true,
+        }));
+      }
     });
-    input?.addEventListener('blur', () => {
+    input?.addEventListener('blur', (e) => {
+      if (
+        e.relatedTarget instanceof Node &&
+        container.contains(e.relatedTarget)
+      ) {
+        return;
+      }
+
       closeIt();
-      console.log('we blur');
+      ac.setIsOpen(false);
       requestAnimationFrame(() => {
         const element = document.querySelector('h1.title');
         if (element instanceof HTMLElement) {
@@ -296,9 +308,17 @@
     });
 
     const unsub = searchState.subscribe((state) => {
-      ac.setQuery(state.query);
-      if (input) {
-        input.value = state.query;
+      if (!state.isOpen) {
+        ac.setIsOpen(false);
+        ac.setQuery('');
+        if (input) {
+          input.value = state.query;
+        }
+      } else {
+        ac.setQuery(state.query);
+        if (input) {
+          input.value = state.query;
+        }
       }
     });
     return {
