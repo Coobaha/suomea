@@ -200,7 +200,7 @@ async function findExistingNotesId(term: string): Promise<number[]> {
     .fetch(ankiConnectURI, {
       method: 'POST',
       body: {
-        action: 'find_notes',
+        action: 'findNotes',
         version: 6,
         params: {
           query: search,

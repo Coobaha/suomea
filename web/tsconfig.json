@@ -91,5 +91,12 @@
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
     "noUncheckedIndexedAccess": true,
+
+    "preserveValueImports": true,
+    /**
+      To have warnings/errors of the Svelte compiler at the correct position,
+      enable source maps by default.
+     */
+    "sourceMap": true,
   }
 }

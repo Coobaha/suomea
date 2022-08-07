@@ -1,12 +1,12 @@
 {
-  "extends": "fastify-tsconfig",
+  "extends": "@tsconfig/node18-strictest/tsconfig.json",
   "compilerOptions": {
     "target": "ESNext",
     "outDir": "./dist",
     "esModuleInterop": true,
+    "paths": {
+//      "server/*": ["../server/*"]
+    }
   },
-  "include": [
-    "anki_actions.ts",
-    "anki.ts"
-  ]
+  "files": ["anki_actions.ts", "anki.ts"]
 }

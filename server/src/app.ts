@@ -1,13 +1,13 @@
 import './tracer';
 
 import * as path from 'path';
-import AutoLoad, { AutoloadPluginOptions } from 'fastify-autoload';
-import { FastifyPluginAsync, FastifyServerOptions } from 'fastify';
-import FastifySensible from 'fastify-sensible';
-import qs from 'qs';
+import AutoLoad, { AutoloadPluginOptions } from '@fastify/autoload';
+import type { FastifyPluginAsync, FastifyServerOptions } from 'fastify';
+import FastifySensible from '@fastify/sensible';
+import * as qs from 'qs';
 import FastifyBlipp from 'fastify-blipp';
-import oas from 'fastify-oas';
-import FastifyRateLimit from 'fastify-rate-limit';
+import fastifySwagger from '@fastify/swagger';
+import FastifyRateLimit from '@fastify/rate-limit';
 import * as process from 'process';
 
 export type AppOptions = {
@@ -20,7 +20,7 @@ const app: FastifyPluginAsync<AppOptions> = async (
 ): Promise<void> => {
   // Place here your custom code!
   fastify.register(FastifySensible);
-  if (process.env.NODE_ENV === 'production') {
+  if (process.env['NODE_ENV'] === 'production') {
     fastify.log.info('Rate limit was enabled');
     fastify.register(FastifyRateLimit, {
       max: 150,
@@ -29,24 +29,24 @@ const app: FastifyPluginAsync<AppOptions> = async (
   }
 
   await fastify.register(FastifyBlipp);
-  await fastify.register(oas, {
+  await fastify.register(fastifySwagger, {
     swagger: {
-      servers: [{ url: 'http://localhost:3000' }],
-
+      // servers: [{ url: 'http://localhost:3000' }],
+      //
       info: {
         title: 'Test openapi',
         description: 'testing the fastify swagger api',
         version: '0.1.0',
       },
-      externalDocs: {
-        url: 'https://swagger.io',
-        description: 'Find more info here',
-      },
-      consumes: ['application/json'],
-      produces: ['application/json'],
+
+      // externalDocs: {
+      //   url: 'https://swagger.io',
+      //   description: 'Find more info here',
+      // },
+      // consumes: ['application/json'],
+      // produces: ['application/json'],
     },
-    exposeRoute: process.env.NODE_ENV !== 'production',
-    addModels: false,
+    exposeRoute: process.env['NODE_ENV'] !== 'production',
   });
 
   // Do not touch the following lines
@@ -100,5 +100,4 @@ export const options: FastifyServerOptions = {
   //   },
   // },
 };
-
 export default app;

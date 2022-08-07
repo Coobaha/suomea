@@ -2,7 +2,7 @@
 <svelte:options immutable="{true}" />
 
 <!--https://github.com/sveltejs/svelte/blob/master/src/compiler/compile/nodes/Element.ts-->
-<script lang="typescript">
+<script lang="ts">
   import GlobalStyles from './components/GlobalStyles.svelte';
 
   import type { ImageT } from './types';
@@ -147,7 +147,7 @@
           if (!obj) {
             return;
           }
-          let images = (obj as unknown) as ImageT[];
+          let images = obj as unknown as ImageT[];
           images
             .filter((x) => !x.thumb_large.startsWith('http://'))
             .forEach(preloadImage);
@@ -200,7 +200,7 @@
         if (!obj) {
           return;
         }
-        let x = ((obj as unknown) as ImageT[]) || [];
+        let x = (obj as unknown as ImageT[]) || [];
 
         const images = x.filter((x) => x.thumb_large.startsWith('https://'));
         images.forEach(preloadImage);
@@ -209,7 +209,7 @@
       fetchWk(currentTerm, wkController).then((obj) => {
         removeController(wkController);
         if (!obj) return;
-        let x = (obj as unknown) as WiktionaryData;
+        let x = obj as unknown as WiktionaryData;
         Ctx.translation.set(x.wk_translation ?? '');
         Ctx.url.set(x.wk_url ?? '');
         Ctx.decl.set(x.wk_decl ?? '');
@@ -229,7 +229,7 @@
 
         if (!obj) return;
 
-        let x = (obj as unknown) as SanakirjaData;
+        let x = obj as unknown as SanakirjaData;
 
         Ctx.sk_en_translation.set(x?.sk_translation ?? '');
         Ctx.sk_en_synonyms.set(x?.sk_synonyms ?? '');
@@ -242,7 +242,7 @@
           removeController(ruSkController);
           if (!obj) return;
 
-          let x = (obj as unknown) as SanakirjaData;
+          let x = obj as unknown as SanakirjaData;
           Ctx.sk_ru_translation.set(x?.sk_translation ?? '');
           Ctx.sk_ru_synonyms.set(x?.sk_synonyms ?? '');
           Ctx.sk_ru_url.set(x?.sk_url ?? '');
@@ -256,10 +256,14 @@
               term: currentTerm,
             },
         ankiDataCtrl,
-      ).then((note) => {
-        removeController(ankiDataCtrl);
-        ankiNote.set(note);
-      });
+      )
+        .then((note) => {
+          removeController(ankiDataCtrl);
+          ankiNote.set(note);
+        })
+        .catch((e) => {
+          console.log('ankiData error', e);
+        });
     }
   }
 
@@ -386,11 +390,10 @@
 
   .search-overlay {
     height: 100%;
-    position: absolute;
+    position: fixed;
     top: 0;
     left: 0;
     width: 100%;
-    z-index: 90;
     background-color: rgba(0, 0, 0, 0.1);
   }
 </style>

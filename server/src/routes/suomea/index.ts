@@ -1,22 +1,21 @@
-import FastifySensible from 'fastify-sensible';
-import FastifyFormbody from 'fastify-formbody';
+import FastifySensible from '@fastify/sensible';
+import FastifyFormbody from '@fastify/formbody';
 import addSchema, { asReply, Service } from '@coobaha/typed-fastify';
 
 import { findImages } from '../../shared/images';
-import { SanakirjaData, SkSearchResult } from '../../shared/types';
+import type { SanakirjaData, SkSearchResult } from '../../shared/types';
 import { fetchSk, fetchWiktionary } from '../../shared/search';
-// @ts-ignore
-import FastifyCaching from 'fastify-caching';
+import FastifyCaching from '@fastify/caching';
 
-import Etag from 'fastify-etag';
+import Etag from '@fastify/etag';
 
 import got from 'got';
 import qs from 'qs';
 import jsonSchema from './suomea_schema.gen.json';
-import { SuomeaSchema } from './suomea_schema';
-import { FastifyInstance } from 'fastify';
+import type { SuomeaSchema } from './suomea_schema';
+import type { FastifyPluginCallback } from 'fastify';
 
-const suomeaRoute = async (fastify: FastifyInstance): Promise<void> => {
+const suomeaRoute: FastifyPluginCallback = async (fastify): Promise<void> => {
   const service: Service<SuomeaSchema> = {
     'GET /images': async function (request, reply) {
       const search = request.query;
@@ -126,7 +125,7 @@ const suomeaRoute = async (fastify: FastifyInstance): Promise<void> => {
                   ...w,
                   data: data,
                 }))
-                .catch((e) => w),
+                .catch(() => w),
             ),
           );
 
@@ -162,9 +161,9 @@ const suomeaRoute = async (fastify: FastifyInstance): Promise<void> => {
       });
     },
   };
-  addSchema<SuomeaSchema>(fastify, {
+  addSchema(fastify, {
     jsonSchema,
-    service: service,
+    service,
   });
   fastify.register(FastifySensible);
   fastify.register(FastifyFormbody);

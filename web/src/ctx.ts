@@ -1,4 +1,4 @@
-import { writable, derived as derived$ } from 'svelte/store';
+import { writable, derived as derived$, get } from 'svelte/store';
 import type {
   ImageT,
   MyAnkiSetup,
@@ -11,7 +11,7 @@ import engine from 'store/src/store-engine';
 import sessionStorage from 'store/storages/sessionStorage';
 import memoryStorage from 'store/storages/memoryStorage';
 
-import type { AutocompleteState as AutocompleteCoreState } from '@algolia/autocomplete-core';
+import type { AutocompleteState as AutocompleteCoreState } from '@algolia/autocomplete-js';
 import uniqBy from 'lodash/uniqBy';
 import { isConnected } from './anki_actions';
 
@@ -131,7 +131,7 @@ export const updateSettings = (updater: (value: Settings) => Settings) =>
 
 settings.subscribe(({ themedTags, tags, ...settings }) => {
   Object.keys(settings).forEach((key) => {
-    const k = (key as unknown) as keyof typeof settings;
+    const k = key as unknown as keyof typeof settings;
     if (settings[k] === null) {
       delete settings[k];
     }
@@ -179,17 +179,23 @@ export const sk_ru_url = writable<string>('');
 export const wordMeta = writable<WiktionaryData['meta']>({});
 
 export const images = writable<ImageT[]>([]);
-export const searchState = writable<AutocompleteCoreState<unknown>>({
-  highlightedIndex: null,
-  query: '',
+export const searchState = writable<
+  AutocompleteCoreState<Record<string, unknown>>
+>({
+  query: get(term) ?? '',
   completion: null,
-  suggestions: [],
+  collections: [],
   isOpen: false,
   status: 'idle',
-  statusContext: {},
+  activeItemId: null,
   context: {},
 });
 
+term.subscribe((value) => {
+  searchState.update((currentState) => {
+    return { ...currentState, query: value };
+  });
+});
 export const tags = derived$(
   [settings, wordtype, wordMeta, ankiNote],
   ([values, wordtype, meta, ankiNote]): string[] => {

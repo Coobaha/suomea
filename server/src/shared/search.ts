@@ -1,18 +1,18 @@
-import $$ from 'cheerio';
+import { load } from 'cheerio';
 import createDOMPurify from 'dompurify';
 import get from 'got';
 import JSDom from 'jsdom';
-import qs from 'querystring';
+import * as qs from 'querystring';
 
-import NodeURL from 'url';
+import * as NodeURL from 'node:url';
 import logger from './logger';
-import { Data, ImageT, SanakirjaData, WiktionaryData } from './types';
+import type { Data, ImageT, SanakirjaData, WiktionaryData } from './types';
 
 const JSON5 = require('json5');
 const { window } = new JSDom.JSDOM(``);
-const DOMPurify = createDOMPurify(window);
+const DOMPurify = createDOMPurify(window as unknown as Window);
 
-const htmlAll = function (el?: cheerio.Cheerio) {
+const htmlAll = function ($$: cheerio.Root, el?: cheerio.Cheerio) {
   return el
     ?.toArray()
     .map((el) => {
@@ -31,11 +31,11 @@ async function sk(opts: { term: string; lang: 'en' | 'ru' | 'fi' }) {
   // console.time(`fetch_${url}`);
   const data = await get(url).text();
   // console.timeEnd(`fetch_${url}`);
-  const $html = $$.load(DOMPurify.sanitize(data)).root();
-
+  const $$ = load(DOMPurify.sanitize(data));
+  const $html = $$.root();
   const translationLinks = $html.find('#translations tr > td:nth-child(2)');
   const translations = translationLinks
-    .map((i, el) => {
+    .map((_i, el) => {
       const $el = $$(el);
       const text = $el.html();
       return opts.lang !== 'en' ? text?.split(/[{|(].*[}|)]/)[0] : text;
@@ -46,12 +46,14 @@ async function sk(opts: { term: string; lang: 'en' | 'ru' | 'fi' }) {
     const $el = $$(el);
     const text = $el.text();
 
-    return (opts.lang !== 'en' ? text?.split(/[{|(].*[}|)]/)[0] : text).trim();
+    return (
+      (opts.lang !== 'en' ? text?.split(/[{|(].*[}|)]/)[0] : text)?.trim() ?? ''
+    );
   });
 
   const synonyms = $html
     .find('.synonyms a')
-    .map((i, el) => {
+    .map((_i, el) => {
       const $el = $$(el);
       const text = $el.html();
       return text;
@@ -175,10 +177,11 @@ async function wiktionary(opts: { term: string }) {
 
   if (!finnish) return null;
 
-  const $html = $$.load(DOMPurify.sanitize(finnish)).root();
+  const $$ = load(DOMPurify.sanitize(finnish));
+  const $html = $$.root();
   $html.find('#toc').remove();
   $html.find('.mw-editsection').remove();
-  $html.find('*').each((x, el) => {
+  $html.find('*').each((_x, el) => {
     const $el = $$(el);
     $el.removeAttr('lang');
     if ($el.hasClass('term-list-header')) {
@@ -188,10 +191,10 @@ async function wiktionary(opts: { term: string }) {
       $el.remove();
     }
   });
-  $html.find('table *').each((x, el) => {
+  $html.find('table *').each((_x, el) => {
     $$(el).removeAttr('class').removeAttr('lang');
   });
-  $html.find('a[href]').each((i, el) => {
+  $html.find('a[href]').each((_i, el) => {
     const $el = $$(el);
     const href = $el.attr('href');
 
@@ -259,7 +262,7 @@ async function wiktionary(opts: { term: string }) {
   const etymology = $html
     .find('.mw-headline:contains("Etymology")')
     .parent()
-    .map((i, el) => {
+    .map((_i, el) => {
       const $el = $$(el).nextUntil(titles);
       return $el.html();
     })
@@ -306,13 +309,14 @@ async function wiktionary(opts: { term: string }) {
   }
 
   const isRealVerb =
-    fiDecl.find('th').filter((i, el) => {
+    fiDecl.find('th').filter((_i, el) => {
       const $el = $$(el);
       const text = $el.text();
       return text.includes('present tense') || text.includes('perfect');
     }).length > 0;
 
   const possessive = htmlAll(
+    $$,
     $html
       .find('a[title="Appendix:Finnish possessive suffixes"]')
       .closest('table')
@@ -374,7 +378,7 @@ async function wiktionary(opts: { term: string }) {
     ),
   ).join(', ');
 
-  const toComp = (el: Element) => {
+  const toComp = (el: cheerio.Element) => {
     const $el = $$(el);
     return {
       term: $el.text(),
@@ -415,7 +419,9 @@ async function wiktionary(opts: { term: string }) {
     };
   }
 
-  const decl = htmlAll(fiDecl)?.replace(/\n+/gm, '\n')?.replace(/\n+</gm, '<');
+  const decl = htmlAll($$, fiDecl)
+    ?.replace(/\n+/gm, '\n')
+    ?.replace(/\n+</gm, '<');
 
   const $derived = $html.find(
     'span:contains("Derived terms"), span:contains("Related terms")',
@@ -425,7 +431,7 @@ async function wiktionary(opts: { term: string }) {
     new Set(
       $derived
         .parent()
-        .map((i, el) => {
+        .map((_i, el) => {
           const $el = $$(el).nextUntil(titles);
           $el.find('*').removeAttr('style').removeAttr('class');
           $el.find('[data-hidetext]').remove();
@@ -463,9 +469,11 @@ async function wiktionary(opts: { term: string }) {
   const compounds = $compounds.html();
 
   let synonyms = htmlAll(
+    $$,
     $html.find('.mw-headline:contains("Synonyms")').parent().next('ul'),
   );
   let antonyms = htmlAll(
+    $$,
     $html.find('.mw-headline:contains("Antonyms")').parent().next('ul'),
   );
 
@@ -510,13 +518,15 @@ async function wiktionary(opts: { term: string }) {
   }
 
   const notes = htmlAll(
+    $$,
     $html
       .find('#Usage_notes,#Usage_notes_2,#Usage_notes_1')
       .parent()
-      .map((i, el) => {
+      .map((_i, el) => {
         const $el = $$(el).nextUntil(titles);
         $el.children().addClass('my-1');
         $el.find('.NavFrame .NavHead:contains("Conjugation")').parent().empty();
+
         return $el;
       }),
   );
@@ -584,22 +594,24 @@ export const fetchWiktionary: (term: string) => Promise<WiktionaryData> = (
 ) =>
   wiktionary({
     term: term,
-  }).then((wk) => ({
-    Finnish: term,
-    wk_url: `https://en.wiktionary.org/wiki/${term}#Finnish`,
-    wk_translation: wk?.translations,
-    wk_synonyms: wk?.synonyms,
-    wk_antonyms: wk?.antonyms,
-    wk_decl: wk?.decl,
-    wk_notes: wk?.notes,
-    wk_derived: wk?.derived,
-    etymology: wk?.etymology,
-    wordtype: wk?.wordtype,
-    wk_possessive: wk?.possessive,
-    compounds: wk?.compounds,
-    suffix: wk?.suffix,
-    meta: wk?.meta ?? {},
-  }));
+  }).then(
+    (wk): WiktionaryData => ({
+      Finnish: term,
+      wk_url: `https://en.wiktionary.org/wiki/${term}#Finnish`,
+      wk_translation: wk?.translations,
+      wk_synonyms: wk?.synonyms,
+      wk_antonyms: wk?.antonyms,
+      wk_decl: wk?.decl,
+      wk_notes: wk?.notes,
+      wk_derived: wk?.derived,
+      etymology: wk?.etymology,
+      wordtype: wk?.wordtype,
+      wk_possessive: wk?.possessive,
+      compounds: wk?.compounds,
+      suffix: wk?.suffix,
+      meta: wk?.meta ?? {},
+    }),
+  );
 
 export const fetchSk: (
   term: string,
@@ -663,7 +675,9 @@ export const myImages = async (search: string): Promise<ImageT[]> => {
 
   return await get({
     url,
-    timeout: 10000,
+    timeout: {
+      request: 10000,
+    },
   })
     .text()
     .then((res) => res.substring(1))

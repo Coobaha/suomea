@@ -1,5 +1,4 @@
 /** @type {import("snowpack").SnowpackUserConfig } */
-
 module.exports = {
   mount: {
     public: { url: '/', static: true },
@@ -46,6 +45,7 @@ module.exports = {
   devOptions: {
     /* ... */
     open: 'none',
+    hmrPort: 80
   },
   buildOptions: {
     baseUrl: './',

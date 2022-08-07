@@ -2,9 +2,8 @@
 
 <script lang="ts">
   import { autocomplete } from '@algolia/autocomplete-js';
-  import type { AutocompleteSource } from '@algolia/autocomplete-js';
-  import type { AutocompleteState } from '@algolia/autocomplete-core';
-
+  import type { VNode, AutocompleteSource } from '@algolia/autocomplete-js';
+  import '@algolia/autocomplete-theme-classic';
   import { fetchImages, searchSk, searchWK } from '../api';
   import type { ImageT, SkSearchResult } from '../types';
   import * as Router from '../router';
@@ -45,7 +44,6 @@
   };
 
   const tasks = createTasks();
-
   let lastQuery: string = '';
   let queryState: {
     ignoreNext: boolean;
@@ -63,8 +61,8 @@
     images: false,
     sk: false,
   };
-  const imagesSource: Partial<AutocompleteSource<ImageT>> = {
-    async getSuggestions() {
+  const imagesSource: AutocompleteSource<Record<string, unknown> & ImageT> = {
+    async getItems() {
       if (!queryState.shouldFetch) {
         return getSuggestions(imagesSource);
       }
@@ -82,26 +80,31 @@
         .slice(0, 10);
     },
 
+    sourceId: 'images',
     templates: {
-      item: ({ item }) => {
-        return `<div class="media">
-      <div class="media-left">
-        <figure class="image is-32x32 justify-items-center is-flex is-justify-content-center is-align-content-center">
-          <img src="${item.thumb_large}" alt="${item.name}">
-        </figure>
-      </div>
-      <div class="media-content">
-        <p class="subtitle is-6">${item.name}</p>
-      </div>
-    </div>`;
+      item: ({ html, item }) => {
+        return html`<div class="media">
+          <div class="media-left">
+            <figure
+              class="image is-32x32 justify-items-center is-flex is-justify-content-center is-align-content-center overflow-hidden"
+            >
+              <img src="${item.thumb_large}" alt="${item.name}" />
+            </figure>
+          </div>
+          <div class="media-content">
+            <p class="subtitle is-6">${item.name}</p>
+          </div>
+        </div>`;
       },
     },
   };
 
-  function getSuggestions<T>(source: Partial<AutocompleteSource<T>>): T[] {
-    const all = get(searchState).suggestions;
+  function getSuggestions<T extends Record<string, unknown>>(
+    source: AutocompleteSource<T>,
+  ): T[] {
+    const all = get(searchState).collections;
     const idx = all.findIndex(
-      (existing) => existing.source.getSuggestions === source.getSuggestions,
+      (existing) => existing.source.sourceId === source.sourceId,
     );
     return (all[idx]?.items ?? []) as T[];
   }
@@ -112,22 +115,26 @@
       isOpen: false,
     }));
   };
-  const skSource: Partial<AutocompleteSource<SkSearchResult>> = {
-    onSelect({ suggestion }) {
-      const id = suggestion.text;
+  const skSource: AutocompleteSource<
+    SkSearchResult & { [k: string]: unknown }
+  > = {
+    sourceId: 'sk',
+
+    onSelect({ item }) {
+      const id = item.text;
       closeIt();
       requestAnimationFrame(() => {
         Router.push('main', { id: id });
       });
     },
 
-    getInputValue({ suggestion }) {
-      queryState.ignoreNext = true;
-      return suggestion.text;
+    getItemInputValue({ item }) {
+      // queryState.ignoreNext = true;
+      return item.text;
     },
-    async getSuggestions() {
+    async getItems() {
       if (!queryState.shouldFetch) {
-        return getSuggestions<SkSearchResult>(skSource);
+        return getSuggestions(skSource) as unknown as any;
       }
 
       loaders.sk = true;
@@ -145,9 +152,10 @@
     },
   };
 
-  const wkSource: Partial<AutocompleteSource<{ title: string }>> = {
-    onSelect({ suggestion }) {
-      const id = suggestion.title;
+  const wkSource: AutocompleteSource<{ title: string }> = {
+    sourceId: 'wk',
+    onSelect({ item }) {
+      const id = item.title;
       closeIt();
 
       requestAnimationFrame(() => {
@@ -155,11 +163,11 @@
       });
     },
 
-    getInputValue({ suggestion }) {
+    getItemInputValue({ item }) {
       queryState.ignoreNext = true;
-      return suggestion.title;
+      return item.title;
     },
-    async getSuggestions() {
+    async getItems() {
       if (!queryState.shouldFetch) {
         return getSuggestions(wkSource);
       }
@@ -179,25 +187,15 @@
     },
   };
 
-  function getItemsCount(state: AutocompleteState<unknown>) {
-    if (state.suggestions.length === 0) {
-      return 0;
-    }
-
-    return state.suggestions.reduce(function (sum, suggestion) {
-      return sum + suggestion.items.length;
-    }, 0);
-  }
-
   const installAutocomplete = (container: HTMLDivElement) => {
     document.addEventListener('keydown', (event) => {
       if (
         (event.key === 'k' && (event.metaKey || event.ctrlKey)) ||
-        event.key === '/'
+        event.key === '/' ||
+        event.key === '.'
       ) {
-        const htmlInputElement = container.querySelector<HTMLInputElement>(
-          `#mainInput-input`,
-        );
+        const htmlInputElement =
+          container.querySelector<HTMLInputElement>(`#mainInput-input`);
         if (document.activeElement !== htmlInputElement) {
           event.preventDefault();
         }
@@ -206,35 +204,26 @@
         htmlInputElement?.select();
       }
     });
-    const ac = autocomplete<unknown>({
+    const ac = autocomplete<Record<string, unknown>>({
       container: container,
-      enableCompletion: true,
+      // enableCompletion: true,
       id: 'mainInput',
       initialState: {
         ...get(searchState),
       },
-      onSubmit() {},
-      dropdownPlacement: 'full-width',
-      shouldDropdownShow(props) {
-        return getItemsCount(props.state) > 0;
-      },
-
-      classNames: {
-        completion: 'completion input is-large is-overlay',
-        dropdown: 'dropdown absolute tile box p-0',
-        section: 'tile is-parent section',
-        menu: 'menu tile is-child is-primary',
-
-        form: 'form',
-        input: 'input is-large',
-        inputWrapper: 'control has-icons-left has-icons-right',
-        item: 'item p-2 my-1 cursor-pointer ',
-        label: 'icon is-left',
-        resetButton: 'icon is-right',
-        root: 'root',
-        sectionFooter: 'sectionFooter',
-        sectionHeader: 'subtitle is-5 p-2 mb-1',
-      },
+      detachedMediaQuery: 'none',
+      // shouldPanelOpen(props) {
+      //   const { state } = props;
+      //   if (state.collections.length === 0) {
+      //     return false;
+      //   }
+      //
+      //   return (
+      //     state.collections.reduce(function (sum, suggestion) {
+      //       return sum + suggestion.items.length;
+      //     }, 0) > 0
+      //   );
+      // },
 
       async getSources({ query, state }) {
         query = query.trim();
@@ -266,8 +255,17 @@
 
         return [skSource, wkSource, imagesSource] as any;
       },
+      render({ sections, html, render }, root) {
+        const vnode = html`<div
+          class="aa-PanelLayout aa-Panel--scollable tile is-parent"
+        >
+          ${sections}
+        </div>` as VNode;
+        return render(vnode, root);
+      },
     });
     const input = container.querySelector('input');
+    // input?.setAttribute('id', 'mainInput-input');
     input?.setAttribute('tabindex', '-1');
     input?.addEventListener('focus', () => {
       searchState.update((v) => ({
@@ -277,6 +275,7 @@
     });
     input?.addEventListener('blur', () => {
       closeIt();
+      console.log('we blur');
       requestAnimationFrame(() => {
         const element = document.querySelector('h1.title');
         if (element instanceof HTMLElement) {
@@ -295,11 +294,19 @@
         prevValue = target.value;
       }
     });
+
+    const unsub = searchState.subscribe((state) => {
+      ac.setQuery(state.query);
+      if (input) {
+        input.value = state.query;
+      }
+    });
     return {
       destroy() {
+        unsub();
         searchState.update((v) => ({
           ...v,
-          suggestions: [],
+          collections: [],
           isOpen: false,
         }));
         ac.destroy();
@@ -309,54 +316,3 @@
 </script>
 
 <div class="ac relative z-40" tabindex="-1" use:installAutocomplete></div>
-
-<style>
-  .ac :global([hidden]) {
-    display: none;
-    content: '';
-  }
-
-  .ac :global(.dropdown) {
-    max-height: 80vh;
-    top: 20px !important;
-    overflow: auto;
-  }
-
-  .ac :global(.completion) {
-    position: absolute;
-    opacity: 0.2;
-    pointer-events: none;
-    z-index: 1;
-  }
-
-  .ac :global(button.icon) {
-    pointer-events: initial;
-  }
-
-  .ac :global(.completion:empty) {
-    display: none;
-  }
-
-  .ac :global([aria-selected='true']) {
-    background-color: hsl(171, 100%, 41%);
-  }
-
-  .ac :global(input[type='search']::-ms-clear) {
-    display: none;
-    width: 0;
-    height: 0;
-  }
-
-  .ac :global(input[type='search']::-ms-reveal) {
-    display: none;
-    width: 0;
-    height: 0;
-  }
-
-  .ac :global(input[type='search']::-webkit-search-decoration),
-  .ac :global(input[type='search']::-webkit-search-cancel-button),
-  .ac :global(input[type='search']::-webkit-search-results-button),
-  .ac :global(input[type='search']::-webkit-search-results-decoration) {
-    display: none;
-  }
-</style>

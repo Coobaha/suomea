@@ -6,19 +6,19 @@ export type ImageT = {
 };
 
 export type WiktionaryData = {
-  wk_decl?: string | null;
-  wk_notes?: string | null;
-  wk_translation?: string | null;
-  wk_url?: string | null;
-  wk_possessive?: string | null;
-  wk_synonyms?: string | null;
-  etymology?: string | null;
-  suffix?: string | null;
+  wk_decl?: string | null | undefined;
+  wk_notes?: string | null | undefined;
+  wk_translation?: string | null | undefined;
+  wk_url?: string | null | undefined;
+  wk_possessive?: string | null | undefined;
+  wk_synonyms?: string | null | undefined;
+  etymology?: string | null | undefined;
+  suffix?: string | null | undefined;
   Finnish: string;
-  compounds?: string | null;
-  wordtype?: string | null;
-  wk_antonyms?: string | null;
-  wk_derived?: string | null;
+  compounds?: string | null | undefined;
+  wordtype?: string | null | undefined;
+  wk_antonyms?: string | null | undefined;
+  wk_derived?: string | null | undefined;
   meta: {
     gradation?: string;
     kotus?: number;

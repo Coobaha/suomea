@@ -1,8 +1,8 @@
 import fp from 'fastify-plugin';
 import * as crypto from 'crypto';
 import Helmet from 'helmet';
-import FastifyCors from 'fastify-cors';
-import { FastifyReply } from 'fastify';
+import FastifyCors from '@fastify/cors';
+import type { FastifyReply } from 'fastify';
 
 export interface NoncePluginOptions {}
 
@@ -28,15 +28,17 @@ const middleware = Helmet({
         'https://www.sanakirja.org',
         'https://en.wiktionary.org/',
       ],
-      'img-src': [(req, res) => (res.cspAllowAllImages ? '*' : `'self' data:`)],
+      'img-src': [
+        (_req, res) => (res.cspAllowAllImages ? '*' : `'self' data:`),
+      ],
     },
   },
 });
 
-export default fp<NoncePluginOptions>(async (fastify, opts) => {
+export default fp<NoncePluginOptions>(async (fastify) => {
   fastify.decorateRequest('nonce', null);
   fastify.decorateReply('allowCspImages', allowCspImages);
-  fastify.addHook('onRequest', (req, reply, done) => {
+  fastify.addHook('onRequest', (_req, reply, done) => {
     reply.raw.nonce = `nonce-${crypto.randomBytes(16).toString('hex')}`;
 
     done();

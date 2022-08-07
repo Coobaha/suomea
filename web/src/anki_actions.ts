@@ -1,5 +1,6 @@
 import { get } from 'svelte/store';
 import wretch from 'wretch';
+import abortAddon from 'wretch/addons/abort';
 import { throttlingCache } from 'wretch-middlewares';
 import { ankiConnectURI, isAnki } from './ctx';
 import type { AnkiPluginConfig, Data, Note } from './types';
@@ -13,7 +14,6 @@ const cache = throttlingCache({
       if (!get(isAnki)) {
         return true;
       }
-
     } catch (e) {}
     if (opts.forceCache) {
       return false;
@@ -27,6 +27,7 @@ const ankiApi = wretch()
     const url = get(ankiConnectURI);
     return w.url(url);
   })
+  .addon(abortAddon())
   .middlewares([cache]);
 
 const options = (settings: AnkiPluginConfig) => ({
@@ -230,7 +231,7 @@ export async function findExistingNotesId(
     .signal(controller)
     .options({ forceCache: true, cacheKey: `findNotes_${search}` })
     .post({
-      action: 'find_notes',
+      action: 'findNotes',
       version: 6,
       params: {
         query: search,

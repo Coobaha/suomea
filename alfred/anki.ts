@@ -12,7 +12,7 @@ import {
   SkSearchResultWithData,
 } from 'server/src/shared/types';
 import { upsertNoteLight } from './anki_actions';
-import { GoogleChrome } from './chrome';
+import type { GoogleChrome } from './chrome';
 
 const goTo = async (href: string) => {
   const knownBrowsers = [
@@ -78,7 +78,7 @@ const goTo = async (href: string) => {
       const success = browser
         .windows()
         .reverse()
-        .some((window: any, winIdx: number) => {
+        .some((window: any, _winIdx: number) => {
           const tabs = window.tabs();
           const tabIndex = tabs.findIndex((tab: GoogleChrome.Tab) =>
             tab.url().includes(tabUrl),
@@ -140,7 +140,7 @@ const save = async (term: string) => {
 
 type Data = {
   autocomplete: string;
-  subtitle: string;
+  subtitle?: string;
   arg: string;
   title: string;
 };
@@ -153,6 +153,7 @@ const search = async (term: string) => {
       title: element.text,
       subtitle: element.data.sk_translation_strings?.join(', '),
       arg: element.text,
+      autocomplete: element.text,
       order: 10 + element.translation_count,
     }));
   };
@@ -195,7 +196,7 @@ const search = async (term: string) => {
   const titles = new Set<string>();
   all.map((x) => titles.add(x.title));
   const data = Array.from(titles).map((x) => ({ title: x, arg: x }));
-  const constructor = (MiniSearch as unknown) as any;
+  const constructor = MiniSearch as unknown as any;
   let miniSearch: MiniSearchT = new constructor({
     idField: 'arg',
     fields: ['title'], // fields to index for full-text search

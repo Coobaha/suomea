@@ -1,6 +1,6 @@
 <svelte:options immutable="{true}" />
 
-<script lang="typescript">
+<script lang="ts">
   import {
     url,
     term,
@@ -122,7 +122,6 @@
 
 <nav
   class="columns navbar reverse-hidden"
-  role="navigation"
   aria-label="main navigation"
 >
   {#if $isAnki}

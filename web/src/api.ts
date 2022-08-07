@@ -1,4 +1,6 @@
 import wretch from 'wretch';
+import queryStringAddon from 'wretch/addons/queryString';
+import abortAddon from 'wretch/addons/abort';
 import { throttlingCache } from 'wretch-middlewares';
 import type {
   ImageT,
@@ -19,6 +21,8 @@ const cache = throttlingCache({
 });
 
 const suomeaApi = wretch()
+  .addon(abortAddon())
+  .addon(queryStringAddon)
   .url('/api/suomea')
   .options({ credentials: 'include', mode: 'cors' })
   .middlewares([cache]);

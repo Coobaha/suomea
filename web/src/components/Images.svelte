@@ -1,6 +1,6 @@
 <svelte:options immutable="{true}" />
 
-<script lang="typescript">
+<script lang="ts">
   import { cardType, images, viewContext } from '../ctx';
   import { getUrl, Link } from '../router';
 

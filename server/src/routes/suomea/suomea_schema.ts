@@ -1,20 +1,20 @@
-import { Schema } from '@coobaha/typed-fastify';
-import {
+import type { Schema } from '@coobaha/typed-fastify';
+import type {
   SanakirjaData,
   SkSearchResult,
   SkSearchResultWithData,
   WiktionaryData,
 } from '../../shared/types';
-import { MyImage } from './suomea_types';
+import type { MyImage } from './suomea_types';
 
-interface BaseQuery {
+type BaseQuery = {
   q: string;
-}
+};
 
-interface QueryWithLang {
+type QueryWithLang = {
   q: string;
   lang: 'en' | 'ru' | 'fi';
-}
+};
 
 export interface SuomeaSchema extends Schema {
   paths: {

@@ -1,13 +1,11 @@
 import dd from 'dd-trace';
 
-const tracer = dd.init({
-  enabled: process.env.NODE_ENV === 'production',
-  logInjection: true,
-  analytics: true
-});
-
-tracer.use('fastify', {
-  analytics: true,
-});
-
-tracer.use('pino');
+if (process.env['NODE_ENV'] === 'production') {
+  process.env['DD_TRACE_ENABLED'] = 'true';
+  const tracer = dd.init({
+    logInjection: true,
+    runtimeMetrics: true,
+  });
+  tracer.use('fastify', {});
+  tracer.use('pino');
+}

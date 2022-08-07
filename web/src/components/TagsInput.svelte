@@ -226,19 +226,21 @@
   }
 
   function uniqueID() {
-    return 'sti_' + Math.random().toString(36).substr(2, 9);
+    return 'sti_' + Math.random().toString(36).slice(2, 9);
   }
 </script>
 
 <label
   for="{id}"
   class="flex items-center"
-  class:sti-layout-disable="{disable}">
+  class:sti-layout-disable="{disable}"
+>
   <span class=" flex items-center">
     <span
       class="field contents is-small is-grouped is-grouped-multiline items-center mb-0 {layoutReversed
         ? 'flex-row-reverse'
-        : ''}">
+        : ''}"
+    >
       <span class="flex" style="margin-top: -0.325rem">
         <span class="contents">
           {#each tags as tag, i (tag)}
@@ -248,8 +250,7 @@
                 {#if !disable}
                   <span
                     class="tag mb-1 is-delete cursor-pointer {tagClassname}"
-                    on:click="{() => removeTag(i)}"
-                  ></span>
+                    on:click="{() => removeTag(i)}"></span>
                 {/if}
               </span>
             </span>

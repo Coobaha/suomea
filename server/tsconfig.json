@@ -1,9 +1,10 @@
 {
-  "extends": "fastify-tsconfig",
+  "extends": "@tsconfig/node18-strictest/tsconfig.json",
   "compilerOptions": {
     "outDir": "dist",
     "esModuleInterop": true,
+    "resolveJsonModule": true
   },
-  "include": ["src/**/*.ts"],
+  "include": ["src"],
   "exclude": ["node_modules", "client", "dist", ".idea"]
 }
