@@ -10,9 +10,6 @@
   import { searchState } from '../ctx';
   import { get } from 'svelte/store';
 
-  const delay = (delay: number) =>
-    new Promise((resolve) => setTimeout(resolve, delay));
-
   const createTasks = () => {
     let controllers: AbortController[] = [];
 
@@ -80,7 +77,18 @@
         .slice(0, 10);
     },
 
+    onSelect({ item }) {
+      const id = item.name;
+      closeIt();
+      requestAnimationFrame(() => {
+        Router.push('main', { id: id });
+      });
+    },
+
     sourceId: 'images',
+    getItemInputValue({ item }) {
+      return item.name;
+    },
     templates: {
       item: ({ html, item }) => {
         return html`<div class="media">
@@ -206,27 +214,11 @@
     });
     const ac = autocomplete<Record<string, unknown>>({
       container,
-      // container: container.querySelector('div[data-input]'),
-      // panelContainer: container.querySelector('div[data-panel]'),
-      // enableCompletion: true,
       id: 'mainInput',
       initialState: {
         ...get(searchState),
       },
       detachedMediaQuery: 'none',
-      // panelPlacement: 'full-width',
-      // shouldPanelOpen(props) {
-      //   const { state } = props;
-      //   if (state.collections.length === 0) {
-      //     return false;
-      //   }
-      //
-      //   return (
-      //     state.collections.reduce(function (sum, suggestion) {
-      //       return sum + suggestion.items.length;
-      //     }, 0) > 0
-      //   );
-      // },
 
       async getSources({ query, state }) {
         query = query.trim();
@@ -251,12 +243,32 @@
 
         tasks.reset();
 
-        await delay(300);
+        // await delay(300);
 
         queryState.shouldFetch = lastQuery === query;
         if (!query) return [];
 
         return [skSource, wkSource, imagesSource] as any;
+      },
+      reshape({ sources, state }) {
+        const seen = new Set<string>();
+
+        return sources.map((source) => {
+          if (source.sourceId === imagesSource.sourceId) return source;
+          const items = source.getItems().filter((item) => {
+            const id = source.getItemInputValue?.({ item, state }) ?? '';
+            const hasSeen = seen.has(id);
+            seen.add(id);
+            return !hasSeen;
+          });
+
+          return {
+            ...source,
+            getItems() {
+              return items;
+            },
+          };
+        });
       },
       render({ sections, html, render }, root) {
         const vnode = html`<div
@@ -295,7 +307,6 @@
         }
       });
     });
-
     let prevValue = input?.value;
     input?.addEventListener('keydown', (event) => {
       const target = event.target;
@@ -312,14 +323,18 @@
         ac.setIsOpen(false);
         ac.setQuery('');
         if (input) {
-          input.value = state.query;
+          input.value = '';
+          input.blur();
         }
-      } else {
-        ac.setQuery(state.query);
-        if (input) {
-          input.value = state.query;
-        }
+        return;
       }
+      ac.setQuery(state.query);
+      if (input) {
+        input.value = state.query;
+        input.select();
+        input.focus();
+      }
+      ac.refresh();
     });
     return {
       destroy() {
