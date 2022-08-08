@@ -213,8 +213,10 @@
       }
     });
     const ac = autocomplete<Record<string, unknown>>({
-      container: container.querySelector('div[data-input]'),
-      panelContainer: container.querySelector('div[data-panel]'),
+      container: container.querySelector('div[data-input]') as HTMLDivElement,
+      panelContainer: container.querySelector(
+        'div[data-panel]',
+      ) as HTMLDivElement,
       panelPlacement: 'full-width',
       id: 'mainInput',
       initialState: {
