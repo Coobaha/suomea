@@ -15,7 +15,8 @@ type AnkiPluginConfig = {
   answer_field?: string;
 };
 
-const ankiConnectURI = process.env.ANKI_CONNECT_URI || 'http://localhost:8765';
+const ankiConnectURI =
+  process.env['ANKI_CONNECT_URI'] || 'http://localhost:8765';
 
 let settings: AnkiPluginConfig = { enabled: false };
 

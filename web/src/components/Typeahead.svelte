@@ -213,13 +213,14 @@
       }
     });
     const ac = autocomplete<Record<string, unknown>>({
-      container,
+      container: container.querySelector('div[data-input]'),
+      panelContainer: container.querySelector('div[data-panel]'),
+      panelPlacement: 'full-width',
       id: 'mainInput',
       initialState: {
         ...get(searchState),
       },
       detachedMediaQuery: 'none',
-
       async getSources({ query }) {
         query = query.trim();
         lastQuery = query;
@@ -343,4 +344,7 @@
   };
 </script>
 
-<div class="ac relative z-40" tabindex="-1" use:installAutocomplete></div>
+<div class="ac relative z-40" tabindex="-1" use:installAutocomplete>
+  <div data-input></div>
+  <div data-panel></div>
+</div>

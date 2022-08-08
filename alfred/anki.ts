@@ -7,7 +7,7 @@ import defaultBrowser from 'default-browser';
 import * as convert from 'convert-layout/ru';
 import type { default as MiniSearchT, SearchOptions } from 'minisearch';
 import MiniSearch from 'minisearch';
-import {
+import type {
   WkSearchResult,
   SkSearchResultWithData,
 } from 'server/src/shared/types';
@@ -26,8 +26,8 @@ const goTo = async (href: string) => {
     'Yandex',
   ];
 
-  if (process.env.ANKI_BROWSER) {
-    knownBrowsers.push(process.env.ANKI_BROWSER);
+  if (process.env['ANKI_BROWSER']) {
+    knownBrowsers.push(process.env['ANKI_BROWSER']);
   }
 
   let browserName = 'Safari';
@@ -42,14 +42,17 @@ const goTo = async (href: string) => {
 
   const supported = knownBrowsers.includes(browserName);
 
-  if (!supported && !process.env.ANKI_BROWSER) {
+  if (!supported && !process.env['ANKI_BROWSER']) {
     alfy.error(`${browserName} is not supported, `);
     return;
   }
 
-  if (process.env.ANKI_BROWSER && browserName !== process.env.ANKI_BROWSER) {
-    browserName = process.env.ANKI_BROWSER;
-    browserId = process.env.ANKI_BROWSER;
+  if (
+    process.env['ANKI_BROWSER'] &&
+    browserName !== process.env['ANKI_BROWSER']
+  ) {
+    browserName = process.env['ANKI_BROWSER'];
+    browserId = process.env['ANKI_BROWSER'];
   }
 
   const isTranslate = href.startsWith('translate:');
@@ -60,7 +63,7 @@ const goTo = async (href: string) => {
 
   const APP_BASE_URL = isTranslate
     ? 'https://translate.google.com/?sl=fi&tl=en&text='
-    : `${process.env.FINNISH_URL || 'https://cooba.me/suomea'}/`.replace(
+    : `${process.env['FINNISH_URL'] || 'https://cooba.me/suomea'}/`.replace(
         /\/+$/,
         '/',
       );
@@ -108,7 +111,7 @@ const goTo = async (href: string) => {
 };
 
 const API_URL =
-  process.env.FINNISH_API_URL?.replace(/\/+$/, '') ??
+  process.env['FINNISH_API_URL']?.replace(/\/+$/, '') ??
   'https://cooba.me/api/suomea';
 
 const save = async (term: string) => {
@@ -151,7 +154,9 @@ const search = async (term: string) => {
   const skToData = (data: SkSearchResultWithData[]) => {
     return data.map((element) => ({
       title: element.text,
-      subtitle: element.data.sk_translation_strings?.join(', '),
+      subtitle: element.data?.sk_translation_strings
+        ?.filter(Boolean)
+        .join(', '),
       arg: element.text,
       autocomplete: element.text,
       order: 10 + element.translation_count,
@@ -194,7 +199,7 @@ const search = async (term: string) => {
   await Promise.all([wk(), sk('ru'), sk('fi'), sk('en')]);
 
   const titles = new Set<string>();
-  all.map((x) => titles.add(x.title));
+  all.map((x) => titles.add(x['title']));
   const data = Array.from(titles).map((x) => ({ title: x, arg: x }));
   const constructor = MiniSearch as unknown as any;
   let miniSearch: MiniSearchT = new constructor({
@@ -217,7 +222,7 @@ const search = async (term: string) => {
 
   let results = miniSearch
     .search(term)
-    .sort((a, b) => b.score - a.score || b.title.localeCompare(a.title));
+    .sort((a, b) => b.score - a.score || b['title'].localeCompare(a['title']));
 
   if (results.length === 0) {
     alfy.output([
@@ -238,13 +243,14 @@ const search = async (term: string) => {
     alfy.output(
       results
         .map((x) => ({
-          title: `${x.title}`,
+          title: `${x['title']}`,
           subtitle: all
-            .filter((y) => y.title === x.title)
+            .filter((y) => y.title === x['title'])
             .map((x) => x.subtitle)
+            .filter(Boolean)
             .join(', '),
-          arg: x.title,
-          autocomplete: x.title,
+          arg: x['title'],
+          autocomplete: x['title'],
         }))
         .concat([
           {
