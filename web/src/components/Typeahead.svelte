@@ -136,6 +136,9 @@
       });
     },
 
+    getItemUrl({ item }) {
+      return Router.getUrl('main', { id: item.text });
+    },
     getItemInputValue({ item }) {
       // queryState.ignoreNext = true;
       return item.text;
@@ -162,6 +165,9 @@
 
   const wkSource: AutocompleteSource<{ title: string }> = {
     sourceId: 'wk',
+    getItemUrl({ item }) {
+      return Router.getUrl('main', { id: item.title });
+    },
     onSelect({ item }) {
       const id = item.title;
       closeIt();
@@ -223,8 +229,14 @@
         ...get(searchState),
       },
       detachedMediaQuery: 'none',
-      async getSources({ query }) {
-        query = query.trim();
+
+      navigator: {
+        navigate(params) {
+          Router.pushUrl(params.itemUrl);
+        },
+      },
+      async getSources(state) {
+        const query = state.query.trim();
         lastQuery = query;
         queryState.query = query;
 
@@ -238,8 +250,6 @@
         }
 
         tasks.reset();
-
-        // await delay(300);
 
         queryState.shouldFetch = lastQuery === query;
         if (!query) return [];
@@ -276,7 +286,6 @@
       },
     });
     const input = container.querySelector('input');
-    // input?.setAttribute('id', 'mainInput-input');
     input?.setAttribute('tabindex', '-1');
     input?.addEventListener('focus', () => {
       if (!get(searchState).isOpen) {

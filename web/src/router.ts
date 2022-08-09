@@ -41,7 +41,9 @@ export const push = (name: pages[0], params: pages[1]) => {
     router.push(url);
   });
 };
-
+export const pushUrl = (url: string) => {
+  router.push(url);
+};
 {
   const prev = history.pushState;
   history.pushState = (data: any, title: string, url?: string | null) => {
