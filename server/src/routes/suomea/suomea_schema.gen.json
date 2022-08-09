@@ -416,9 +416,6 @@
           "items": {
             "type": "object",
             "$ref": "suomea_schema#/properties/SkSearchResult",
-            "required": [
-              "data"
-            ],
             "properties": {
               "data": {
                 "type": "object",
@@ -545,5 +542,5 @@
       }
     }
   },
-  "$hash": "bdd59d92349a09c01d76e9e195bfcbc8368a3eef28915333e95a77d03e5f1020__v1.0.0"
+  "$hash": "bdd59d92349a09c01d76e9e195bfcbc8368a3eef28915333e95a77d03e5f1020__v1.0.1"
 }
