@@ -45,7 +45,8 @@ module.exports = {
   devOptions: {
     /* ... */
     open: 'none',
-    hmrPort: 80
+    hmrPort: 80,
+    hostname: '0.0.0.0',
   },
   buildOptions: {
     baseUrl: './',

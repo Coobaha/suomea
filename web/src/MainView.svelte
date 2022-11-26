@@ -269,9 +269,28 @@
 
   $: isQuestion = $viewContext.includes('Question');
   $: isReversed = $cardType === 'Reversed';
+
+  function handleDragOver(event: DragEvent) {
+    event.preventDefault();
+  }
+
+  function handleDrop(event: DragEvent) {
+    event.preventDefault();
+    const data = event.dataTransfer?.getData('text/plain');
+    if (data) {
+      const params = {
+        id: data.trim(),
+      };
+      push('main', params);
+    }
+  }
 </script>
 
-<svelte:window on:click|capture="{handleWindowClick}" />
+<svelte:window
+  on:click|capture="{handleWindowClick}"
+  on:dragover|capture="{handleDragOver}"
+  on:drop|capture="{handleDrop}"
+/>
 
 <GlobalStyles />
 <Settings />
