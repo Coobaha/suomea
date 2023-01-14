@@ -1,5 +1,12 @@
 # Changelog
 
+### [0.2.2](https://www.github.com/Coobaha/suomea/compare/v0.2.1...v0.2.2) (2023-01-14)
+
+
+### Bug Fixes
+
+* bump anki plugin for newer aqt ([8faa6cc](https://www.github.com/Coobaha/suomea/commit/8faa6cc698bc8d7e0d4c594e61ced7fe867f19c4))
+
 ### [0.2.1](https://www.github.com/Coobaha/suomea/compare/v0.2.0...v0.2.1) (2022-02-02)
 
 
