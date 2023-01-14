@@ -6,10 +6,10 @@ from urllib.parse import urlparse
 
 from PyQt5.QtWidgets import QDialog, QLayout  # type: ignore
 from anki.httpclient import HttpClient
-from aqt import AnkiQt, mw, addons
+from aqt import mw, addons
 from aqt.utils import showInfo, tooltip, showCritical
 
-from .gui.settings_ui import Ui_Settings  # type: ignore
+from .gui.settings_ui import Ui_Settings
 
 assert mw is not None
 
@@ -44,7 +44,7 @@ class Settings:
 settings = Settings()
 
 
-def anki_connect_setup(parent=None):
+def anki_connect_setup(parent=None) -> None:
     if settings.ankiconnect is None:
         return
 
@@ -87,7 +87,7 @@ def anki_connect_setup(parent=None):
     add_new_handlers()
 
 
-def add_new_handlers():
+def add_new_handlers() -> None:
     try:
         anki_connect_id = "2055492159"
         anki_connect = importlib.import_module(anki_connect_id)
@@ -107,6 +107,7 @@ def add_new_handlers():
         pass
 
 
+# extends Qdialog
 class SettingsModal(QDialog):
     def __init__(self, parent: QDialog):
         super().__init__(parent=parent)
@@ -138,13 +139,13 @@ class SettingsModal(QDialog):
 
         self.exec_()
 
-    def bool(self, dropdown, val):
+    def bool(self, dropdown, val) -> None:
         if val is True:
             dropdown.setCurrentText("Yes")
         else:
             dropdown.setCurrentText("No")
 
-    def setup_note_type_dependant_fields(self, nt_name):
+    def setup_note_type_dependant_fields(self, nt_name) -> None:
         all_models = [n.name for n in mw.col.models.all_names_and_ids()]
 
         if nt_name is None:
@@ -185,7 +186,7 @@ class SettingsModal(QDialog):
         else:
             self.ui.notesField.setCurrentText("")
 
-    def validate(self):
+    def validate(self) -> bool:
         all_fields = list(
             filter(lambda x: x != "", [
                 self.ui.noteType.currentText,
@@ -202,7 +203,7 @@ class SettingsModal(QDialog):
                          parent=self._parent)
         return valid
 
-    def save(self):
+    def save(self) -> None:
         if self.validate():
             settings.enabled = self.ui.enabled.currentText() == "Yes"
             settings.ankiconnect = self.ui.ankiConnect.currentText() == "Yes"
@@ -213,6 +214,7 @@ class SettingsModal(QDialog):
             settings.deck = self.ui.defaultDeck.currentText()
             settings.question_field = self.ui.questionField.currentText()
 
+            assert mw
             mw.addonManager.writeConfig(__name__, settings.to_dict())
             anki_connect_setup(parent=self._parent)
             self.accept()

@@ -51,7 +51,17 @@
 		<array>
 			<dict>
 				<key>destinationuid</key>
-				<string>98DE24C8-F6EB-4B70-A19A-F1F58A91E3AD</string>
+				<string>67DC84DC-D19C-4942-B72A-1D18D9AE8B5E</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+			<dict>
+				<key>destinationuid</key>
+				<string>80558C68-C3FE-46B8-8F5F-2FF5F9D0A4E1</string>
 				<key>modifiers</key>
 				<integer>0</integer>
 				<key>modifiersubtext</key>
@@ -60,11 +70,11 @@
 				<false/>
 			</dict>
 		</array>
-		<key>6555A513-1720-4AB3-ABD5-ED49955A0ADB</key>
+		<key>6E21B053-F623-443F-AEF3-06D3B51AAC4C</key>
 		<array>
 			<dict>
 				<key>destinationuid</key>
-				<string>88767AD9-26CB-483D-B76C-3A53F486BFBC</string>
+				<string>AC335198-15D9-4101-A20D-E8CD1A76A31E</string>
 				<key>modifiers</key>
 				<integer>0</integer>
 				<key>modifiersubtext</key>
@@ -86,15 +96,30 @@
 				<false/>
 			</dict>
 		</array>
-		<key>70427086-DA4F-44B3-B1E8-39359C76EE59</key>
+		<key>6F9629CA-E0E0-41B4-9F28-7F0E9D342D1A</key>
 		<array>
 			<dict>
 				<key>destinationuid</key>
-				<string>98DE24C8-F6EB-4B70-A19A-F1F58A91E3AD</string>
+				<string>929C6D45-1ECB-4F4B-9AFD-2B0FE91325C1</string>
 				<key>modifiers</key>
 				<integer>0</integer>
 				<key>modifiersubtext</key>
 				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
+		<key>80558C68-C3FE-46B8-8F5F-2FF5F9D0A4E1</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>EFE99584-139D-4336-B894-A2D6AD2F602E</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>sourceoutputuid</key>
+				<string>36CBC358-5D1B-4157-8D80-97D012EE15F2</string>
 				<key>vitoclose</key>
 				<false/>
 			</dict>
@@ -112,8 +137,31 @@
 				<false/>
 			</dict>
 		</array>
+		<key>929C6D45-1ECB-4F4B-9AFD-2B0FE91325C1</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>98DE24C8-F6EB-4B70-A19A-F1F58A91E3AD</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
 		<key>98DE24C8-F6EB-4B70-A19A-F1F58A91E3AD</key>
 		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>67DC84DC-D19C-4942-B72A-1D18D9AE8B5E</string>
+				<key>modifiers</key>
+				<integer>131072</integer>
+				<key>modifiersubtext</key>
+				<string>Translate in Google</string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
 			<dict>
 				<key>destinationuid</key>
 				<string>C15FE40B-930C-4548-B24F-D35300D6109A</string>
@@ -134,16 +182,6 @@
 				<key>vitoclose</key>
 				<false/>
 			</dict>
-			<dict>
-				<key>destinationuid</key>
-				<string>67DC84DC-D19C-4942-B72A-1D18D9AE8B5E</string>
-				<key>modifiers</key>
-				<integer>131072</integer>
-				<key>modifiersubtext</key>
-				<string>Translate in Google</string>
-				<key>vitoclose</key>
-				<false/>
-			</dict>
 		</array>
 		<key>9A0DCE5B-E1FE-49C0-871B-1D680EC27B50</key>
 		<array>
@@ -158,11 +196,37 @@
 				<false/>
 			</dict>
 		</array>
+		<key>AC335198-15D9-4101-A20D-E8CD1A76A31E</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>6F9629CA-E0E0-41B4-9F28-7F0E9D342D1A</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
 		<key>B6153FF2-AB8F-4A17-9747-096390C2E0AE</key>
 		<array>
 			<dict>
 				<key>destinationuid</key>
 				<string>1DB8CD3B-BE1C-40D6-B189-53C3795AE4E4</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
+		<key>BE007DEC-B6E3-4903-9F2B-EE7C18DAD186</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>88767AD9-26CB-483D-B76C-3A53F486BFBC</string>
 				<key>modifiers</key>
 				<integer>0</integer>
 				<key>modifiersubtext</key>
@@ -193,8 +257,6 @@
 				<integer>0</integer>
 				<key>argument</key>
 				<integer>1</integer>
-				<key>argumenttext</key>
-				<string>sel::</string>
 				<key>focusedappvariable</key>
 				<false/>
 				<key>focusedappvariablename</key>
@@ -202,44 +264,9 @@
 				<key>hotkey</key>
 				<integer>17</integer>
 				<key>hotmod</key>
-				<integer>1572864</integer>
+				<integer>1703936</integer>
 				<key>hotstring</key>
 				<string>T</string>
-				<key>leftcursor</key>
-				<false/>
-				<key>modsmode</key>
-				<integer>0</integer>
-				<key>relatedApps</key>
-				<array>
-					<string>com.microsoft.VSCode</string>
-				</array>
-				<key>relatedAppsMode</key>
-				<integer>1</integer>
-			</dict>
-			<key>type</key>
-			<string>alfred.workflow.trigger.hotkey</string>
-			<key>uid</key>
-			<string>6555A513-1720-4AB3-ABD5-ED49955A0ADB</string>
-			<key>version</key>
-			<integer>2</integer>
-		</dict>
-		<dict>
-			<key>config</key>
-			<dict>
-				<key>action</key>
-				<integer>0</integer>
-				<key>argument</key>
-				<integer>1</integer>
-				<key>focusedappvariable</key>
-				<false/>
-				<key>focusedappvariablename</key>
-				<string></string>
-				<key>hotkey</key>
-				<integer>14</integer>
-				<key>hotmod</key>
-				<integer>1310720</integer>
-				<key>hotstring</key>
-				<string>E</string>
 				<key>leftcursor</key>
 				<false/>
 				<key>modsmode</key>
@@ -262,9 +289,9 @@
 				<key>escaping</key>
 				<integer>102</integer>
 				<key>script</key>
-				<string>./node_modules/.bin/run-node ./dist/anki.js save $@</string>
+				<string>./node_modules/.bin/run-node ./dist/anki.js open translate:'{query}'</string>
 				<key>scriptargtype</key>
-				<integer>1</integer>
+				<integer>0</integer>
 				<key>scriptfile</key>
 				<string></string>
 				<key>type</key>
@@ -273,28 +300,7 @@
 			<key>type</key>
 			<string>alfred.workflow.action.script</string>
 			<key>uid</key>
-			<string>C15FE40B-930C-4548-B24F-D35300D6109A</string>
-			<key>version</key>
-			<integer>2</integer>
-		</dict>
-		<dict>
-			<key>config</key>
-			<dict>
-				<key>matchmode</key>
-				<integer>1</integer>
-				<key>matchstring</key>
-				<string>[.,\/#!?$%^&amp;*;:{}=\-_`~()]$</string>
-				<key>regexcaseinsensitive</key>
-				<true/>
-				<key>regexmultiline</key>
-				<true/>
-				<key>replacestring</key>
-				<string></string>
-			</dict>
-			<key>type</key>
-			<string>alfred.workflow.utility.replace</string>
-			<key>uid</key>
-			<string>1DB8CD3B-BE1C-40D6-B189-53C3795AE4E4</string>
+			<string>67DC84DC-D19C-4942-B72A-1D18D9AE8B5E</string>
 			<key>version</key>
 			<integer>2</integer>
 		</dict>
@@ -325,6 +331,59 @@
 				<key>matchmode</key>
 				<integer>1</integer>
 				<key>matchstring</key>
+				<string>[.,\/#!?$%^&amp;*;:{}=\-_`~()]$</string>
+				<key>regexcaseinsensitive</key>
+				<true/>
+				<key>regexmultiline</key>
+				<true/>
+				<key>replacestring</key>
+				<string></string>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.utility.replace</string>
+			<key>uid</key>
+			<string>1DB8CD3B-BE1C-40D6-B189-53C3795AE4E4</string>
+			<key>version</key>
+			<integer>2</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>conditions</key>
+				<array>
+					<dict>
+						<key>inputstring</key>
+						<string></string>
+						<key>matchcasesensitive</key>
+						<false/>
+						<key>matchmode</key>
+						<integer>4</integer>
+						<key>matchstring</key>
+						<string>^\w+$</string>
+						<key>outputlabel</key>
+						<string></string>
+						<key>uid</key>
+						<string>36CBC358-5D1B-4157-8D80-97D012EE15F2</string>
+					</dict>
+				</array>
+				<key>elselabel</key>
+				<string>else</string>
+				<key>hideelse</key>
+				<true/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.utility.conditional</string>
+			<key>uid</key>
+			<string>80558C68-C3FE-46B8-8F5F-2FF5F9D0A4E1</string>
+			<key>version</key>
+			<integer>1</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>matchmode</key>
+				<integer>1</integer>
+				<key>matchstring</key>
 				<string>\n</string>
 				<key>regexcaseinsensitive</key>
 				<false/>
@@ -343,19 +402,37 @@
 		<dict>
 			<key>config</key>
 			<dict>
-				<key>jumpto</key>
-				<string>_popUpItemAction:</string>
-				<key>path</key>
-				<string>translate {query}</string>
-				<key>type</key>
-				<integer>100</integer>
+				<key>action</key>
+				<integer>0</integer>
+				<key>argument</key>
+				<integer>1</integer>
+				<key>focusedappvariable</key>
+				<false/>
+				<key>focusedappvariablename</key>
+				<string></string>
+				<key>hotkey</key>
+				<integer>17</integer>
+				<key>hotmod</key>
+				<integer>524288</integer>
+				<key>hotstring</key>
+				<string>T</string>
+				<key>leftcursor</key>
+				<false/>
+				<key>modsmode</key>
+				<integer>0</integer>
+				<key>relatedApps</key>
+				<array>
+					<string>com.apple.Preview</string>
+				</array>
+				<key>relatedAppsMode</key>
+				<integer>1</integer>
 			</dict>
 			<key>type</key>
-			<string>alfred.workflow.action.actioninalfred</string>
+			<string>alfred.workflow.trigger.hotkey</string>
 			<key>uid</key>
-			<string>B61FEE0D-3C68-4EA2-999F-752D60B0F043</string>
+			<string>BE007DEC-B6E3-4903-9F2B-EE7C18DAD186</string>
 			<key>version</key>
-			<integer>1</integer>
+			<integer>2</integer>
 		</dict>
 		<dict>
 			<key>config</key>
@@ -371,7 +448,7 @@
 				<key>argumenttype</key>
 				<integer>0</integer>
 				<key>escaping</key>
-				<integer>0</integer>
+				<integer>110</integer>
 				<key>keyword</key>
 				<string>f</string>
 				<key>queuedelaycustom</key>
@@ -385,9 +462,9 @@
 				<key>runningsubtext</key>
 				<string>Loading</string>
 				<key>script</key>
-				<string>./node_modules/.bin/run-node ./dist/anki.js search $@</string>
+				<string>./node_modules/.bin/run-node ./dist/anki.js search '{query}'</string>
 				<key>scriptargtype</key>
-				<integer>1</integer>
+				<integer>0</integer>
 				<key>scriptfile</key>
 				<string></string>
 				<key>subtext</key>
@@ -409,6 +486,29 @@
 		<dict>
 			<key>config</key>
 			<dict>
+				<key>concurrently</key>
+				<false/>
+				<key>escaping</key>
+				<integer>102</integer>
+				<key>script</key>
+				<string>./node_modules/.bin/run-node ./dist/anki.js save '{query}'</string>
+				<key>scriptargtype</key>
+				<integer>0</integer>
+				<key>scriptfile</key>
+				<string></string>
+				<key>type</key>
+				<integer>0</integer>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.action.script</string>
+			<key>uid</key>
+			<string>C15FE40B-930C-4548-B24F-D35300D6109A</string>
+			<key>version</key>
+			<integer>2</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
 				<key>action</key>
 				<integer>0</integer>
 				<key>argument</key>
@@ -418,11 +518,11 @@
 				<key>focusedappvariablename</key>
 				<string></string>
 				<key>hotkey</key>
-				<integer>17</integer>
+				<integer>14</integer>
 				<key>hotmod</key>
-				<integer>1310720</integer>
+				<integer>1703936</integer>
 				<key>hotstring</key>
-				<string>Е</string>
+				<string>E</string>
 				<key>leftcursor</key>
 				<false/>
 				<key>modsmode</key>
@@ -433,30 +533,49 @@
 			<key>type</key>
 			<string>alfred.workflow.trigger.hotkey</string>
 			<key>uid</key>
-			<string>70427086-DA4F-44B3-B1E8-39359C76EE59</string>
+			<string>6E21B053-F623-443F-AEF3-06D3B51AAC4C</string>
 			<key>version</key>
 			<integer>2</integer>
 		</dict>
 		<dict>
 			<key>config</key>
 			<dict>
-				<key>concurrently</key>
-				<false/>
-				<key>escaping</key>
-				<integer>102</integer>
-				<key>script</key>
-				<string>./node_modules/.bin/run-node ./dist/anki.js open $@</string>
-				<key>scriptargtype</key>
+				<key>matchmode</key>
 				<integer>1</integer>
-				<key>scriptfile</key>
+				<key>matchstring</key>
+				<string>-\s+</string>
+				<key>regexcaseinsensitive</key>
+				<false/>
+				<key>regexmultiline</key>
+				<true/>
+				<key>replacestring</key>
 				<string></string>
-				<key>type</key>
-				<integer>0</integer>
 			</dict>
 			<key>type</key>
-			<string>alfred.workflow.action.script</string>
+			<string>alfred.workflow.utility.replace</string>
 			<key>uid</key>
-			<string>EFE99584-139D-4336-B894-A2D6AD2F602E</string>
+			<string>6F9629CA-E0E0-41B4-9F28-7F0E9D342D1A</string>
+			<key>version</key>
+			<integer>2</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>matchmode</key>
+				<integer>1</integer>
+				<key>matchstring</key>
+				<string>\n</string>
+				<key>regexcaseinsensitive</key>
+				<false/>
+				<key>regexmultiline</key>
+				<true/>
+				<key>replacestring</key>
+				<string> </string>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.utility.replace</string>
+			<key>uid</key>
+			<string>AC335198-15D9-4101-A20D-E8CD1A76A31E</string>
 			<key>version</key>
 			<integer>2</integer>
 		</dict>
@@ -477,7 +596,7 @@
 			<key>type</key>
 			<string>alfred.workflow.utility.replace</string>
 			<key>uid</key>
-			<string>1A274D41-5A1F-4F2D-BC24-46D2A5A7037C</string>
+			<string>929C6D45-1ECB-4F4B-9AFD-2B0FE91325C1</string>
 			<key>version</key>
 			<integer>2</integer>
 		</dict>
@@ -489,9 +608,9 @@
 				<key>escaping</key>
 				<integer>102</integer>
 				<key>script</key>
-				<string>./node_modules/.bin/run-node ./dist/anki.js open translate:$@</string>
+				<string>./node_modules/.bin/run-node ./dist/anki.js open '{query}'</string>
 				<key>scriptargtype</key>
-				<integer>1</integer>
+				<integer>0</integer>
 				<key>scriptfile</key>
 				<string></string>
 				<key>type</key>
@@ -500,7 +619,38 @@
 			<key>type</key>
 			<string>alfred.workflow.action.script</string>
 			<key>uid</key>
-			<string>67DC84DC-D19C-4942-B72A-1D18D9AE8B5E</string>
+			<string>EFE99584-139D-4336-B894-A2D6AD2F602E</string>
+			<key>version</key>
+			<integer>2</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>action</key>
+				<integer>0</integer>
+				<key>argument</key>
+				<integer>1</integer>
+				<key>focusedappvariable</key>
+				<false/>
+				<key>focusedappvariablename</key>
+				<string></string>
+				<key>hotkey</key>
+				<integer>14</integer>
+				<key>hotmod</key>
+				<integer>1572864</integer>
+				<key>hotstring</key>
+				<string>E</string>
+				<key>leftcursor</key>
+				<false/>
+				<key>modsmode</key>
+				<integer>2</integer>
+				<key>relatedAppsMode</key>
+				<integer>0</integer>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.trigger.hotkey</string>
+			<key>uid</key>
+			<string>092AF545-B7FA-4D2A-B622-F4FDA11A02C2</string>
 			<key>version</key>
 			<integer>2</integer>
 		</dict>
@@ -549,31 +699,21 @@
 		<dict>
 			<key>config</key>
 			<dict>
-				<key>action</key>
-				<integer>0</integer>
-				<key>argument</key>
+				<key>matchmode</key>
 				<integer>1</integer>
-				<key>focusedappvariable</key>
-				<false/>
-				<key>focusedappvariablename</key>
+				<key>matchstring</key>
+				<string>[.,\/#!?$%^&amp;*;:{}=\-_`~()]$</string>
+				<key>regexcaseinsensitive</key>
+				<true/>
+				<key>regexmultiline</key>
+				<true/>
+				<key>replacestring</key>
 				<string></string>
-				<key>hotkey</key>
-				<integer>17</integer>
-				<key>hotmod</key>
-				<integer>1703936</integer>
-				<key>hotstring</key>
-				<string>T</string>
-				<key>leftcursor</key>
-				<false/>
-				<key>modsmode</key>
-				<integer>2</integer>
-				<key>relatedAppsMode</key>
-				<integer>0</integer>
 			</dict>
 			<key>type</key>
-			<string>alfred.workflow.trigger.hotkey</string>
+			<string>alfred.workflow.utility.replace</string>
 			<key>uid</key>
-			<string>092AF545-B7FA-4D2A-B622-F4FDA11A02C2</string>
+			<string>1A274D41-5A1F-4F2D-BC24-46D2A5A7037C</string>
 			<key>version</key>
 			<integer>2</integer>
 		</dict>
@@ -585,95 +725,116 @@
 		<key>07AE6DFA-9751-443A-91A0-E4EE8F642B6B</key>
 		<dict>
 			<key>xpos</key>
-			<integer>210</integer>
+			<real>315</real>
 			<key>ypos</key>
-			<integer>575</integer>
+			<real>635</real>
 		</dict>
 		<key>092AF545-B7FA-4D2A-B622-F4FDA11A02C2</key>
 		<dict>
 			<key>xpos</key>
-			<integer>105</integer>
+			<real>30</real>
 			<key>ypos</key>
-			<integer>720</integer>
+			<real>590</real>
 		</dict>
 		<key>1A274D41-5A1F-4F2D-BC24-46D2A5A7037C</key>
 		<dict>
 			<key>xpos</key>
-			<integer>290</integer>
+			<real>375</real>
 			<key>ypos</key>
-			<integer>500</integer>
+			<real>635</real>
 		</dict>
 		<key>1DB8CD3B-BE1C-40D6-B189-53C3795AE4E4</key>
 		<dict>
 			<key>xpos</key>
-			<integer>440</integer>
+			<real>390</real>
 			<key>ypos</key>
-			<integer>160</integer>
-		</dict>
-		<key>6555A513-1720-4AB3-ABD5-ED49955A0ADB</key>
-		<dict>
-			<key>xpos</key>
-			<integer>205</integer>
-			<key>ypos</key>
-			<integer>10</integer>
+			<real>150</real>
 		</dict>
 		<key>67DC84DC-D19C-4942-B72A-1D18D9AE8B5E</key>
 		<dict>
 			<key>note</key>
 			<string>open google translate tab</string>
 			<key>xpos</key>
-			<integer>670</integer>
+			<real>870</real>
 			<key>ypos</key>
-			<integer>565</integer>
+			<real>105</real>
+		</dict>
+		<key>6E21B053-F623-443F-AEF3-06D3B51AAC4C</key>
+		<dict>
+			<key>xpos</key>
+			<real>30</real>
+			<key>ypos</key>
+			<real>370</real>
 		</dict>
 		<key>6E5C172B-9501-4335-887D-88A1765E201B</key>
 		<dict>
 			<key>xpos</key>
-			<integer>75</integer>
+			<real>30</real>
 			<key>ypos</key>
-			<integer>70</integer>
+			<real>45</real>
 		</dict>
-		<key>70427086-DA4F-44B3-B1E8-39359C76EE59</key>
+		<key>6F9629CA-E0E0-41B4-9F28-7F0E9D342D1A</key>
 		<dict>
 			<key>xpos</key>
-			<integer>95</integer>
+			<real>290</real>
 			<key>ypos</key>
-			<integer>275</integer>
+			<real>395</real>
+		</dict>
+		<key>80558C68-C3FE-46B8-8F5F-2FF5F9D0A4E1</key>
+		<dict>
+			<key>xpos</key>
+			<real>455</real>
+			<key>ypos</key>
+			<real>150</real>
 		</dict>
 		<key>88767AD9-26CB-483D-B76C-3A53F486BFBC</key>
 		<dict>
 			<key>xpos</key>
-			<integer>235</integer>
+			<real>245</real>
 			<key>ypos</key>
-			<integer>185</integer>
+			<real>155</real>
+		</dict>
+		<key>929C6D45-1ECB-4F4B-9AFD-2B0FE91325C1</key>
+		<dict>
+			<key>xpos</key>
+			<real>340</real>
+			<key>ypos</key>
+			<real>395</real>
 		</dict>
 		<key>98DE24C8-F6EB-4B70-A19A-F1F58A91E3AD</key>
 		<dict>
 			<key>xpos</key>
-			<integer>310</integer>
+			<real>455</real>
 			<key>ypos</key>
-			<integer>270</integer>
+			<real>360</real>
 		</dict>
 		<key>9A0DCE5B-E1FE-49C0-871B-1D680EC27B50</key>
 		<dict>
 			<key>xpos</key>
-			<integer>130</integer>
+			<real>250</real>
 			<key>ypos</key>
-			<integer>570</integer>
+			<real>635</real>
+		</dict>
+		<key>AC335198-15D9-4101-A20D-E8CD1A76A31E</key>
+		<dict>
+			<key>xpos</key>
+			<real>245</real>
+			<key>ypos</key>
+			<real>395</real>
 		</dict>
 		<key>B6153FF2-AB8F-4A17-9747-096390C2E0AE</key>
 		<dict>
 			<key>xpos</key>
-			<integer>315</integer>
+			<real>315</real>
 			<key>ypos</key>
-			<integer>165</integer>
+			<real>150</real>
 		</dict>
-		<key>B61FEE0D-3C68-4EA2-999F-752D60B0F043</key>
+		<key>BE007DEC-B6E3-4903-9F2B-EE7C18DAD186</key>
 		<dict>
 			<key>xpos</key>
-			<integer>730</integer>
+			<real>30</real>
 			<key>ypos</key>
-			<integer>225</integer>
+			<real>155</real>
 		</dict>
 		<key>C15FE40B-930C-4548-B24F-D35300D6109A</key>
 		<dict>
@@ -682,22 +843,26 @@
 			<key>note</key>
 			<string>save to anki</string>
 			<key>xpos</key>
-			<integer>700</integer>
+			<real>1000</real>
 			<key>ypos</key>
-			<integer>100</integer>
+			<real>370</real>
 		</dict>
 		<key>EFE99584-139D-4336-B894-A2D6AD2F602E</key>
 		<dict>
 			<key>note</key>
 			<string>open anki tab</string>
 			<key>xpos</key>
-			<integer>770</integer>
+			<real>980</real>
 			<key>ypos</key>
-			<integer>350</integer>
+			<real>590</real>
 		</dict>
 	</dict>
+	<key>userconfigurationconfig</key>
+	<array/>
 	<key>variables</key>
 	<dict>
+		<key>ANKI_BROWSER</key>
+		<string>Brave</string>
 		<key>ANKI_CONNECT_URI</key>
 		<string>http://localhost:8765</string>
 		<key>FINNISH_API_URL</key>

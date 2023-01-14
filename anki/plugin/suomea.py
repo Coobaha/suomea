@@ -7,14 +7,14 @@ from aqt import mw, gui_hooks
 from aqt.addons import AddonsDialog
 from aqt.browser.previewer import Previewer
 from aqt.clayout import CardLayout
-from aqt.hooks_gen import addons_dialog_will_show
 from anki.cards import Card
 from aqt.reviewer import Reviewer
 from aqt.webview import WebContent
 
 from .settings import settings, SettingsModal, anki_connect_setup
 
-def prepare(html, card, context: str):
+
+def prepare(html: str, card: Card, context: str) -> str:
     if settings.enabled is False:
         return html
     if card.note_type()['name'] != settings.note_type:
@@ -33,7 +33,7 @@ def prepare(html, card, context: str):
     next_card = None
 
     if sched.version == 3:
-        sched_v3 = sched # type: Any
+        sched_v3 = sched  # type: Any
         cards = sched_v3.get_queued_cards(fetch_limit=2)
         if len(cards.cards) > 1:
             queued_card = cards.cards[1]
@@ -66,27 +66,20 @@ def prepare(html, card, context: str):
         current_id = card.note().id
 
         try:
+            assert settings
+            assert settings.question_field
             current_term = card.note()[settings.question_field]
         except KeyError:
             current_term = card.note().values()[0]
 
-    card_types = {
-        0: "Forwards",
-        1: "Reversed",
-    }
+    card_types = {0: "Forwards", 1: "Reversed", }
 
-    app_dict = {
-        'context': context,
-        'isAnki': True,
+    app_dict = {'context': context, 'isAnki': True,
 
-        'currentTerm': current_term,
-        'cardType': card_types.get(card.ord, "Unknown"),
-        'tags': card.note().tags,
-        'id': current_id,
+                'currentTerm': current_term, 'cardType': card_types.get(card.ord, "Unknown"),
+                'tags': card.note().tags, 'id': current_id,
 
-        'nextTerm': next_term,
-        'nextId': next_id,
-    }
+                'nextTerm': next_term, 'nextId': next_id, }
     return f"""
 <script>
 window.myAnkiSetup = {dumps(app_dict)};
@@ -94,7 +87,7 @@ if (window.myAnkiUpdate) window.myAnkiUpdate(window.myAnkiSetup);
 </script>""" + html
 
 
-def add_html(web_content: WebContent):
+def add_html(web_content: WebContent) -> None:
     uri = settings.uri.rstrip("/")
     url = urlparse(uri)
 
@@ -127,7 +120,7 @@ def add_html(web_content: WebContent):
         '''.format(base=uri)
 
 
-def on_webview_will_set_content(web_content: WebContent, context):
+def on_webview_will_set_content(web_content: WebContent, context: Optional[object]) -> None:
     if settings.enabled is False:
         return
 
@@ -150,16 +143,18 @@ gui_hooks.webview_will_set_content.append(on_webview_will_set_content)
 addons_current: Optional[AddonsDialog] = None
 
 
-def init():
-    def save_addons_window(addons):
+def init() -> None:
+    def save_addons_window(addons: AddonsDialog) -> None:
         global addons_current
         addons_current = addons
 
-    def show_settings():
+    def show_settings() -> bool:
         SettingsModal(parent=addons_current)
         return True
 
-    addons_dialog_will_show.append(save_addons_window)
+    assert (mw)
+
+    gui_hooks.addons_dialog_will_show.append(save_addons_window)
     mw.addonManager.setConfigAction(__name__, show_settings)
     anki_connect_setup()
 
