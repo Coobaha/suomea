@@ -111,10 +111,12 @@ def add_html(web_content: WebContent) -> None:
     if is_local:
         web_content.head += '''
         <script>window.HMR_WEBSOCKET_URL = "{hmr}";</script>
+        <script>window.ANKI_BASE_URL = "{base}";</script>
         <script type="module" src="{base}/dist/init.js"></script>
         '''.format(hmr=hmr_url, base=uri)
     else:
         web_content.head += '''
+        <script>window.ANKI_BASE_URL = "{base}";</script>
         <script src="{base}/js/webpack-runtime.js"></script>
         <script src="{base}/js/init.js"></script>
         '''.format(base=uri)
