@@ -124,6 +124,10 @@
       setCollapsed(isCollapsed);
     });
 
+    if (get(settings).hideSettings) {
+      panel.hide();
+    }
+
     tick().then(() => {
       if (get(isAnki)) {
         panel.setWidth(20);

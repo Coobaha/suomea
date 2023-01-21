@@ -8,6 +8,7 @@ import type {
 } from './types';
 import store from 'store';
 import engine from 'store/src/store-engine';
+import localStorageAdapter from 'store/storages/localStorage';
 import sessionStorage from 'store/storages/sessionStorage';
 import memoryStorage from 'store/storages/memoryStorage';
 
@@ -20,13 +21,18 @@ type Settings = MyAnkiSetup & {
   themedTags: string[];
   ankiConnectURI: string;
   ankiConnected: boolean;
+  hideSettings: boolean;
 };
 
-const sessionStore = engine.createStore([sessionStorage, memoryStorage], []);
+const sessionStore = engine.createStore(
+  [localStorageAdapter, sessionStorage, memoryStorage],
+  [],
+);
 
 const defaultSettings: Settings = {
   currentTerm: '',
   isCollapsed: true,
+  hideSettings: !sessionStore.get('anki_devtools'),
   nextTerm: '',
   context: 'reviewAnswer',
   cardType: 'Forwards',
@@ -44,6 +50,7 @@ let storedSettings: Settings = {
   ...defaultSettings,
   ...store.get('settings'),
   ...sessionStore.get('settings'),
+  hideSettings: !sessionStore.get('anki_devtools'),
 };
 
 if (storedSettings.nextTerm === 'null') {
