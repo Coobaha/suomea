@@ -247,7 +247,6 @@
         ...get(searchState),
       },
       detachedMediaQuery: 'none',
-
       navigator: {
         navigate(params) {
           Router.pushUrl(params.itemUrl);
@@ -357,6 +356,7 @@
         input.select();
         input.focus();
       }
+      ac.setIsOpen(true);
       ac.refresh();
     });
     return {

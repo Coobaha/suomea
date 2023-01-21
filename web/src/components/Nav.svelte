@@ -118,12 +118,14 @@
       extraTags.unshift('in anki');
     }
   }
+
+  function handleTitleClick(event: MouseEvent) {
+    if (event.metaKey || event.ctrlKey || event.shiftKey) return;
+    document.querySelector<HTMLInputElement>(`#mainInput-input`)?.focus();
+  }
 </script>
 
-<nav
-  class="columns navbar reverse-hidden"
-  aria-label="main navigation"
->
+<nav class="columns navbar reverse-hidden" aria-label="main navigation">
   {#if $isAnki}
     <!--suppress HtmlUnknownTarget -->
     <a
@@ -139,6 +141,7 @@
       tabindex="0"
       class="navbar-item title m-0"
       class:invisible="{isReversedQuestion}"
+      on:dblclick="{handleTitleClick}"
     >
       {$term}
     </h1>
