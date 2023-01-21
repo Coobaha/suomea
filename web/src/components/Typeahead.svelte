@@ -210,7 +210,23 @@
       ) {
         const htmlInputElement =
           container.querySelector<HTMLInputElement>(`#mainInput-input`);
-        if (document.activeElement !== htmlInputElement) {
+        // elements where user can type, input textarea etc
+        const els = new Set(['input', 'textarea']);
+        const focused = document.activeElement;
+        if (focused !== htmlInputElement) {
+          const tagName = focused?.tagName.toLowerCase();
+          if (focused?.getAttribute('contenteditable') === 'true') {
+            return;
+          }
+          if (els.has(tagName)) {
+            if (tagName === 'textarea') {
+              return;
+            }
+            const inputs = new Set(['text', 'search', 'url', 'tel', 'email']);
+            if (inputs.has(focused?.getAttribute('type'))) {
+              return;
+            }
+          }
           event.preventDefault();
         }
         htmlInputElement?.blur();
@@ -359,3 +375,9 @@
   <div data-input></div>
   <div data-panel></div>
 </div>
+
+<style>
+  [data-panel] :global(.aa-Panel) {
+    top: inherit !important;
+  }
+</style>
