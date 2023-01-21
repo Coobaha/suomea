@@ -23,9 +23,14 @@ function init() {
 
   iframe.setAttribute(
     'src',
-    `${import.meta.env.SNOWPACK_PUBLIC_BASE ?? ''}/${
-      import.meta.env.SNOWPACK_PUBLIC_BASE_NAME ?? ''
-    }`,
+    window.ANKI_BASE_URL ??
+      new URL(
+        (document.currentScript as HTMLScriptElement)?.src,
+        window.location.origin,
+      ).origin ??
+      `${import.meta.env.SNOWPACK_PUBLIC_BASE ?? ''}/${
+        import.meta.env.SNOWPACK_PUBLIC_BASE_NAME ?? ''
+      }`,
   );
   iframe.setAttribute('id', `ankiFrame`);
   iframe.setAttribute('style', `height:100vh; width: 100%`);
@@ -45,7 +50,7 @@ function init() {
     if (iframe.contentWindow) {
       const payload = { ...data };
       Object.keys(data).forEach((key) => {
-        const k = (key as unknown) as keyof typeof payload;
+        const k = key as unknown as keyof typeof payload;
         if (payload[k] === null) {
           delete payload[k];
         }

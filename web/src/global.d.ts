@@ -11,6 +11,7 @@ declare type ExternalMyAnkiSetup = {
 };
 
 interface Window {
+  ANKI_BASE_URL?: string;
   myAnkiSetup?: ExternalMyAnkiSetup;
   myAnkiUpdate?: (data: ExternalMyAnkiSetup) => void;
 }

@@ -24,9 +24,13 @@ const opts: RouterConfig = {
     },
   ],
 };
-if (import.meta.env.SNOWPACK_PUBLIC_BASE_NAME) {
-  opts.basename = import.meta.env.SNOWPACK_PUBLIC_BASE_NAME;
+
+const parts = location.pathname.split('/');
+
+if (parts.length > 2) {
+  opts.basename = parts[1];
 }
+
 const router = get(Router(opts));
 
 export const Link = link;
