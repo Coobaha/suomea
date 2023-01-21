@@ -214,16 +214,18 @@
         const els = new Set(['input', 'textarea']);
         const focused = document.activeElement;
         if (focused !== htmlInputElement) {
-          const tagName = focused?.tagName.toLowerCase();
           if (focused?.getAttribute('contenteditable') === 'true') {
             return;
           }
-          if (els.has(tagName)) {
+          const tagName = focused?.tagName.toLowerCase();
+
+          if (tagName && els.has(tagName)) {
             if (tagName === 'textarea') {
               return;
             }
             const inputs = new Set(['text', 'search', 'url', 'tel', 'email']);
-            if (inputs.has(focused?.getAttribute('type'))) {
+            const inputType = focused?.getAttribute('type');
+            if (inputType && inputs.has(inputType)) {
               return;
             }
           }
