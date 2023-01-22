@@ -1,5 +1,18 @@
 # Changelog
 
+## [0.3.0](https://www.github.com/Coobaha/suomea/compare/v0.2.1...v0.3.0) (2023-01-22)
+
+
+### Features
+
+* add base url to anki ([a443b7c](https://www.github.com/Coobaha/suomea/commit/a443b7c516568df047bc4c585c95f56899af6681))
+* **anki:** suomea.xyz ([1be65bb](https://www.github.com/Coobaha/suomea/commit/1be65bbe0880fd0e8922bf9cee79bb6fd8c7e11b))
+
+
+### Bug Fixes
+
+* bump anki plugin for newer aqt ([8faa6cc](https://www.github.com/Coobaha/suomea/commit/8faa6cc698bc8d7e0d4c594e61ced7fe867f19c4))
+
 ### [0.2.1](https://www.github.com/Coobaha/suomea/compare/v0.2.0...v0.2.1) (2022-02-02)
 
 
