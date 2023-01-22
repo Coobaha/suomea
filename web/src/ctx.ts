@@ -22,12 +22,10 @@ type Settings = MyAnkiSetup & {
   ankiConnectURI: string;
   ankiConnected: boolean;
   hideSettings: boolean;
+  showAbout: boolean;
 };
 
-const sessionStore = engine.createStore(
-  [localStorageAdapter, sessionStorage, memoryStorage],
-  [],
-);
+const sessionStore = engine.createStore([sessionStorage, memoryStorage], []);
 
 const defaultSettings: Settings = {
   currentTerm: '',
@@ -41,6 +39,7 @@ const defaultSettings: Settings = {
   id: -1,
   nextId: -1,
   isAnki: false,
+  showAbout: true,
   ankiConnected: false,
   ankiConnectURI: 'http://localhost:8765/',
   extraLanguage: 'ru',
@@ -50,7 +49,7 @@ let storedSettings: Settings = {
   ...defaultSettings,
   ...store.get('settings'),
   ...sessionStore.get('settings'),
-  hideSettings: !sessionStore.get('anki_devtools'),
+  hideSettings: !store.get('anki_devtools'),
 };
 
 if (storedSettings.nextTerm === 'null') {
@@ -158,6 +157,9 @@ export const nextTerm = derived$(settings, (values) => values.nextTerm);
 export const viewContext = derived$(settings, (values) => values.context);
 
 export const isAnki = derived$(settings, (values) => values.isAnki);
+
+export const showAbout = derived$(settings, (values) => values.showAbout);
+
 export const extraLanguage = derived$(
   settings,
   (values) => values.extraLanguage,

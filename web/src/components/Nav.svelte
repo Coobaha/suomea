@@ -129,7 +129,7 @@
   {#if $isAnki}
     <!--suppress HtmlUnknownTarget -->
     <a
-      class="navbar-brand is-flex-direction-column"
+      class="navbar-brand is-flex-direction-column line-height-1"
       href="{getUrl('main', { id: $term })}"
     >
       <h1 class="navbar-item title m-0" class:invisible="{isReversedQuestion}">
@@ -139,7 +139,7 @@
   {:else}
     <h1
       tabindex="0"
-      class="navbar-item title m-0"
+      class="navbar-item title m-0 line-height-1"
       class:invisible="{isReversedQuestion}"
       on:dblclick="{handleTitleClick}"
     >
@@ -194,9 +194,7 @@
         >
       {/if}
 
-      <div class="navbar-item">
-        <slot />
-      </div>
+      <slot />
     </div>
   </div>
 </nav>

@@ -9,7 +9,7 @@ export type ViewContext =
   | 'previewQuestion'
   | 'previewAnswer';
 
-export type ExtraLanguages = 'ru';
+export type ExtraLanguages = 'ru' | false;
 
 export interface MyAnkiSetup extends ExternalMyAnkiSetup {
   cardType: CardType;

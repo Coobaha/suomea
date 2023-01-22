@@ -4,6 +4,8 @@ import { get } from 'svelte/store';
 import type { RouterConfig } from '@spaceavocado/svelte-router/types/router';
 type pages = ['main', { id: string }];
 
+export type {Route} from '@spaceavocado/svelte-router/types/route';
+
 const opts: RouterConfig = {
   routes: [
     {
@@ -18,7 +20,7 @@ const opts: RouterConfig = {
       component: import('./MainView.svelte'),
       props: () => {
         return {
-          id: '',
+          id: 'moi',
         };
       },
     },

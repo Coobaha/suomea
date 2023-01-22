@@ -63,7 +63,7 @@
         'previewAnswer',
       ] as ViewContext[],
       cardType: ['Forwards', 'Reversed'],
-      extraLanguage: ['', 'ru'] as ExtraLanguages[],
+      extraLanguage: ['', 'ru'] as unknown as ExtraLanguages[],
     };
     const setCollapsed = (nextValue = true) => {
       updateSettings((prev) => ({ ...prev, isCollapsed: nextValue }));
@@ -75,7 +75,7 @@
       .addBoolean('isAnki', isDisabled)
       .addDropDown('context', arrays.context)
       .addDropDown('cardType', arrays.cardType)
-      .addDropDown('extraLanguage', arrays.extraLanguage)
+      .addDropDown('extraLanguage' as any, arrays.extraLanguage)
       .addButton('Hide', setCollapsed)
       .addButton('Update', handler)
       .addButton('Clear history', termsHistory.clear);
