@@ -9,7 +9,6 @@
 //     console.log(window.location.toString());
 //   });
 import type { MyAnkiSetup } from './types';
-
 function init() {
   let target = document.getElementById('myankitarget');
 
@@ -28,9 +27,8 @@ function init() {
         (document.currentScript as HTMLScriptElement)?.src,
         window.location.origin,
       ).origin ??
-      `${import.meta.env.SNOWPACK_PUBLIC_BASE ?? ''}/${
-        import.meta.env.SNOWPACK_PUBLIC_BASE_NAME ?? ''
-      }`,
+      new URL(import.meta.env.VITE_PUBLIC_BASE_NAME ?? '', import.meta.url)
+        .href,
   );
   iframe.setAttribute('id', `ankiFrame`);
   iframe.setAttribute('style', `height:100vh; width: 100%`);
@@ -56,6 +54,9 @@ function init() {
         }
       }, payload);
 
+      console.log('updateAnki', payload);
+      payload.isAnki = true;
+
       iframe.contentWindow.postMessage(
         {
           type: 'update',
@@ -69,7 +70,12 @@ function init() {
   window.addEventListener(
     'message',
     (event) => {
-      if (event.origin !== import.meta.env.SNOWPACK_PUBLIC_BASE) return;
+      const isKnown = new Set([
+        import.meta.env.VITE_PUBLIC_BASE,
+        'https://cooba.me',
+        'https://suomea.xyz',
+      ]).has(event.origin);
+      if (!isKnown) return;
       if (event.data === 'ready') {
         isReady = true;
         if (lastUpdate) {

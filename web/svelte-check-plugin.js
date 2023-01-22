@@ -2,7 +2,7 @@ const execa = require('execa');
 const npmRunPath = require('npm-run-path');
 const cwd = process.cwd();
 
-function myPlugin(_, { args } = {}) {
+function svelteCheckPlugin(_, { args } = {}) {
   return {
     name: 'Svelte check',
     async run({ isDev, log }) {
@@ -17,12 +17,9 @@ function myPlugin(_, { args } = {}) {
       );
       const { stdout, stderr } = workerPromise;
       function dataListener(chunk) {
-
-
         log('WORKER_RESET', {});
 
-        const s = chunk
-          .toString();
+        const s = chunk.toString();
         if (s.includes('\u001bc') || s.includes('\x1Bc')) {
           // clear
         }
@@ -47,4 +44,4 @@ function myPlugin(_, { args } = {}) {
   };
 }
 
-module.exports = myPlugin;
+module.exports = svelteCheckPlugin;

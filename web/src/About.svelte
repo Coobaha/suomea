@@ -86,6 +86,7 @@
         <p class="help">
           For integration with <a
             target="_blank"
+            rel="noreferrer"
             href="https://ankiweb.net/shared/info/2045459309">Anki Plugin</a
           >
         </p>
@@ -153,8 +154,10 @@
           class="inline-block rounded"
           style="margin-top:-4px;"
         />
-        <a href="https://github.com/Coobaha/suomea" target="_blank"
-          >Coobaha/suomea</a
+        <a
+          href="https://github.com/Coobaha/suomea"
+          target="_blank"
+          rel="noreferrer">Coobaha/suomea</a
         >
       </p>
     </div>
@@ -167,6 +170,7 @@
     </p>
     <a
       class="button rounded is-warning"
+      rel="noreferrer"
       href="https://www.buymeacoffee.com/coobaha"
       target="_blank">☕ Buy me a coffee</a
     >

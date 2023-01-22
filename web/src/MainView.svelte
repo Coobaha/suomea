@@ -38,13 +38,10 @@
   import About from './About.svelte';
   import { expoInOut } from 'svelte/easing';
   export let id: string;
-  export let route: Route;
+  export let route: Route | undefined = undefined;
 
   let controllers: AbortController[] = [];
 
-  $: {
-    console.log(route);
-  }
   $: {
     if (id) {
       updateSettings((v) => ({
@@ -327,7 +324,7 @@
         </p>
 
         {#each records as record (record.id)}
-          <span
+          <button
             transition:slide|local
             class="panel-block overflow-ellipsis overflow-hidden w-full"
             on:click="{() => {
@@ -347,7 +344,7 @@
                 {record.label || '¯\\_(ツ)_/¯'}
               </span>
             </a>
-          </span>
+          </button>
         {/each}
       {/each}
     </div>
@@ -389,7 +386,7 @@
       </WkTemplate>
     </div>
   </div>
-  {#if $showAbout && !$isAnki}
+  {#if $showAbout}
     <div
       class="column is-half bg-slate-50 sticky top-0 height-screen"
       style="top:0; height: 100vh; overflow: auto;"

@@ -250,7 +250,8 @@
                 {#if !disable}
                   <span
                     class="tag mb-1 is-delete cursor-pointer {tagClassname}"
-                    on:click="{() => removeTag(i)}"></span>
+                    on:click="{() => removeTag(i)}"
+                    on:keypress="{() => removeTag(i)}"></span>
                 {/if}
               </span>
             </span>

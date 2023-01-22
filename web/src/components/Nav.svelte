@@ -137,6 +137,7 @@
       </h1>
     </a>
   {:else}
+    <!--svelte-ignore a11y-no-noninteractive-tabindex -->
     <h1
       tabindex="0"
       class="navbar-item title m-0 line-height-1"
@@ -160,7 +161,7 @@
               id="saveButton"
               tabindex="0"
               class:is-success="{didSubmit && !isLoading}"
-              class="button is-larg is-primary m-0"
+              class="button is-primary m-0"
               style="min-width:88px;"
             >
               {#if isSaved}Saved!
@@ -176,12 +177,14 @@
       <a
         class="navbar-item is-info"
         target="_blank"
+        rel="noreferrer"
         data-global-url-handler-ignore
         href="{$url}">Wiktionary</a
       >
       <a
         class="navbar-item is-info"
         target="_blank"
+        rel="noreferrer"
         data-global-url-handler-ignore
         href="{$sk_en_url}">Sanakirja EN</a
       >
@@ -189,6 +192,7 @@
         <a
           class="navbar-item is-info"
           target="_blank"
+          rel="noreferrer"
           data-global-url-handler-ignore
           href="{$sk_ru_url}">Sanakirja RU</a
         >
@@ -244,7 +248,7 @@
     <div
       class="my-3 textarea is-primary is-small has-fixed-size"
       class:is-hidden="{$ownAnswer.length === 0}"
-      rows="{$ownAnswer.split('\n').length}"
+      style="height: initial; min-height: initial"
     >
       {@html $ownAnswer}
     </div>
@@ -254,12 +258,12 @@
       class="my-3 textarea is-primary is-small has-fixed-size"
       bind:innerHTML="{$ownAnswer}"
       data-placeholder="Write your notes.."
-      rows="{$ownAnswer.split('\n').length}"
+      style="height: initial; min-height: initial"
     ></div>
   {/if}
 </div>
 
-<style>
+<style lang="postcss">
   [contenteditable]:empty::before {
     content: attr(data-placeholder);
     color: dimgrey;

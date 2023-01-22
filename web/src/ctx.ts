@@ -8,7 +8,6 @@ import type {
 } from './types';
 import store from 'store';
 import engine from 'store/src/store-engine';
-import localStorageAdapter from 'store/storages/localStorage';
 import sessionStorage from 'store/storages/sessionStorage';
 import memoryStorage from 'store/storages/memoryStorage';
 
@@ -27,6 +26,9 @@ type Settings = MyAnkiSetup & {
 
 const sessionStore = engine.createStore([sessionStorage, memoryStorage], []);
 
+const isAnkiLike = () =>
+  'ankiPlatform' in window || 'anki' in window || 'myAnkiUpdate' in window;
+
 const defaultSettings: Settings = {
   currentTerm: '',
   isCollapsed: true,
@@ -38,7 +40,7 @@ const defaultSettings: Settings = {
   themedTags: [],
   id: -1,
   nextId: -1,
-  isAnki: false,
+  isAnki: isAnkiLike(),
   showAbout: true,
   ankiConnected: false,
   ankiConnectURI: 'http://localhost:8765/',

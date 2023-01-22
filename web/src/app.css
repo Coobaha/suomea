@@ -1,0 +1,24 @@
+/* purgecss start ignore */
+@tailwind base;
+@tailwind components;
+/* purgecss end ignore */
+
+@tailwind utilities;
+
+[hidden] {
+  display: none;
+}
+
+html,
+body {
+  height: 100%;
+  overflow: auto;
+}
+
+.qs_main {
+  z-index: 100 !important;
+  right: 5px;
+  top: 5px !important;
+  left: auto !important;
+  position: fixed !important;
+}

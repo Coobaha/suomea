@@ -155,13 +155,3 @@
     };
   });
 </script>
-
-<style>
-  :global(.qs_main) {
-    z-index: 100 !important;
-    right: 5px;
-    top: 5px !important;
-    left: auto !important;
-    position: fixed !important;
-  }
-</style>

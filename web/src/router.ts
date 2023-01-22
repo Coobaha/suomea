@@ -2,9 +2,10 @@ import Router from '@spaceavocado/svelte-router';
 import link from '@spaceavocado/svelte-router/component/link';
 import { get } from 'svelte/store';
 import type { RouterConfig } from '@spaceavocado/svelte-router/types/router';
+import { isAnki } from './ctx';
 type pages = ['main', { id: string }];
 
-export type {Route} from '@spaceavocado/svelte-router/types/route';
+export type { Route } from '@spaceavocado/svelte-router/types/route';
 
 const opts: RouterConfig = {
   routes: [
@@ -20,7 +21,7 @@ const opts: RouterConfig = {
       component: import('./MainView.svelte'),
       props: () => {
         return {
-          id: 'moi',
+          id: get(isAnki) ? '' : 'moi',
         };
       },
     },

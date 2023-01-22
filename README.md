@@ -20,7 +20,7 @@ This gif shows main features:
 
 ![demo](./docs/demo1.gif)
 
-### 🏠 [Web app](https://cooba.me/suomea)
+### 🏠 [Web app](https://suomea.xyz)
 
 Renders data from different sources nicely
 ![Example of main page](./docs/web1.png)
