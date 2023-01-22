@@ -63,7 +63,7 @@ const goTo = async (href: string) => {
 
   const APP_BASE_URL = isTranslate
     ? 'https://translate.google.com/?sl=fi&tl=en&text='
-    : `${process.env['FINNISH_URL'] || 'https://cooba.me/suomea'}/`.replace(
+    : `${process.env['FINNISH_URL'] || 'https://suomea.xyz'}/`.replace(
         /\/+$/,
         '/',
       );
