@@ -32,7 +32,7 @@ class Settings:
     question_field: Optional[str] = get("question_field")
     enabled: bool = get("enabled", False)
     ankiconnect: bool = get("ankiconnect", False)
-    uri: str = get("uri", "https://cooba.me/suomea")
+    uri: str = get("uri", "https://suomea.xyz")
 
     def to_json(self) -> str:
         return dumps(asdict(self))

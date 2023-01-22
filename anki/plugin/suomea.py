@@ -110,15 +110,17 @@ def add_html(web_content: WebContent) -> None:
 
     if is_local:
         web_content.head += '''
+        <meta name="referrer" content="same-origin" />
         <script>window.HMR_WEBSOCKET_URL = "{hmr}";</script>
         <script>window.ANKI_BASE_URL = "{base}";</script>
-        <script type="module" src="{base}/dist/init.js"></script>
+        <script type="module" src="{base}/@vite/client"></script>
+        <script type="module" src="{base}/src/init.ts"></script>
         '''.format(hmr=hmr_url, base=uri)
     else:
         web_content.head += '''
         <script>window.ANKI_BASE_URL = "{base}";</script>
-        <script src="{base}/js/webpack-runtime.js"></script>
-        <script src="{base}/js/init.js"></script>
+        <script type="module"  src="{base}/assets/init.js"></script>
+        <link rel="modulepreload" href="{base}/assets/preload.js">
         '''.format(base=uri)
 
 
