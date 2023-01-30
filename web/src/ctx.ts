@@ -137,6 +137,7 @@ export const settingsSubscribe = settings.subscribe;
 export const updateSettings = (updater: (value: Settings) => Settings) =>
   settings.update(updater);
 
+const userAcknowledgedAbout = !get(settings).showAbout;
 settings.subscribe(({ themedTags, tags, ...settings }) => {
   Object.keys(settings).forEach((key) => {
     const k = key as unknown as keyof typeof settings;
@@ -144,6 +145,10 @@ settings.subscribe(({ themedTags, tags, ...settings }) => {
       delete settings[k];
     }
   }, settings);
+
+  if (userAcknowledgedAbout) {
+    settings.showAbout = false;
+  }
 
   store.set('settings', settings);
   sessionStore.set('settings', { themedTags } as Partial<Settings>);
@@ -203,6 +208,7 @@ export const searchState = writable<
 });
 
 term.subscribe((value) => {
+  settings.update((s) => ({ ...s, showAbout: false }));
   searchState.update((currentState) => {
     return { ...currentState, query: value };
   });

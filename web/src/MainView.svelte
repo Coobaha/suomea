@@ -312,7 +312,7 @@
 <div class="is-gapless columns is-mobile mb-0">
   <div class="hidden sm:block">
     <div
-      class="panel is-primary column is-narrow rounded-none overflow-y-auto overflow-hidden has-background-white-bis sticky  hover:opacity-100 transition-opacity shadow  m-0"
+      class="panel shadow-none is-primary column is-narrow rounded-none overflow-y-auto overflow-hidden has-background-white-bis sticky  hover:opacity-100 transition-opacity  m-0"
       class:opacity-30="{$isAnki}"
       class:opacity-80="{!$isAnki}"
       style="width:200px;height: 100vh; top:0; border-radius: 0;"
@@ -334,16 +334,15 @@
               }
             }}"
           >
-            <!--svelte-ignore a11y-missing-attribute -->
-            <a class:is-active="{$term === record.label}">
-              <span
-                class:hardblur="{$term === record.label &&
-                  isQuestion &&
-                  isReversed}"
-              >
-                {record.label || '¯\\_(ツ)_/¯'}
-              </span>
-            </a>
+            <span
+              class="text-slate-500"
+              class:text-slate-900="{$term === record.label}"
+              class:hardblur="{$term === record.label &&
+                isQuestion &&
+                isReversed}"
+            >
+              {record.label || '¯\\_(ツ)_/¯'}
+            </span>
           </button>
         {/each}
       {/each}
@@ -354,15 +353,17 @@
       <WkTemplate>
         {#if !$isAnki}
           <div class="navbar-item is-small">
-            <!--suppress XmlInvalidId -->
-            <label for="mainInput-input" class="icon cursor-pointer">
-              <svg width="20" height="20" viewBox="0 0 20 20">
-                <path
-                  d="M14.386 14.386l4.0877 4.0877-4.0877-4.0877c-2.9418 2.9419-7.7115 2.9419-10.6533 0-2.9419-2.9418-2.9419-7.7115 0-10.6533 2.9418-2.9419 7.7115-2.9419 10.6533 0 2.9419 2.9418 2.9419 7.7115 0 10.6533z"
-                  stroke="currentColor"
-                  fill="none"></path>
-              </svg>
-            </label>
+            <button class="button is-text m-0">
+              <!--suppress XmlInvalidId -->
+              <label for="mainInput-input" class="icon cursor-pointer">
+                <svg width="20" height="20" viewBox="0 0 20 20">
+                  <path
+                    d="M14.386 14.386l4.0877 4.0877-4.0877-4.0877c-2.9418 2.9419-7.7115 2.9419-10.6533 0-2.9419-2.9418-2.9419-7.7115 0-10.6533 2.9418-2.9419 7.7115-2.9419 10.6533 0 2.9419 2.9418 2.9419 7.7115 0 10.6533z"
+                    stroke="currentColor"
+                    fill="none"></path>
+                </svg>
+              </label>
+            </button>
           </div>
         {/if}
         <div class="navbar-item is-small">
@@ -388,8 +389,8 @@
   </div>
   {#if $showAbout}
     <div
-      class="column is-half bg-slate-50 sticky top-0 height-screen"
-      style="top:0; height: 100vh; overflow: auto;"
+      class="lg:w-3/5 bg-slate-50 lg:sticky top-0 height-screen fixed top-0 left-0 z-50"
+      style="height: 100vh; overflow: auto;"
       transition:fly="{{
         duration: isFirstRender ? 0 : 200,
         x: 500,

@@ -35,6 +35,7 @@ const options = (settings: AnkiPluginConfig) => ({
   duplicateScope: settings.question_field,
   duplicateScopeOptions: {
     deckName: settings.deck,
+    modelName: settings.note_type,
     checkChildren: false,
   },
 });
@@ -226,7 +227,7 @@ export async function findExistingNotesId(
   controller: AbortController,
 ): Promise<number[]> {
   const settings = await lastSettingsCall;
-  const search = `deck:"${settings.deck}" ${settings.question_field}:"${term}" card:1 nc:`;
+  const search = `note:"${settings.note_type}" deck:"${settings.deck}" ${settings.question_field}:"${term}" card:1  nc:`;
   return await ankiApi
     .signal(controller)
     .options({ forceCache: true, cacheKey: `findNotes_${search}` })

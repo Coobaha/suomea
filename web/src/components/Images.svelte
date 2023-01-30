@@ -14,7 +14,7 @@
   $: isReversedQuestion = isReversed && isQuestion;
 </script>
 
-<article class="message is-info">
+<article class="message is-info" class:hidden="{$images.length === 0}">
   <div class="message-header">Images</div>
   <div class="message-body p-3">
     <div

@@ -162,7 +162,7 @@
       </p>
     </div>
   </section>
-  <div class="mt-4 text-center w-[60%] mx-auto">
+  <div class="mt-4 text-center lg:w-[60%] mx-auto">
     <p class="text-gray-500">
       If you find this application useful, show your support by buying me a
       coffee. Your contribution will help keep this valuable resource going and
@@ -179,14 +179,3 @@
 
 <RouterView />
 
-<style>
-  kbd {
-    display: inline-block;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    padding: 0.1em 0.5em;
-    margin: 0 0.2em;
-    box-shadow: 0 1px 0px rgba(0, 0, 0, 0.2), 0 0 0 2px #fff inset;
-    background-color: #f7f7f7;
-  }
-</style>

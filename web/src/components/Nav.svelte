@@ -174,30 +174,6 @@
           </form>
         </div>
       {/if}
-      <a
-        class="navbar-item is-info"
-        target="_blank"
-        rel="noreferrer"
-        data-global-url-handler-ignore
-        href="{$url}">Wiktionary</a
-      >
-      <a
-        class="navbar-item is-info"
-        target="_blank"
-        rel="noreferrer"
-        data-global-url-handler-ignore
-        href="{$sk_en_url}">Sanakirja EN</a
-      >
-      {#if $extraLanguage && $extraLanguage.length}
-        <a
-          class="navbar-item is-info"
-          target="_blank"
-          rel="noreferrer"
-          data-global-url-handler-ignore
-          href="{$sk_ru_url}">Sanakirja RU</a
-        >
-      {/if}
-
       <slot />
     </div>
   </div>
@@ -212,7 +188,7 @@
       tags="{editedTags}"
       on:tags="{handleTags}"
       disable="{$isAnki || !$ankiConnected}"
-      hiddenInput="{$isAnki}"
+      hiddenInput="{$isAnki || !$ankiConnected}"
     />
 
     {#if !$isAnki && $ankiConnected}
@@ -257,7 +233,7 @@
       contenteditable="true"
       class="my-3 textarea is-primary is-small has-fixed-size"
       bind:innerHTML="{$ownAnswer}"
-      data-placeholder="Write your notes.."
+      data-placeholder="Write your notes..."
       style="height: initial; min-height: initial"
     ></div>
   {/if}
