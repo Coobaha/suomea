@@ -42,26 +42,6 @@ const suomeaRoute: FastifyPluginCallback = async (fastify): Promise<void> => {
         return asReply(reply.notFound());
       }
     },
-    'GET /sk': async function (request, reply) {
-      const search = request.query;
-
-      let payload = await fetchSk(search.q, search.lang).catch((e) =>
-        request.log.error(e),
-      );
-
-      if (!payload) {
-        if (search.q !== search.q.toLowerCase()) {
-          const term = search.q.toLowerCase();
-          payload = await fetchSk(term, search.lang).catch((e) =>
-            request.log.error(e),
-          );
-        }
-      }
-
-      return payload
-        ? reply.status(200).send(payload)
-        : asReply(reply.notFound());
-    },
     'GET /sk_search': async (request, reply) => {
       const search = request.query;
 
@@ -92,6 +72,48 @@ const suomeaRoute: FastifyPluginCallback = async (fastify): Promise<void> => {
         }
       }
     },
+    'GET /sk': async function (request, reply) {
+      const search = request.query;
+
+      async function getPayload({ swap }: { swap: boolean }) {
+        let payload = await fetchSk(search.q, search.lang, swap).catch((e) =>
+          request.log.error(e),
+        );
+
+        if (!payload) {
+          if (search.q !== search.q.toLowerCase()) {
+            const term = search.q.toLowerCase();
+            payload = await fetchSk(term, search.lang, swap).catch((e) =>
+              request.log.error(e),
+            );
+          }
+        }
+        if (
+          !payload ||
+          (!payload.sk_synonyms &&
+            !payload.sk_translation &&
+            !payload.sk_translation_strings?.length)
+        ) {
+          return;
+        }
+
+        return payload;
+      }
+
+      const [payload1, payload2] = await Promise.allSettled([
+        getPayload({ swap: false }),
+        getPayload({ swap: true }),
+      ]);
+
+      const firstPayloadValue = 'value' in payload1 ? payload1.value : null;
+      const secondPayloadValue = 'value' in payload2 ? payload2.value : null;
+
+      const payload = firstPayloadValue || secondPayloadValue;
+
+      return payload
+        ? reply.status(200).send(payload)
+        : asReply(reply.notFound());
+    },
     'GET /sk_search_with_data': async (request, reply) => {
       const search = request.query;
 
@@ -120,7 +142,7 @@ const suomeaRoute: FastifyPluginCallback = async (fastify): Promise<void> => {
         case 'ok': {
           const d = await Promise.all(
             data.words.map((w) =>
-              fetchSk(w.text, search.lang)
+              fetchSk(w.text, search.lang, false)
                 .then((data) => ({
                   ...w,
                   data: data,
@@ -149,12 +171,8 @@ const suomeaRoute: FastifyPluginCallback = async (fastify): Promise<void> => {
         limit: 10,
       })}`;
 
-      const [, results, , urls]: [
-        string,
-        string[],
-        unknown,
-        string[],
-      ] = await got(url).json();
+      const [, results, , urls]: [string, string[], unknown, string[]] =
+        await got(url).json();
       return reply.status(200).send({
         results,
         urls,

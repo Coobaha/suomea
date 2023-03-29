@@ -109,7 +109,7 @@
       if (!id) {
         if (
           target.closest('[data-internal-links]') &&
-          target.hostname === 'en.wiktionary.org'
+          target.hostname.includes('.wiktionary.org')
         ) {
           id = target.title || target.pathname.split('/').pop();
         }
@@ -285,9 +285,9 @@
   }
 
   function handleDrop(event: DragEvent) {
-    event.preventDefault();
     const data = event.dataTransfer?.getData('text/plain');
-    if (data) {
+    event.preventDefault();
+    if (data && !data.match(/^https?/g)) {
       const params = {
         id: data.trim(),
       };
@@ -353,25 +353,23 @@
       <WkTemplate>
         {#if !$isAnki}
           <div class="navbar-item is-small">
-            <button class="button is-text m-0">
-              <!--suppress XmlInvalidId -->
-              <label for="mainInput-input" class="icon cursor-pointer">
-                <svg width="20" height="20" viewBox="0 0 20 20">
-                  <path
-                    d="M14.386 14.386l4.0877 4.0877-4.0877-4.0877c-2.9418 2.9419-7.7115 2.9419-10.6533 0-2.9419-2.9418-2.9419-7.7115 0-10.6533 2.9418-2.9419 7.7115-2.9419 10.6533 0 2.9419 2.9418 2.9419 7.7115 0 10.6533z"
-                    stroke="currentColor"
-                    fill="none"></path>
-                </svg>
-              </label>
-            </button>
+            <!--suppress XmlInvalidId -->
+            <label for="mainInput-input" class="button is-text m-0">
+              <svg width="20" height="20" viewBox="0 0 20 20">
+                <path
+                  d="M14.386 14.386l4.0877 4.0877-4.0877-4.0877c-2.9418 2.9419-7.7115 2.9419-10.6533 0-2.9419-2.9418-2.9419-7.7115 0-10.6533 2.9418-2.9419 7.7115-2.9419 10.6533 0 2.9419 2.9418 2.9419 7.7115 0 10.6533z"
+                  stroke="currentColor"
+                  fill="none"></path>
+              </svg>
+            </label>
           </div>
         {/if}
         <div class="navbar-item is-small">
           <button class="button is-text m-0" on:click="{handleCogClick}">
-            <span class="icon">
+            <div class="icon m-0">
               <svg
-                width="15"
-                height="15"
+                width="20"
+                height="20"
                 viewBox="0 0 15 15"
                 fill="none"
                 xmlns="http://www.w3.org/2000/svg"
@@ -381,7 +379,7 @@
                   fill-rule="evenodd"
                   clip-rule="evenodd"></path></svg
               >
-            </span>
+            </div>
           </button>
         </div>
       </WkTemplate>
@@ -389,8 +387,7 @@
   </div>
   {#if $showAbout}
     <div
-      class="lg:w-3/5 bg-slate-50 lg:sticky top-0 height-screen fixed top-0 left-0 z-50"
-      style="height: 100vh; overflow: auto;"
+      class="lg:max-w-5xl bg-slate-50 lg:sticky top-0 fixed top-0 left-0 z-50 bottom-0 max-h-screen"
       transition:fly="{{
         duration: isFirstRender ? 0 : 200,
         x: 500,

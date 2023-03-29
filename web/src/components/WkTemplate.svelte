@@ -191,7 +191,7 @@
 </script>
 
 <svelte:head>
-  <title>{$term ? `MyAnki - ${$term}` : 'MyAnki'}</title>
+  <title>{$term ? `Suomea.xyz - ${$term}` : 'Suomea.xyz'}</title>
 </svelte:head>
 
 <div

@@ -44,7 +44,7 @@ const defaultSettings: Settings = {
   showAbout: true,
   ankiConnected: false,
   ankiConnectURI: 'http://localhost:8765/',
-  extraLanguage: 'ru',
+  extraLanguage: false,
 };
 
 let storedSettings: Settings = {
@@ -207,8 +207,14 @@ export const searchState = writable<
   context: {},
 });
 
+let initialTerm = get(term);
+
 term.subscribe((value) => {
-  settings.update((s) => ({ ...s, showAbout: false }));
+  if (initialTerm && value && value !== initialTerm) {
+    settings.update(function (s) {
+      return { ...s, showAbout: false };
+    });
+  }
   searchState.update((currentState) => {
     return { ...currentState, query: value };
   });

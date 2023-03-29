@@ -20,14 +20,24 @@ const htmlAll = function ($$: cheerio.Root, el?: cheerio.Cheerio) {
     })
     .join('\n');
 };
-async function sk(opts: { term: string; lang: 'en' | 'ru' | 'fi' }) {
-  const search = qs.encode({
+async function sk(opts: {
+  term: string;
+  lang: 'en' | 'ru' | 'fi';
+  swap: boolean;
+}) {
+  let query = {
     q: opts.term,
     l: 17,
     l2: opts.lang === 'en' ? 3 : 22,
-  });
+  };
+  if (opts.swap) {
+    const prev = query.l;
+    query.l = query.l2;
+    query.l2 = prev;
+  }
+  const search = qs.encode(query);
   const url = `https://www.sanakirja.org/search.php?${search}`;
-  // console.time(url);
+
   // console.time(`fetch_${url}`);
   const data = await get(url).text();
   // console.timeEnd(`fetch_${url}`);
@@ -137,7 +147,9 @@ interface Text {
   '*': string;
 }
 
-async function wiktionary(opts: { term: string }) {
+async function wiktionary(opts: {
+  term: string;
+}): Promise<WiktionaryData | null> {
   // Example query
   // https://en.wiktionary.org/w/api.php?action=query&prop=extracts&titles=pomology&format=json
   const url = NodeURL.format({
@@ -152,6 +164,7 @@ async function wiktionary(opts: { term: string }) {
       redirects: true,
     },
   });
+
   // console.time(url);
   // console.time(`fetch_${url}`);
   const body: Response = await get(url).json();
@@ -175,7 +188,26 @@ async function wiktionary(opts: { term: string }) {
       section.includes('<span class="mw-headline" id="Finnish">Finnish</span>'),
     );
 
-  if (!finnish) return null;
+  if (!finnish) {
+    const finnishLinks = body.parse.iwlinks
+      .filter((link) => link.prefix === 'fi')
+      .map((link) => {
+        const linkTerm = DOMPurify.sanitize(link['*'].replace('fi:', ''));
+        return `<div><a title="${linkTerm}" href="${DOMPurify.sanitize(
+          link.url,
+        ).replace('fi.', 'en.')}">${linkTerm}</a></div>`;
+      })
+      .join('\n');
+    if (finnishLinks) {
+      return {
+        wk_translation: finnishLinks,
+        Finnish: opts.term,
+        meta: {},
+      };
+    }
+
+    return null;
+  }
 
   const $$ = load(DOMPurify.sanitize(finnish));
   const $html = $$.root();
@@ -534,21 +566,22 @@ async function wiktionary(opts: { term: string }) {
   // console.timeEnd(url);
 
   return {
-    translations:
+    wk_translation:
       suffix && !opts.term.startsWith('-')
         ? `${translations}\n<div class="subtitle is-6 my-2">Suffix</div>${suffix}`
         : translations,
-    notes,
-    decl,
-    synonyms,
-    antonyms,
-    derived,
+    wk_notes: notes,
+    wk_decl: decl,
+    wk_synonyms: synonyms,
+    wk_antonyms: antonyms,
+    wk_derived: derived,
     etymology,
     wordtype: wordtype.join(', ').trim(),
-    possessive,
+    wk_possessive: possessive,
     compounds,
     suffix,
     meta,
+    Finnish: opts.term,
   };
 }
 
@@ -557,10 +590,12 @@ const fetch: (term: string) => Promise<Data> = (term: string) =>
     sk({
       term: term,
       lang: 'en',
+      swap: false,
     }),
     sk({
       term: term,
       lang: 'ru',
+      swap: false,
     }),
     wiktionary({
       term: term,
@@ -575,16 +610,16 @@ const fetch: (term: string) => Promise<Data> = (term: string) =>
 
     ru_translation: ru.translations,
     ru_synonyms: ru.synonyms,
-    wk_translation: wk?.translations,
-    wk_synonyms: wk?.synonyms,
-    wk_antonyms: wk?.antonyms,
-    wk_decl: wk?.decl,
-    wk_notes: wk?.notes,
-    wk_derived: wk?.derived,
+    wk_translation: wk?.wk_translation,
+    wk_synonyms: wk?.wk_synonyms,
+    wk_antonyms: wk?.wk_antonyms,
+    wk_decl: wk?.wk_decl,
+    wk_notes: wk?.wk_notes,
+    wk_derived: wk?.wk_derived,
     etymology: wk?.etymology,
     suffix: wk?.suffix,
     wordtype: wk?.wordtype,
-    wk_possessive: wk?.possessive,
+    wk_possessive: wk?.wk_possessive,
     compounds: wk?.compounds,
     meta: wk?.meta ?? {},
   }));
@@ -598,15 +633,15 @@ export const fetchWiktionary: (term: string) => Promise<WiktionaryData> = (
     (wk): WiktionaryData => ({
       Finnish: term,
       wk_url: `https://en.wiktionary.org/wiki/${term}#Finnish`,
-      wk_translation: wk?.translations,
-      wk_synonyms: wk?.synonyms,
-      wk_antonyms: wk?.antonyms,
-      wk_decl: wk?.decl,
-      wk_notes: wk?.notes,
-      wk_derived: wk?.derived,
+      wk_translation: wk?.wk_translation,
+      wk_synonyms: wk?.wk_synonyms,
+      wk_antonyms: wk?.wk_antonyms,
+      wk_decl: wk?.wk_decl,
+      wk_notes: wk?.wk_notes,
+      wk_derived: wk?.wk_derived,
       etymology: wk?.etymology,
       wordtype: wk?.wordtype,
-      wk_possessive: wk?.possessive,
+      wk_possessive: wk?.wk_possessive,
       compounds: wk?.compounds,
       suffix: wk?.suffix,
       meta: wk?.meta ?? {},
@@ -616,10 +651,12 @@ export const fetchWiktionary: (term: string) => Promise<WiktionaryData> = (
 export const fetchSk: (
   term: string,
   lang: 'en' | 'ru' | 'fi',
-) => Promise<SanakirjaData> = (term: string, lang: 'en' | 'ru' | 'fi') =>
+  swap: boolean,
+) => Promise<SanakirjaData> = (term: string, lang: 'en' | 'ru' | 'fi', swap) =>
   sk({
     term: term,
     lang,
+    swap,
   }).then((sk) => ({
     Finnish: term,
     sk_url: sk.url,
