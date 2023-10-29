@@ -241,7 +241,7 @@
         ? 'flex-row-reverse'
         : ''}"
     >
-      <span class="flex" style="margin-top: -0.325rem">
+      <span class="flex flex-wrap" style="margin-top: -0.325rem">
         <span class="contents">
           {#each tags as tag, i (tag)}
             <span class="control mr-1 my-1">
@@ -249,6 +249,9 @@
                 <span class="tag mb-1 {tagClassname}">{tag}</span>
                 {#if !disable}
                   <span
+                    aria-label="Remove tag"
+                    role="button"
+                    tabindex="-1"
                     class="tag mb-1 is-delete cursor-pointer {tagClassname}"
                     on:click="{() => removeTag(i)}"
                     on:keypress="{() => removeTag(i)}"></span>

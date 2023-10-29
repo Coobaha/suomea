@@ -1,22 +1,22 @@
 import FastifySensible from '@fastify/sensible';
 import FastifyFormbody from '@fastify/formbody';
-import addSchema, { asReply, Service } from '@coobaha/typed-fastify';
+import * as TFS from '@coobaha/typed-fastify';
 
-import { findImages } from '../../shared/images';
-import type { SanakirjaData, SkSearchResult } from '../../shared/types';
-import { fetchSk, fetchWiktionary } from '../../shared/search';
-import FastifyCaching from '@fastify/caching';
+import { findImages } from '../../shared/images.js';
+import type { SanakirjaData, SkSearchResult } from '../../shared/types.js';
+import { fetchSk, fetchWiktionary } from '../../shared/search.js';
+import * as FastifyCaching from '@fastify/caching';
 
 import Etag from '@fastify/etag';
 
 import got from 'got';
 import qs from 'qs';
-import jsonSchema from './suomea_schema.gen.json';
-import type { SuomeaSchema } from './suomea_schema';
+import jsonSchema from './suomea_schema.gen.json' assert { type: 'json' };
+import type { SuomeaSchema } from './suomea_schema.js';
 import type { FastifyPluginCallback } from 'fastify';
 
 const suomeaRoute: FastifyPluginCallback = async (fastify): Promise<void> => {
-  const service: Service<SuomeaSchema> = {
+  const service: TFS.Service<SuomeaSchema> = {
     'GET /images': async function (request, reply) {
       const search = request.query;
       const images = await findImages(search.q, request.log);
@@ -39,7 +39,7 @@ const suomeaRoute: FastifyPluginCallback = async (fastify): Promise<void> => {
       if (payload) {
         return reply.status(200).send(payload);
       } else {
-        return asReply(reply.notFound());
+        return TFS.asReply(reply.notFound());
       }
     },
     'GET /sk_search': async (request, reply) => {
@@ -112,7 +112,7 @@ const suomeaRoute: FastifyPluginCallback = async (fastify): Promise<void> => {
 
       return payload
         ? reply.status(200).send(payload)
-        : asReply(reply.notFound());
+        : TFS.asReply(reply.notFound());
     },
     'GET /sk_search_with_data': async (request, reply) => {
       const search = request.query;
@@ -179,15 +179,15 @@ const suomeaRoute: FastifyPluginCallback = async (fastify): Promise<void> => {
       });
     },
   };
-  addSchema(fastify, {
+  TFS.default.default(fastify, {
     jsonSchema,
     service,
   });
   fastify.register(FastifySensible);
   fastify.register(FastifyFormbody);
   fastify.register(Etag);
-  fastify.register(FastifyCaching, {
-    privacy: FastifyCaching.privacy.PRIVATE,
+  fastify.register(FastifyCaching.default, {
+    privacy: 'private',
     expiresIn: 600,
     cacheSegment: 'anki',
   });

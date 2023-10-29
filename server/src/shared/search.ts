@@ -5,10 +5,11 @@ import JSDom from 'jsdom';
 import * as qs from 'querystring';
 
 import * as NodeURL from 'node:url';
-import logger from './logger';
-import type { Data, ImageT, SanakirjaData, WiktionaryData } from './types';
+import logger from './logger.js';
+import type { Data, ImageT, SanakirjaData, WiktionaryData } from './types.js';
 
-const JSON5 = require('json5');
+import JSON5 from 'json5';
+
 const { window } = new JSDom.JSDOM(``);
 const DOMPurify = createDOMPurify(window as unknown as Window);
 
@@ -215,7 +216,9 @@ async function wiktionary(opts: {
   $html.find('.mw-editsection').remove();
   $html.find('*').each((_x, el) => {
     const $el = $$(el);
-    $el.removeAttr('lang');
+    if ($el.attr('lang') !== 'fi') {
+      $el.removeAttr('lang');
+    }
     if ($el.hasClass('term-list-header')) {
       $el.removeClass('term-list-header').addClass('title');
     }
@@ -262,7 +265,11 @@ async function wiktionary(opts: {
 
   let wordtype = Array.from(new Set(allWordtypes));
 
-  const maybeTranslation = $html.find('.Latn.headword').parent().next('ol');
+  // fs.writeFileSync('wk.html', $html.html() ?? '');
+  let maybeTranslation = $html
+    .find('.Latn.headword[lang="fi"]')
+    .closest('p')
+    .next('ol, ul');
 
   maybeTranslation.find(':empty').remove();
 
@@ -284,11 +291,11 @@ async function wiktionary(opts: {
   } else {
     const plainTranslation = $html
       .find('.Latn.headword')
-      .parent()
+      .parent('p')
       .nextUntil('ol')
       .next('ol');
     plainTranslation.find(':empty').remove();
-    translations = `<ol>${plainTranslation.html()}</ol>`;
+    translations = `111111111111111111112222<ol>${plainTranslation.html()}</ol>`;
   }
 
   const etymology = $html
@@ -468,6 +475,9 @@ async function wiktionary(opts: {
           $el.find('*').removeAttr('style').removeAttr('class');
           $el.find('[data-hidetext]').remove();
 
+          $el
+            .find('table')
+            .wrap('<div style="overflow-x: auto; max-width: 95vw"/>');
           let html = $el.html();
 
           if (html?.startsWith('<li')) {
@@ -676,33 +686,36 @@ export const googleImages = async (search: string): Promise<ImageT[]> => {
     url,
     headers: {
       'User-Agent':
-        'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36' +
-        '(KHTML, like Gecko) Chrome/73.0.3683.103 Whale/1.5.72.4 Safari/537.36',
+        'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/118.0.0.0 Safari/537.36',
     },
   }).text();
 
   const start = data.indexOf(`AF_initDataCallback({key: 'ds:1'`);
   const end = data.indexOf(`});`, start);
   const json = data.slice(start + 'AF_initDataCallback('.length, end + 1);
+
   const obj = JSON5.parse(json);
-  const results = obj.data[31]?.[0]?.[12]?.[2] ?? [];
+
+  const results = obj.data[56]?.[1]?.[0]?.[0]?.[1]?.[0] ?? [];
 
   const images: ImageT[] = [];
-  for (const data of results) {
-    const arr1 = data[1] ?? [];
-    const arr2 = arr1[3];
-    const meta = arr1[9] ?? { 2008: [null, search] };
+  for (const data of results.slice(0, 1)) {
+    let values = Object.values(data?.[0]?.[0] ?? {}) as any;
+    const arr1: unknown[] = values?.[0]?.[1] ?? [];
+    const arr2: any = arr1?.[2];
+    const meta: any = arr1[25] ?? { 2008: [null, search] };
 
     if (!arr2) {
       continue;
     }
 
-    images.push({
-      thumb_large: arr2[0],
-      height: arr2[1],
-      width: arr2[2],
-      name: (meta['2008'] ?? [])[1] ?? 'not found',
-    });
+    const items = {
+      thumb_large: String(arr2[0]),
+      height: Number(arr2[1]),
+      width: Number(arr2[2]),
+      name: String((meta['2008'] ?? [])[1] ?? 'not found'),
+    };
+    images.push(items);
   }
   return images;
 };

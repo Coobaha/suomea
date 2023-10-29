@@ -1,3 +1,58 @@
+<style>
+  .qa :global(.blur) {
+    background: currentColor;
+    color: currentColor;
+    opacity: 0.5;
+  }
+
+  .isForwards.isQuestion :global(.forwards-hidden),
+  .isForwards.isQuestion :global(.forwards-hidden > *),
+  .isReversed.isQuestion :global(.reverse-hidden),
+  .isReversed.isQuestion :global(.reverse-hidden > *),
+  .isForwards.isQuestion .forwards-hidden,
+  .isForwards.isQuestion .forwards-hidden > *,
+  .isReversed.isQuestion .reverse-hidden,
+  .isReversed.isQuestion .reverse-hidden > * {
+    filter: blur(4px);
+    opacity: 0.3;
+    transition: none;
+    backface-visibility: visible;
+  }
+
+  .isForwards.isQuestion .forwards-hidden *,
+  .isReversed.isQuestion .reverse-hidden * {
+    overflow: hidden;
+  }
+
+  .isForwards.isAnswer :global(.forwards-hidden),
+  .isReversed.isAnswer :global(.reverse-hidden),
+  .isForwards.isAnswer .forwards-hidden,
+  .isReversed.isAnswer .reverse-hidden {
+    filter: none;
+    opacity: 1;
+    transition: all 0.3s ease-in-out;
+    backface-visibility: visible;
+  }
+
+  .wk :global(dl) {
+    font-size: 12px;
+    margin-left: 0.5em;
+  }
+
+  .wk :global(ul) {
+    margin-top: 0;
+  }
+
+  .content :global(ol) {
+    list-style-position: initial;
+    margin: 0 0 0 1.25em;
+  }
+
+  .content :global(dd) {
+    margin-left: 1em;
+  }
+</style>
+
 <script lang="ts">
   import {
     viewContext,
@@ -86,7 +141,6 @@
     } else {
       allDecls.add(term);
     }
-
 
     const allDeclsEscaped = Array.from(allDecls)
       .reverse()
@@ -191,7 +245,11 @@
 </script>
 
 <svelte:head>
-  <title>{$term ? `Suomea.xyz - ${$term}` : 'Suomea.xyz'}</title>
+  <title
+    >{$term
+      ? `Learn Finnish - Suomea.xyz - ${$term}`
+      : 'Learn Finnish - Suomea.xyz'}</title
+  >
 </svelte:head>
 
 <div
@@ -207,7 +265,7 @@
 
   <div
     data-internal-links
-    class="tile is-ancestor  is-small has-text-left forwards-hidden"
+    class="tile is-ancestor is-small has-text-left forwards-hidden"
   >
     <div class="tile is-parent">
       <article class="tile is-child message is-primary">
@@ -247,30 +305,12 @@
       </div>
     </div>
   </div>
-  <div class="forwards-hidden reverse-hidden columns">
-    {#if $decl || $possessive}
-      <div class="column is-two-thirds">
-        {#if $decl}
-          <table
-            class="table is-narrow is-bordered is-striped is-fullwidth is-size-7"
-          >
-            {@html $decl}
-          </table>
-        {/if}
-        {#if $possessive}
-          <table
-            class="table is-narrow is-bordered is-striped is-fullwidth is-size-7"
-          >
-            {@html $possessive}
-          </table>
-        {/if}
-      </div>
-    {/if}
+  <div class="forwards-hidden reverse-hidden columns flex-row-reverse">
     <div class="column">
       {#if adjective}
         <article class="message is-info">
           <div class="message-header">Comparative</div>
-          <div class="message-body">
+          <div class="message-body break-all">
             {#if adjective.comparative}
               <div>
                 {#each adjective.comparative as comp}
@@ -308,15 +348,16 @@
       {#if $antonyms}
         <article class="message is-danger">
           <div class="message-header">Antonyms</div>
-          <div class="message-body">
+          <div class="message-body break-all">
             {@html $antonyms}
           </div>
         </article>
+        `
       {/if}
       {#if $synonyms}
         <article class="message is-warning">
           <div class="message-header">Synonyms</div>
-          <div class="message-body">
+          <div class="message-body break-all">
             {@html $synonyms}
           </div>
         </article>
@@ -332,7 +373,7 @@
       {#if $etymology}
         <article class="message is-info">
           <div class="message-header">Etymology</div>
-          <div class="message-body">
+          <div class="message-body break-all">
             {@html $etymology}
           </div>
         </article>
@@ -340,13 +381,32 @@
       {#if $notes}
         <article class="message is-info">
           <div class="message-header">Notes</div>
-          <div class="message-body">
+          <div class="message-body break-all">
             {@html $notes}
           </div>
         </article>
       {/if}
     </div>
+    {#if $decl || $possessive}
+      <div class="column is-two-thirds overflow-x-auto max-width-full">
+        {#if $decl}
+          <table
+            class="table is-narrow is-bordered is-striped is-fullwidth is-size-7"
+          >
+            {@html $decl}
+          </table>
+        {/if}
+        {#if $possessive}
+          <table
+            class="table is-narrow is-bordered is-striped is-fullwidth is-size-7"
+          >
+            {@html $possessive}
+          </table>
+        {/if}
+      </div>
+    {/if}
   </div>
+
   <div class="forwards-hidden reverse-hidden">
     {#if $$slots.compounds}
       <div class="tile is-ancestor">
@@ -362,58 +422,3 @@
     {/if}
   </div>
 </div>
-
-<style>
-  .qa :global(.blur) {
-    background: currentColor;
-    color: currentColor;
-    opacity: 0.5;
-  }
-
-  .isForwards.isQuestion :global(.forwards-hidden),
-  .isForwards.isQuestion :global(.forwards-hidden > *),
-  .isReversed.isQuestion :global(.reverse-hidden),
-  .isReversed.isQuestion :global(.reverse-hidden > *),
-  .isForwards.isQuestion .forwards-hidden,
-  .isForwards.isQuestion .forwards-hidden > *,
-  .isReversed.isQuestion .reverse-hidden,
-  .isReversed.isQuestion .reverse-hidden > * {
-    filter: blur(4px);
-    opacity: 0.3;
-    transition: none;
-    backface-visibility: visible;
-  }
-
-  .isForwards.isQuestion .forwards-hidden *,
-  .isReversed.isQuestion .reverse-hidden * {
-    overflow: hidden;
-  }
-
-  .isForwards.isAnswer :global(.forwards-hidden),
-  .isReversed.isAnswer :global(.reverse-hidden),
-  .isForwards.isAnswer .forwards-hidden,
-  .isReversed.isAnswer .reverse-hidden {
-    filter: none;
-    opacity: 1;
-    transition: all 0.3s ease-in-out;
-    backface-visibility: visible;
-  }
-
-  .wk :global(dl) {
-    font-size: 12px;
-    margin-left: 0.5em;
-  }
-
-  .wk :global(ul) {
-    margin-top: 0;
-  }
-
-  .content :global(ol) {
-    list-style-position: initial;
-    margin: 0 0 0 1.25em;
-  }
-
-  .content :global(dd) {
-    margin-left: 1em;
-  }
-</style>

@@ -48,6 +48,7 @@ def anki_connect_setup(parent=None) -> None:
     if settings.ankiconnect is None:
         return
 
+
     if settings.ankiconnect is False:
         add_new_handlers()
         return

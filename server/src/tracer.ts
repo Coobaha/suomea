@@ -2,7 +2,7 @@ import dd from 'dd-trace';
 
 if (process.env['NODE_ENV'] === 'production') {
   process.env['DD_TRACE_ENABLED'] = 'true';
-  const tracer = dd.init({
+  const tracer = dd.tracer.init({
     logInjection: true,
     runtimeMetrics: true,
   });

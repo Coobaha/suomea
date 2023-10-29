@@ -27,18 +27,20 @@
 
 <div class="h-full min-h-full flex overflow-auto">
   <div class="flex min-h-full flex-col px-8 py-4 content">
-    <h2 class="text-2xl font-medium mb-4">
+    <h1 class="text-2xl font-medium mb-4">
       Learn how to efficiently search for Finnish, English, and Russian words
       using the powerful text box feature
-    </h2>
+    </h1>
 
     <ol class="mb-4 list list-decimal">
       <li class="text-gray-700">
-        Open the app and navigate to the search bar located by clicking search
-        icon
+        Open the <a href="https://suomea.xyz" class="text-blue-500"
+          >https://suomea.xyz</a
+        >
+        and navigate to the search bar located by clicking search icon
         <label
           for="mainInput-input"
-          class="icon cursor-pointer inline"
+          class="icon cursor-pointer"
           style="vertical-align: sub; line-height: 1"
         >
           <svg width="20" height="20" viewBox="0 0 20 20">
@@ -50,8 +52,8 @@
         </label>
       </li>
       <li class="text-gray-700">
-        Type in the Finnish, English, or Russian word you would like to search
-        for in the text box.
+        Type in the Finnish, English{#if showRussian}, or Russian{/if} word you would
+        like to search for in the text box.
       </li>
       <li class="text-gray-700">
         Press enter on your keyboard or click the search button to initiate the
@@ -69,7 +71,7 @@
     </p>
 
     <section class="message mt-auto">
-      <div class="message-body">
+      <div class="message-body break-all">
         <h4 class="text-lg font-medium mb-2">Settings</h4>
 
         <div class="field" hidden>
@@ -101,7 +103,7 @@
       </div>
     </section>
     <section class="message is-link ">
-      <div class="message-body">
+      <div class="message-body break-all">
         <h3 class="text-lg font-medium mb-2 ">Power tips</h3>
 
         <ul class="list-disc ml-4 ">

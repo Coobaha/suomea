@@ -41,7 +41,7 @@ const defaultSettings: Settings = {
   id: -1,
   nextId: -1,
   isAnki: isAnkiLike(),
-  showAbout: true,
+  showAbout: false,
   ankiConnected: false,
   ankiConnectURI: 'http://localhost:8765/',
   extraLanguage: false,

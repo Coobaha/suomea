@@ -2,12 +2,18 @@
   "printWidth": 80,
   "plugins": ["prettier-plugin-svelte"],
   "pluginSearchDirs": ["./web", "."],
-  "svelteSortOrder": "scripts-markup-styles",
+  "svelteSortOrder": "options-styles-scripts-markup",
   "svelteStrictMode": true,
   "svelteBracketNewLine": true,
   "svelteAllowShorthand": true,
   "svelteIndentScriptAndStyle": true,
   "overrides": [
+    {
+      "files": "*.svelte",
+      "options": {
+        "parser": "svelte"
+      }
+    },
     {
       "files": ["*.js", "*.jsx", "*.ts", "*.tsx", "*.svelte"],
       "options": {

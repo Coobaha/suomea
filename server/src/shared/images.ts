@@ -1,6 +1,6 @@
 import type { FastifyLoggerInstance } from 'fastify';
-import { googleImages, myImages } from './search';
-import type { ImageT } from './types';
+import { googleImages, myImages } from './search.js';
+import type { ImageT } from './types.ts';
 
 export async function findImages(term: string, log: FastifyLoggerInstance) {
   let images = await myImages(term).catch((e) => {
@@ -9,7 +9,7 @@ export async function findImages(term: string, log: FastifyLoggerInstance) {
   });
 
   if (images.length === 0) {
-    const gmages = await googleImages(term).catch((e) => {
+    const gmages = await googleImages(term).catch((e: unknown) => {
       log.error(e);
       return [] as ImageT[];
     });

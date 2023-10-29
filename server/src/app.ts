@@ -1,14 +1,15 @@
-import './tracer';
+import './tracer.js';
 
 import * as path from 'path';
-import AutoLoad, { AutoloadPluginOptions } from '@fastify/autoload';
+import AutoLoad, { type AutoloadPluginOptions } from '@fastify/autoload';
 import type { FastifyPluginAsync, FastifyServerOptions } from 'fastify';
 import FastifySensible from '@fastify/sensible';
 import * as qs from 'qs';
-import FastifyBlipp from 'fastify-blipp';
 import fastifySwagger from '@fastify/swagger';
 import FastifyRateLimit from '@fastify/rate-limit';
 import * as process from 'process';
+import { dirname } from 'path';
+import { fileURLToPath } from 'url';
 
 export type AppOptions = {
   // Place your custom options for app below here.
@@ -28,29 +29,31 @@ const app: FastifyPluginAsync<AppOptions> = async (
     });
   }
 
-  await fastify.register(FastifyBlipp);
-  await fastify.register(fastifySwagger, {
-    swagger: {
-      // servers: [{ url: 'http://localhost:3000' }],
-      //
-      info: {
-        title: 'Test openapi',
-        description: 'testing the fastify swagger api',
-        version: '0.1.0',
-      },
+  await fastify.register(import('fastify-blipp'));
+  if (process.env['NODE_ENV'] !== 'production') {
+    await fastify.register(fastifySwagger, {
+      swagger: {
+        // servers: [{ url: 'http://localhost:3000' }],
+        //
+        info: {
+          title: 'Test openapi',
+          description: 'testing the fastify swagger api',
+          version: '0.1.0',
+        },
 
-      // externalDocs: {
-      //   url: 'https://swagger.io',
-      //   description: 'Find more info here',
-      // },
-      // consumes: ['application/json'],
-      // produces: ['application/json'],
-    },
-    exposeRoute: process.env['NODE_ENV'] !== 'production',
-  });
+        // externalDocs: {
+        //   url: 'https://swagger.io',
+        //   description: 'Find more info here',
+        // },
+        // consumes: ['application/json'],
+        // produces: ['application/json'],
+      },
+    });
+  }
 
   // Do not touch the following lines
 
+  const __dirname = dirname(fileURLToPath(import.meta.url));
   // This loads all plugins defined in plugins
   // those should be support plugins that are reused
   // through your application

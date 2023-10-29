@@ -125,58 +125,59 @@
   }
 </script>
 
-<nav class="columns navbar reverse-hidden" aria-label="main navigation">
-  {#if $isAnki}
-    <!--suppress HtmlUnknownTarget -->
-    <a
-      class="navbar-brand is-flex-direction-column line-height-1"
-      href="{getUrl('main', { id: $term })}"
-    >
-      <h1 class="navbar-item title m-0" class:invisible="{isReversedQuestion}">
+<nav class="flex align-middle items-center mb-2 reverse-hidden" aria-label="main navigation">
+    {#if $isAnki}
+      <!--suppress HtmlUnknownTarget -->
+      <a
+        class="is-flex-direction-column line-height-1"
+        href="{getUrl('main', { id: $term })}"
+      >
+        <h1 class="title m-0" class:invisible="{isReversedQuestion}">
+          {$term}
+        </h1>
+      </a>
+    {:else}
+      <!--svelte-ignore a11y-no-noninteractive-tabindex -->
+      <h1
+        tabindex="0"
+        class="title m-0 line-height-1"
+        class:invisible="{isReversedQuestion}"
+        on:dblclick="{handleTitleClick}"
+      >
         {$term}
       </h1>
-    </a>
-  {:else}
-    <!--svelte-ignore a11y-no-noninteractive-tabindex -->
-    <h1
-      tabindex="0"
-      class="navbar-item title m-0 line-height-1"
-      class:invisible="{isReversedQuestion}"
-      on:dblclick="{handleTitleClick}"
-    >
-      {$term}
-    </h1>
-  {/if}
+    {/if}
 
-  <div class="navbar-menu ml-auto is-active forwards-hidden">
-    <div class="navbar-end buttons" style="width: 100%">
-      {#if $ankiConnected && !$isAnki}
-        <div class="navbar-item">
-          <form
-            on:submit|preventDefault="{handleSubmit}"
-            class:invisible="{isQuestion}"
-          >
-            <button
-              type="submit"
-              id="saveButton"
-              tabindex="0"
-              class:is-success="{didSubmit && !isLoading}"
-              class="button is-primary m-0"
-              style="min-width:88px;"
+    <div class=" ml-auto is-active forwards-hidden">
+      <div class="buttons" style="width: 100%">
+        {#if $ankiConnected && !$isAnki}
+          <div class="">
+            <form
+              on:submit|preventDefault="{handleSubmit}"
+              class:invisible="{isQuestion}"
             >
-              {#if isSaved}Saved!
-              {:else if $ankiNote}
-                Update
-              {:else}
-                Save
-              {/if}
-            </button>
-          </form>
-        </div>
-      {/if}
-      <slot />
+              <button
+                type="submit"
+                id="saveButton"
+                tabindex="0"
+                class:is-success="{didSubmit && !isLoading}"
+                class="button is-primary m-0"
+                style="min-width:88px;"
+              >
+                {#if isSaved}Saved!
+                {:else if $ankiNote}
+                  Update
+                {:else}
+                  Save
+                {/if}
+              </button>
+            </form>
+          </div>
+        {/if}
+        <slot/>
+      </div>
     </div>
-  </div>
+
 </nav>
 <div class="mb-2 reverse-hidden">
   <div class="flex">

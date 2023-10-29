@@ -309,8 +309,8 @@
 <GlobalStyles />
 <Settings />
 
-<div class="is-gapless columns is-mobile mb-0">
-  <div class="hidden sm:block">
+<div class="mb-0 w-full  min-w-full flex">
+  <div class="hidden xl:block">
     <div
       class="panel shadow-none is-primary column is-narrow rounded-none overflow-y-auto overflow-hidden has-background-white-bis sticky  hover:opacity-100 transition-opacity  m-0"
       class:opacity-30="{$isAnki}"
@@ -348,11 +348,11 @@
       {/each}
     </div>
   </div>
-  <div class="column">
-    <div class:blur="{isSearching}" class="container is-fullhd p-3 qa">
+  <div class="w-full">
+    <div class:blur="{isSearching}" class="p-3 qa">
       <WkTemplate>
         {#if !$isAnki}
-          <div class="navbar-item is-small">
+          <div class="is-small">
             <!--suppress XmlInvalidId -->
             <label for="mainInput-input" class="button is-text m-0">
               <svg width="20" height="20" viewBox="0 0 20 20">
@@ -364,7 +364,7 @@
             </label>
           </div>
         {/if}
-        <div class="navbar-item is-small">
+        <div class="is-small">
           <button class="button is-text m-0" on:click="{handleCogClick}">
             <div class="icon m-0">
               <svg
@@ -387,7 +387,7 @@
   </div>
   {#if $showAbout}
     <div
-      class="lg:max-w-5xl bg-slate-50 lg:sticky top-0 fixed top-0 left-0 z-50 bottom-0 max-h-screen"
+      class="xl:max-w-24xl bg-slate-50 xl:sticky top-0 fixed left-0 z-30 bottom-0 max-h-screen"
       transition:fly="{{
         duration: isFirstRender ? 0 : 200,
         x: 500,
@@ -459,6 +459,7 @@
     top: 0;
     left: 0;
     width: 100%;
+    z-index: 50;
     background-color: rgba(0, 0, 0, 0.1);
   }
 </style>

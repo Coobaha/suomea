@@ -58,4 +58,5 @@ profile-*
 dist
 scripts/
 
+ecosystem.config.cjs
 ecosystem.config.js

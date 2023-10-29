@@ -16,14 +16,11 @@
     "allowJs": true,
     "useDefineForClassFields": true,
     "allowSyntheticDefaultImports": true,
-    "importsNotUsedAsValues": "error",
     "isolatedModules": true,
     "esModuleInterop": true,
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
     "noUncheckedIndexedAccess": true,
-
-    "preserveValueImports": true,
     "sourceMap": true,
     "types": ["vite/client"]
   }

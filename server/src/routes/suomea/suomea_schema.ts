@@ -4,8 +4,8 @@ import type {
   SkSearchResult,
   SkSearchResultWithData,
   WiktionaryData,
-} from '../../shared/types';
-import type { MyImage } from './suomea_types';
+} from '../../shared/types.js';
+import type { MyImage } from './suomea_types.js';
 
 type BaseQuery = {
   q: string;

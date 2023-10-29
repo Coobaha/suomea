@@ -52,6 +52,38 @@
             "type": "number"
           }
         }
+      },
+      "SkSearchResultWithData": {
+        "type": "object",
+        "$ref": "suomea_schema#/properties/SkSearchResult",
+        "properties": {
+          "data": {
+            "type": "object",
+            "required": [
+              "Finnish"
+            ],
+            "properties": {
+              "sk_translation": {
+                "type": "string"
+              },
+              "sk_translation_strings": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "sk_url": {
+                "type": "string"
+              },
+              "Finnish": {
+                "type": "string"
+              },
+              "sk_synonyms": {
+                "type": "string"
+              }
+            }
+          }
+        }
       }
     },
     "type": "object"
@@ -414,36 +446,7 @@
         "200": {
           "type": "array",
           "items": {
-            "type": "object",
-            "$ref": "suomea_schema#/properties/SkSearchResult",
-            "properties": {
-              "data": {
-                "type": "object",
-                "required": [
-                  "Finnish"
-                ],
-                "properties": {
-                  "sk_translation": {
-                    "type": "string"
-                  },
-                  "sk_translation_strings": {
-                    "type": "array",
-                    "items": {
-                      "type": "string"
-                    }
-                  },
-                  "sk_url": {
-                    "type": "string"
-                  },
-                  "Finnish": {
-                    "type": "string"
-                  },
-                  "sk_synonyms": {
-                    "type": "string"
-                  }
-                }
-              }
-            }
+            "$ref": "suomea_schema#/properties/SkSearchResultWithData"
           }
         }
       }
@@ -542,5 +545,5 @@
       }
     }
   },
-  "$hash": "bdd59d92349a09c01d76e9e195bfcbc8368a3eef28915333e95a77d03e5f1020__v1.0.1"
+  "$hash": "baf89a147d24e72113e584e2bd2222d981a94a3cce21a1d6afb6e5612821f9a4__v1.2.0"
 }

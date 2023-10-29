@@ -247,6 +247,10 @@
         ...get(searchState),
       },
       detachedMediaQuery: 'none',
+      defaultActiveItemId: 0,
+      getItemProps(params) {
+        return { ...params.props, onTouchEnd: params.props.onClick };
+      },
       navigator: {
         navigate(params) {
           Router.pushUrl(params.itemUrl);

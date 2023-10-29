@@ -1,5 +1,5 @@
-import pino, { LogFn } from 'pino';
-const logger = pino();
+import pino, { type LogFn } from 'pino';
+const logger = pino.pino();
 
 export default {
   info: (msg: string, ...args: any[]) => logger.info(msg, ...args),
