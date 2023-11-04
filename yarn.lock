@@ -1262,16 +1262,18 @@
     "@babel/helper-validator-identifier" "^7.19.1"
     to-fast-properties "^2.0.0"
 
-"@coobaha/typed-fastify@1.2.0":
-  version "1.2.0"
-  resolved "https://registry.yarnpkg.com/@coobaha/typed-fastify/-/typed-fastify-1.2.0.tgz#c1697f64e4ab42afcea2c66da72a9731c39fbdd2"
-  integrity sha512-Ie05vJOyAKTpLMNzZAovcqXMOlmEzl4YvBR/2//GnuxTc1mNUR3d4hImKAwQ2ZDQSQhHG7xydYCxd+Mpkq6Mhg==
+"@coobaha/typed-fastify@^2.0.1":
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/@coobaha/typed-fastify/-/typed-fastify-2.0.1.tgz#ae9bd0859fdde563476c26203de6c90981b724c4"
+  integrity sha512-XrzdeFuShww0xN0an+u0ryOpDOMWP/SPQeXZ9djoL/MEYws4yP442/CzTGvTsMF5Oe+zv5FOPC/XJaAROF0R8Q==
   dependencies:
     "@types/json-schema" "^7.0.13"
     crypto-js "^4.1.1"
     glob "^10.3.4"
     json-schema-merge-allof "^0.8.1"
     json-schema-traverse "^1.0.0"
+    std-env "3.4.3"
+    type-fest "^4.6.0"
     typescript-json-schema "^0.61.0"
     yargs "^17.7.2"
 
@@ -10456,6 +10458,11 @@ statuses@2.0.1:
   resolved "https://registry.yarnpkg.com/statuses/-/statuses-1.5.0.tgz#161c7dac177659fd9811f43771fa99381478628c"
   integrity sha1-Fhx9rBd2Wf2YEfQ3cfqZOBR4Yow=
 
+std-env@3.4.3:
+  version "3.4.3"
+  resolved "https://registry.yarnpkg.com/std-env/-/std-env-3.4.3.tgz#326f11db518db751c83fd58574f449b7c3060910"
+  integrity sha512-f9aPhy8fYBuMN+sNfakZV18U39PbalgjXG3lLB9WkaYTxijru61wb57V9wxxNthXM5Sd88ETBWi29qLAsHO52Q==
+
 stop-iteration-iterator@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/stop-iteration-iterator/-/stop-iteration-iterator-1.0.0.tgz#6a60be0b4ee757d1ed5254858ec66b10c49285e4"
@@ -11282,6 +11289,11 @@ type-fest@^0.8.0:
   version "0.8.1"
   resolved "https://registry.yarnpkg.com/type-fest/-/type-fest-0.8.1.tgz#09e249ebde851d3b1e48d27c105444667f17b83d"
   integrity sha512-4dbzIzqvjtgiM5rw1k5rEHtBANKmdudhGyBEajN01fEyhaAIhsoKNy6y7+IN93IfpFtwY9iqi7kD+xwKhQsNJA==
+
+type-fest@^4.6.0:
+  version "4.6.0"
+  resolved "https://registry.yarnpkg.com/type-fest/-/type-fest-4.6.0.tgz#9c575f7e20530defef4f9cdc5e2c85d6e4ea0fc9"
+  integrity sha512-rLjWJzQFOq4xw7MgJrCZ6T1jIOvvYElXT12r+y0CC6u67hegDHaxcPqb2fZHOGlqxugGQPNB1EnTezjBetkwkw==
 
 type-is@^1.6.16, type-is@^1.6.18:
   version "1.6.18"

@@ -6,7 +6,7 @@ import * as qs from 'querystring';
 
 import * as NodeURL from 'node:url';
 import logger from './logger.js';
-import type { Data, ImageT, SanakirjaData, WiktionaryData } from './types.js';
+import type { ImageT, SanakirjaData, WiktionaryData } from './types.js';
 
 import JSON5 from 'json5';
 
@@ -152,24 +152,35 @@ async function wiktionary(opts: {
   term: string;
 }): Promise<WiktionaryData | null> {
   // Example query
-  // https://en.wiktionary.org/w/api.php?action=query&prop=extracts&titles=pomology&format=json
-  const url = NodeURL.format({
-    protocol: 'https',
-    hostname: `en.wiktionary.org`,
-    pathname: '/w/api.php',
-    query: {
-      action: 'parse',
-      format: 'json',
-      page: opts.term,
-      converttitles: true,
-      redirects: true,
-    },
-  });
+  // https://en.wiktionary.org/w/api.php?action=parse&page=l%C3%A4mmet%C3%A4&format=json&converttitles=true&redirects=true
+  const url = new NodeURL.URL('https://en.wiktionary.org/w/api.php');
+  url.searchParams.append('action', 'parse');
+  url.searchParams.append('format', 'json');
+  url.searchParams.append('page', opts.term);
+  url.searchParams.append('converttitles', 'true');
+  url.searchParams.append('redirects', 'true');
 
-  // console.time(url);
-  // console.time(`fetch_${url}`);
+  url.searchParams.append('prop', 'sections');
+  const sections: Response = await get(url).json();
+  if (sections.error) {
+    const logged = {
+      term: opts.term,
+      code: sections.error?.code,
+      info: sections.error?.info,
+      message: 'Error fetching WK Sections',
+    };
+    logger.error(logged);
+    throw Error('Error fetching WK sections ' + opts.term);
+  }
+
+  const finnishSection = sections.parse.sections.find((section) =>
+    section.line.includes('Finnish'),
+  );
+  url.searchParams.delete('prop');
+  if (finnishSection) {
+    url.searchParams.append('section', finnishSection.index);
+  }
   const body: Response = await get(url).json();
-  // console.timeEnd(`fetch_${url}`);
 
   if (body.error) {
     const logged = {
@@ -181,15 +192,8 @@ async function wiktionary(opts: {
     logger.error(logged);
     throw Error('Error fetching WK term ' + opts.term);
   }
-  const html = body.parse.text['*'];
 
-  const finnish = html
-    .split('<hr />')
-    .find((section) =>
-      section.includes('<span class="mw-headline" id="Finnish">Finnish</span>'),
-    );
-
-  if (!finnish) {
+  if (!finnishSection) {
     const finnishLinks = body.parse.iwlinks
       .filter((link) => link.prefix === 'fi')
       .map((link) => {
@@ -210,7 +214,8 @@ async function wiktionary(opts: {
     return null;
   }
 
-  const $$ = load(DOMPurify.sanitize(finnish));
+  const html = body.parse.text['*'];
+  const $$ = load(DOMPurify.sanitize(html));
   const $html = $$.root();
   $html.find('#toc').remove();
   $html.find('.mw-editsection').remove();
@@ -295,7 +300,7 @@ async function wiktionary(opts: {
       .nextUntil('ol')
       .next('ol');
     plainTranslation.find(':empty').remove();
-    translations = `111111111111111111112222<ol>${plainTranslation.html()}</ol>`;
+    translations = `<ol>${plainTranslation.html()}</ol>`;
   }
 
   const etymology = $html
@@ -595,45 +600,6 @@ async function wiktionary(opts: {
   };
 }
 
-const fetch: (term: string) => Promise<Data> = (term: string) =>
-  Promise.all([
-    sk({
-      term: term,
-      lang: 'en',
-      swap: false,
-    }),
-    sk({
-      term: term,
-      lang: 'ru',
-      swap: false,
-    }),
-    wiktionary({
-      term: term,
-    }),
-  ]).then(([en, ru, wk]) => ({
-    Finnish: term,
-    sk_en_url: en.url,
-    sk_ru_url: ru.url,
-    wk_url: `https://en.wiktionary.org/wiki/${term}#Finnish`,
-    en_translation: en.translations,
-    en_synonyms: en.synonyms,
-
-    ru_translation: ru.translations,
-    ru_synonyms: ru.synonyms,
-    wk_translation: wk?.wk_translation,
-    wk_synonyms: wk?.wk_synonyms,
-    wk_antonyms: wk?.wk_antonyms,
-    wk_decl: wk?.wk_decl,
-    wk_notes: wk?.wk_notes,
-    wk_derived: wk?.wk_derived,
-    etymology: wk?.etymology,
-    suffix: wk?.suffix,
-    wordtype: wk?.wordtype,
-    wk_possessive: wk?.wk_possessive,
-    compounds: wk?.compounds,
-    meta: wk?.meta ?? {},
-  }));
-
 export const fetchWiktionary: (term: string) => Promise<WiktionaryData> = (
   term,
 ) =>
@@ -674,8 +640,6 @@ export const fetchSk: (
     sk_synonyms: sk.synonyms,
     sk_translation_strings: sk.translationsStrings,
   }));
-
-export default fetch;
 
 export const googleImages = async (search: string): Promise<ImageT[]> => {
   const url = `https://www.google.com/search?q=${encodeURIComponent(
