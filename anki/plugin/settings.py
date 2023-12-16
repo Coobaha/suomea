@@ -6,9 +6,10 @@ from urllib.parse import urlparse
 from PyQt6.QtWidgets import QDialog, QLayout, QComboBox
 from anki.httpclient import HttpClient
 from aqt import mw, addons
+from aqt.addons import AddonsDialog
 from aqt.utils import showInfo, tooltip, showCritical
 
-from .gui.settings_ui import Ui_Settings  # type: ignore
+from .gui.settings_ui import Ui_Settings
 
 assert mw is not None
 
@@ -16,7 +17,7 @@ config = mw.addonManager.getConfig(__name__) or {}
 
 from typing import TypeVar, Optional
 
-T = TypeVar("T")  # Declare type variable
+T = TypeVar("T")
 
 
 def get(key: str, default: T) -> T:
@@ -119,7 +120,7 @@ def add_new_handlers() -> None:
 
 # extends Qdialog
 class SettingsModal(QDialog):
-    def __init__(self, parent: QDialog):
+    def __init__(self, parent: Optional[AddonsDialog] = None):
         super().__init__(parent=parent)
 
         assert mw is not None

@@ -58,7 +58,7 @@ jobs:
         if: ${{ steps.release.outputs.release_created }}
         run: |
           cd anki
-          python -m pip install --upgrade mypy aqt pipenv pyqt5 pyqt5-stubs wheel
+          python -m pip install --upgrade mypy aqt pipenv pyqt6 wheel
           mypy .
           ./package.sh
           mv AnkiFinnish.zip AnkiFinnish-${{ steps.release.outputs.tag_name }}.zip

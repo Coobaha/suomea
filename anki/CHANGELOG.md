@@ -1,5 +1,53 @@
 # Changelog
 
+## [1.0.0](https://www.github.com/Coobaha/suomea/compare/v0.4.0...v1.0.0) (2023-12-16)
+
+
+### ⚠ BREAKING CHANGES
+
+* upgrade plugin to qt6
+
+### Features
+
+* add base url to anki ([a443b7c](https://www.github.com/Coobaha/suomea/commit/a443b7c516568df047bc4c585c95f56899af6681))
+* **anki:** add support for v3 scheduler ([a3bb593](https://www.github.com/Coobaha/suomea/commit/a3bb5930e0c7fe0980be4c5ad193eed108b2855e))
+* **anki:** suomea.xyz ([1be65bb](https://www.github.com/Coobaha/suomea/commit/1be65bbe0880fd0e8922bf9cee79bb6fd8c7e11b))
+
+
+### Bug Fixes
+
+* **anki:** fix html render for other decks ([12b9ef4](https://www.github.com/Coobaha/suomea/commit/12b9ef4948f47590c8534339e1778778982bbbff))
+* **anki:** fix out of range error for sched v3 ([513aeaa](https://www.github.com/Coobaha/suomea/commit/513aeaa20e4b39e268955de8ce5cc60ad5a0706a))
+* bump anki plugin for newer aqt ([8faa6cc](https://www.github.com/Coobaha/suomea/commit/8faa6cc698bc8d7e0d4c594e61ced7fe867f19c4))
+* dump changes ([754da92](https://www.github.com/Coobaha/suomea/commit/754da92a24e230729343d86ff500d612ddcadcee))
+* rename plugin to AnkiFinnish ([ea7cd8b](https://www.github.com/Coobaha/suomea/commit/ea7cd8be331f4c29a84c2d3aeafca8491f2c2759))
+* testing release ([2870623](https://www.github.com/Coobaha/suomea/commit/28706239cd5f479fdbfc042ee24b509c2b50bc15))
+* upgrade plugin to qt6 ([7d4e10c](https://www.github.com/Coobaha/suomea/commit/7d4e10c5ee68a7aa954cbf74cfeba2d150a9f98d))
+
+## [1.0.0](https://www.github.com/Coobaha/suomea/compare/v0.4.0...v1.0.0) (2023-12-16)
+
+
+### ⚠ BREAKING CHANGES
+
+* upgrade plugin to qt6
+
+### Features
+
+* add base url to anki ([a443b7c](https://www.github.com/Coobaha/suomea/commit/a443b7c516568df047bc4c585c95f56899af6681))
+* **anki:** add support for v3 scheduler ([a3bb593](https://www.github.com/Coobaha/suomea/commit/a3bb5930e0c7fe0980be4c5ad193eed108b2855e))
+* **anki:** suomea.xyz ([1be65bb](https://www.github.com/Coobaha/suomea/commit/1be65bbe0880fd0e8922bf9cee79bb6fd8c7e11b))
+
+
+### Bug Fixes
+
+* **anki:** fix html render for other decks ([12b9ef4](https://www.github.com/Coobaha/suomea/commit/12b9ef4948f47590c8534339e1778778982bbbff))
+* **anki:** fix out of range error for sched v3 ([513aeaa](https://www.github.com/Coobaha/suomea/commit/513aeaa20e4b39e268955de8ce5cc60ad5a0706a))
+* bump anki plugin for newer aqt ([8faa6cc](https://www.github.com/Coobaha/suomea/commit/8faa6cc698bc8d7e0d4c594e61ced7fe867f19c4))
+* dump changes ([754da92](https://www.github.com/Coobaha/suomea/commit/754da92a24e230729343d86ff500d612ddcadcee))
+* rename plugin to AnkiFinnish ([ea7cd8b](https://www.github.com/Coobaha/suomea/commit/ea7cd8be331f4c29a84c2d3aeafca8491f2c2759))
+* testing release ([2870623](https://www.github.com/Coobaha/suomea/commit/28706239cd5f479fdbfc042ee24b509c2b50bc15))
+* upgrade plugin to qt6 ([7d4e10c](https://www.github.com/Coobaha/suomea/commit/7d4e10c5ee68a7aa954cbf74cfeba2d150a9f98d))
+
 ## [0.4.0](https://www.github.com/Coobaha/suomea/compare/v0.3.0...v0.4.0) (2023-01-30)
 
 

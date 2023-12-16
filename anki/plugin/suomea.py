@@ -11,7 +11,7 @@ from anki.cards import Card
 from aqt.reviewer import Reviewer
 from aqt.webview import WebContent
 
-from .settings import settings, SettingsModal, anki_connect_setup
+from .settings import settings, SettingsModal, anki_connect_setup  # type: ignore
 
 
 def prepare(html: str, card: Card, context: str) -> str:
@@ -33,7 +33,7 @@ def prepare(html: str, card: Card, context: str) -> str:
     next_card = None
 
     if sched.version == 3:
-        sched_v3 = sched  # type: Any
+        sched_v3: Scheduler = sched  # type: ignore
         cards = sched_v3.get_queued_cards(fetch_limit=2)
         if len(cards.cards) > 1:
             queued_card = cards.cards[1]
