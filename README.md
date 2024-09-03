@@ -33,7 +33,7 @@ Renders data from different sources nicely
   - will hide answer parts ![hide example](./docs/web2.png)
   - reversed mode is also supported ![reversed hide example](./docs/web3.png)
 
-### 💬 [Anki Plugin](https://ankiweb.net/shared/addons/2045459309)
+### 💬 [Anki Plugin](https://ankiweb.net/shared/info/2045459309)
 
 Makes it possible to use web app for reviewing notes
 ![preview example](./docs/anki1.png)
